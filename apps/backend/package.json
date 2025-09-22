@@ -1,0 +1,48 @@
+{
+  "name": "backend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env DEBUG=backend:* NODE_ENV=development node --env-file-if-exists=.env --watch index.js",
+    "inspect": "cross-env DEBUG=backend:* NODE_ENV=development node --env-file-if-exists=.env --watch --inspect index.js",
+    "start": "npm run dev",
+    "lint": "eslint .",
+    "fix": "eslint . --fix",
+    "test": "vitest",
+    "env": "cp .env.example .env"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.18.1",
+    "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "@faker-js/faker": "^10.0.0",
+    "@types/body-parser": "^1.19.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "cross-env": "^10.0.0",
+    "debug": "^4.4.3",
+    "eslint": "^9.35.0",
+    "eslint-plugin-sonarjs": "^3.0.5",
+    "globals": "^16.4.0",
+    "mongodb-memory-server": "^10.2.1",
+    "prettier": "^3.6.2",
+    "supertest": "^7.1.4",
+    "vitest": "^3.2.4"
+  },
+  "imports": {
+    "#modules/*": "./src/modules/*",
+    "#utils/*": "./src/utils/*",
+    "#tests/*": "./tests/*",
+    "#src/*": "./src/*"
+  }
+}

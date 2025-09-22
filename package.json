@@ -1,0 +1,25 @@
+{
+  "name": "monorepo-template",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{js,jsx,md}\"",
+    "prettier": "prettier --check \"apps/**/*.{js,jsx,md}\"",
+    "check": "pnpm lint && pnpm prettier",
+    "fix": "pnpm lint && pnpm format",
+    "check-types": "turbo run check-types",
+    "test": "turbo run test",
+    "environment": "turbo run environment"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.6",
+    "typescript": "5.9.2"
+  },
+  "packageManager": "pnpm@10.17.0",
+  "engines": {
+    "node": ">=18"
+  }
+}

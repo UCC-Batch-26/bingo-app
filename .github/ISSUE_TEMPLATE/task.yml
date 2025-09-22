@@ -1,0 +1,62 @@
+name: Task
+description: Create a new task for development, testing, or maintenance work
+title: '🛠 [Task] <brief summary of the task>'
+labels: ['task']
+assignees:
+  - octocat
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Describe a development, testing, or maintenance task.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Task Summary
+      description: Provide a short summary of the task
+      placeholder: e.g., Refactor user authentication module
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Explain the task in more detail, including purpose and any relevant context
+      placeholder: |
+        Describe what needs to be done and why.
+        Include links, file references, or screenshots if helpful.
+    validations:
+      required: true
+
+  - type: textarea
+    id: checklist
+    attributes:
+      label: ✅ Checklist
+      description: Break the task into smaller steps or goals
+      placeholder: |
+        - [ ] Step 1
+        - [ ] Step 2
+        - [ ] Step 3
+    validations:
+      required: false
+
+  - type: input
+    id: due_date
+    attributes:
+      label: ⏰ Due Date
+      description: Optional due date for the task (YYYY-MM-DD)
+      placeholder: e.g., 2025-09-30
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 🗒 Additional Notes
+      description: Add any extra information or blockers
+      placeholder: 'e.g., Requires database migration, check dependency with #42'
+    validations:
+      required: false

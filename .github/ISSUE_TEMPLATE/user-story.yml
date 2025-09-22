@@ -1,0 +1,41 @@
+name: User Story
+description: Create a new User Story following the standard Agile format
+title: '✅ [User]: As a <type of user>, I want <goal>, so that <benefit>'
+labels: ['user story', 'feature']
+assignees:
+  - octocat
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Fill in the details below to describe the user story.
+
+  - type: textarea
+    id: overview
+    attributes:
+      label: Overview
+      description: Tells us the overview of this user story
+      placeholder: Tell us about what the user wanted
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: ✅ Acceptance Criteria
+      description: List out the conditions that must be true for this story to be accepted.
+      placeholder: |
+        - [ ] User can filter by name
+        - [ ] Admins see additional metadata
+        - [ ] Paginated results
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 🗒 Additional Notes / Context
+      description: Add any relevant links, files, or notes.
+      placeholder: e.g., Related designs in Figma, dependencies on other stories, etc.
+    validations:
+      required: false
