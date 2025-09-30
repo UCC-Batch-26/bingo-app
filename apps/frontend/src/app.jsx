@@ -1,34 +1,22 @@
-import { createBrowserRouter } from "react-router-dom";
-import LandingPage from "../Pages/LandingPage";
-import LobbyPage from "../Pages/LobbyPage";
-import RoomPage from "../Pages/RoomPage";
-import UnauthorizedPage from "../Pages/UnauthorizedPage";
-import NotFoundPage from "../Pages/NotFoundPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LandingPage from "./Pages/LandingPage";
+import LobbyPage from "./Pages/LobbyPage";
+import RoomPage from "./Pages/RoomPage";
+import NotFoundPage from "./Pages/NotFoundPage";
+import UnauthorizePage from "./Pages/UnauthorizePage";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <LandingPage />,
-    index: true,
-  },
-  {
-    path: "/lobby",
-    element: <LobbyPage />,
-  },
-  {
-    path: "/room/:roomId",
-    element: <RoomPage />,
-  },
-  {
-    path: "/unauthorized",
-    element: <UnauthorizedPage />,
-  },
-  {
-    path: "*",
-    element: <NotFoundPage />,
-  },
-]);
-
-export function App() {
-  return <RouterProvider router={router} />;
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/lobby" element={<LobbyPage />} />
+        <Route path="/room" element={<RoomPage />} />
+        <Route path="/unauthorized" element={<UnauthorizePage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
+
+export default App;
