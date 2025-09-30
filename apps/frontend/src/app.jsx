@@ -1,34 +1,31 @@
-import { HomePage } from '@/modules/home/pages/home-page';
-import { SampleLayout } from '@/modules/sample/layouts/sample-layout';
-import { SampleAddPage } from '@/modules/sample/pages/sample-add-page';
-import { SampleIndexPage } from '@/modules/sample/pages/sample-index-page';
-import { SampleViewPage } from '@/modules/sample/pages/sample-view-page';
-import { createBrowserRouter, RouterProvider } from 'react-router';
+import { createBrowserRouter } from "react-router-dom";
+import LandingPage from "../Pages/LandingPage";
+import LobbyPage from "../Pages/LobbyPage";
+import RoomPage from "../Pages/RoomPage";
+import UnauthorizedPage from "../Pages/UnauthorizedPage";
+import NotFoundPage from "../Pages/NotFoundPage";
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <HomePage />,
+    path: "/",
+    element: <LandingPage />,
     index: true,
   },
   {
-    path: '/sample',
-    element: <SampleLayout />,
-    children: [
-      {
-        path: '',
-        index: true,
-        element: <SampleIndexPage />,
-      },
-      {
-        path: ':id',
-        element: <SampleViewPage />,
-      },
-      {
-        path: 'add',
-        element: <SampleAddPage />,
-      },
-    ],
+    path: "/lobby",
+    element: <LobbyPage />,
+  },
+  {
+    path: "/room/:roomId",
+    element: <RoomPage />,
+  },
+  {
+    path: "/unauthorized",
+    element: <UnauthorizedPage />,
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
 
