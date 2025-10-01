@@ -1,5 +1,6 @@
 import { errorHandler } from '#modules/common/middleware/error-handler.js';
 import sampleRoutes from '#modules/samples/routes.js';
+import roomRoutes from '#modules/room/routes.js';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
@@ -20,6 +21,13 @@ app.use(
       // eslint-disable-next-line
       // @todo: Add your whitelisted URL here
       const whitelist = ['http://localhost:5173', 'https://yourproductionurl.com'];
+      
+      if (!origin) {
+        // 👉 Allow requests with no origin (browser direct, Postman, curl)
+        return callback(null, true);
+      }
+
+
       if (whitelist.indexOf(origin) === -1) {
         callback(new Error(`Not allowed by CORS: ${origin}`));
       } else {
@@ -43,7 +51,7 @@ app.get('/ping', (req, res) => {
 
 // Sample route
 app.use('/sample', sampleRoutes);
-
+app.use('/v1/room', roomRoutes);
 // Error handling middleware, MUST always be the last
 app.use(errorHandler);
 
