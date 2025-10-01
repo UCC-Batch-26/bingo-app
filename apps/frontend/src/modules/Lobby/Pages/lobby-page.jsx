@@ -1,6 +1,8 @@
 import React from 'react';
+import { useParams } from 'react-router';
 
 export function LobbyPage() {
+  const { id:roomCode } = useParams();
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
       <div className="max-w-md w-full bg-white shadow-lg rounded-xl p-6">
@@ -10,7 +12,7 @@ export function LobbyPage() {
         {/* Room Info */}
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
           <p className="text-gray-700">
-            <span className="font-semibold">Room Code:</span> ABC123
+            <span className="font-semibold">Room Code:</span> {roomCode}
           </p>
           <p className="text-gray-700">
             <span className="font-semibold">Mode:</span> Standard

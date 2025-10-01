@@ -10,8 +10,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/lobby" element={<LobbyPage />} />
-        <Route path="/room" element={<RoomPage />} />
+        <Route path="/lobby/:id" element={<LobbyPage />} />
+        <Route path="/room/:id" element={<RoomPage />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
