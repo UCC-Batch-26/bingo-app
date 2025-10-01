@@ -2,7 +2,7 @@ import { Room } from '#modules/room/models/room.js';
 import { log } from '#utils/log.js';
 
 export async function getRoom(req, res) {
-  const { id:code } = req.params;
+  const { id: code } = req.params;
 
   try {
     const room = await Room.findOne({ code: code });

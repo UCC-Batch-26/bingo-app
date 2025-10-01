@@ -4,7 +4,7 @@ const roomSchema = new Schema(
   {
     code: {
       type: String,
-      required: true,    
+      required: true,
     },
 
     sessionToken: {
@@ -15,17 +15,16 @@ const roomSchema = new Schema(
     status: {
       type: String,
       required: true,
-      enum : ['lobby', 'live', 'ended'],
-      default : 'lobby',
+      enum: ['lobby', 'live', 'ended'],
+      default: 'lobby',
     },
 
-     mode: {
+    mode: {
       type: String,
       required: true,
-      enum : ['quick', 'standard', 'blackout'],
-      default : 'quick',
+      enum: ['quick', 'standard', 'blackout'],
+      default: 'quick',
     },
-
   },
   {
     timestamps: true,

@@ -21,12 +21,11 @@ app.use(
       // eslint-disable-next-line
       // @todo: Add your whitelisted URL here
       const whitelist = ['http://localhost:5173', 'https://yourproductionurl.com'];
-      
+
       if (!origin) {
         // 👉 Allow requests with no origin (browser direct, Postman, curl)
         return callback(null, true);
       }
-
 
       if (whitelist.indexOf(origin) === -1) {
         callback(new Error(`Not allowed by CORS: ${origin}`));
