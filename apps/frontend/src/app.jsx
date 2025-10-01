@@ -1,9 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import LandingPage from './Pages/LandingPage';
-import LobbyPage from './Pages/LobbyPage';
-import RoomPage from './Pages/RoomPage';
-import NotFoundPage from './Pages/NotFoundPage';
-import UnauthorizePage from './Pages/UnauthorizePage';
+import { BrowserRouter, Routes, Route } from 'react-router';
+import { LandingPage } from './modules/home/pages/landing-page';
+import { LobbyPage } from './modules/Lobby/Pages/lobby-page';
+import { RoomPage } from './modules/Room/Pages/room-page';
+import { NotFoundPage } from './modules/common/Pages/not-found-page';
+import { UnauthorizedPage } from './modules/common/Pages/unauthorized-page';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/lobby" element={<LobbyPage />} />
         <Route path="/room" element={<RoomPage />} />
-        <Route path="/unauthorized" element={<UnauthorizePage />} />
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

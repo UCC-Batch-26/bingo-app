@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
-function LandingPage() {
+export function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 text-white">
       {/* Header */}
@@ -34,4 +34,3 @@ function LandingPage() {
   );
 }
 
-export default LandingPage;

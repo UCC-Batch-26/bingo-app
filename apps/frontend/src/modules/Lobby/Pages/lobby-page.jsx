@@ -1,7 +1,6 @@
-// src/Pages/LobbyPage.jsx
 import React from 'react';
 
-const LobbyPage = () => {
+export function LobbyPage() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
       <div className="max-w-md w-full bg-white shadow-lg rounded-xl p-6">
@@ -45,4 +44,3 @@ const LobbyPage = () => {
   );
 };
 
-export default LobbyPage;
