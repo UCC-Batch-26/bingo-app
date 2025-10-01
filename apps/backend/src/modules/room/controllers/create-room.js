@@ -22,14 +22,11 @@ export async function createRoom(req, res) {
   }
 }
 
-
 function generateRoomCode(length = 4) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let code = '';
-  const randomValues = crypto.randomBytes(length);
-
   for (let i = 0; i < length; i++) {
-    code += chars[randomValues[i] % chars.length];
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return code;
 }
