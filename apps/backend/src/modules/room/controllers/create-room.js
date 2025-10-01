@@ -1,5 +1,6 @@
 import { Room } from '#modules/room/models/room.js';
 import { log } from '#utils/log.js';
+import crypto from "crypto";
 
 export async function createRoom(req, res) {
   try {
@@ -21,11 +22,14 @@ export async function createRoom(req, res) {
   }
 }
 
+
 function generateRoomCode(length = 4) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let code = '';
+  const randomValues = crypto.randomBytes(length);
+
   for (let i = 0; i < length; i++) {
-    code += chars.charAt(Math.floor(Math.random() * chars.length));
+    code += chars[randomValues[i] % chars.length];
   }
   return code;
 }
