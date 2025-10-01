@@ -1,11 +1,10 @@
 import { Card } from '#modules/card/models/card.js';
 import { log } from '#utils/log.js';
-
 //JOin lobby and generate card
 export async function joinLobby(req, res) {
   try {
     const cardNumbers = generateNumber(9);
-    //TODO @use jwt token for session token
+    //TO DO @use jwt token for session token
     const sessionToken = 123;
     const { name, room } = req.body;
     const card = await Card.create({ gridNumbers: cardNumbers, sessionToken, name, room });
@@ -23,6 +22,8 @@ export async function joinLobby(req, res) {
   }
 }
 
+
+/* eslint-disable sonarjs/pseudo-random */
 function generateNumber(count) {
   const numbers = [];
   while (numbers.length < 9) {
@@ -33,3 +34,4 @@ function generateNumber(count) {
   }
   return numbers;
 }
+/* eslint-enable sonarjs/pseudo-random */

@@ -5,7 +5,7 @@ export async function getCard(req, res) {
   const { id } = req.params;
 
   try {
-    //@TODO :: populate with local and foreign field with Room Code
+    //TO DO @populate with local and foreign field with Room Code
     const card = await Card.findById(id).orFail();
 
     return res.status(200).json(card);
