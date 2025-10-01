@@ -12,7 +12,7 @@ function normalizePort(portValue) {
   }
 
   if (port >= 0) {
-    // port number
+    // port number  
     return port;
   }
 
