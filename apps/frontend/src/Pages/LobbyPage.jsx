@@ -1,5 +1,5 @@
 // src/Pages/LobbyPage.jsx
-import React from "react";
+import React from 'react';
 
 const LobbyPage = () => {
   return (

@@ -1,9 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from "./Pages/LandingPage";
-import LobbyPage from "./Pages/LobbyPage";
-import RoomPage from "./Pages/RoomPage";
-import NotFoundPage from "./Pages/NotFoundPage";
-import UnauthorizePage from "./Pages/UnauthorizePage";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LandingPage from './Pages/LandingPage';
+import LobbyPage from './Pages/LobbyPage';
+import RoomPage from './Pages/RoomPage';
+import NotFoundPage from './Pages/NotFoundPage';
+import UnauthorizePage from './Pages/UnauthorizePage';
 
 function App() {
   return (

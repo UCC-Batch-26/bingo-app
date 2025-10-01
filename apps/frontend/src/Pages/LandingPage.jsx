@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 function LandingPage() {
   return (
@@ -6,9 +6,7 @@ function LandingPage() {
       {/* Header */}
       <header className="text-center mb-10">
         <h1 className="text-5xl font-extrabold tracking-wide">🎉 Bingo App</h1>
-        <p className="mt-4 text-lg text-white/90">
-          Play with friends, join rooms, and enjoy the game!
-        </p>
+        <p className="mt-4 text-lg text-white/90">Play with friends, join rooms, and enjoy the game!</p>
       </header>
 
       {/* Actions */}
