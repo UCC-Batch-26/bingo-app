@@ -22,7 +22,6 @@ export async function joinLobby(req, res) {
   }
 }
 
-
 /* eslint-disable sonarjs/pseudo-random */
 function generateNumber(count) {
   const numbers = [];
