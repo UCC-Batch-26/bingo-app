@@ -1,37 +1,22 @@
-import { HomePage } from '@/modules/home/pages/home-page';
-import { SampleLayout } from '@/modules/sample/layouts/sample-layout';
-import { SampleAddPage } from '@/modules/sample/pages/sample-add-page';
-import { SampleIndexPage } from '@/modules/sample/pages/sample-index-page';
-import { SampleViewPage } from '@/modules/sample/pages/sample-view-page';
-import { createBrowserRouter, RouterProvider } from 'react-router';
+import { BrowserRouter, Routes, Route } from 'react-router';
+import { LandingPage } from './modules/home/pages/landing-page';
+import { LobbyPage } from './modules/Lobby/Pages/lobby-page';
+import { RoomPage } from './modules/Room/Pages/room-page';
+import { NotFoundPage } from './modules/common/Pages/not-found-page';
+import { UnauthorizedPage } from './modules/common/Pages/unauthorized-page';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <HomePage />,
-    index: true,
-  },
-  {
-    path: '/sample',
-    element: <SampleLayout />,
-    children: [
-      {
-        path: '',
-        index: true,
-        element: <SampleIndexPage />,
-      },
-      {
-        path: ':id',
-        element: <SampleViewPage />,
-      },
-      {
-        path: 'add',
-        element: <SampleAddPage />,
-      },
-    ],
-  },
-]);
-
-export function App() {
-  return <RouterProvider router={router} />;
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/lobby/:id" element={<LobbyPage />} />
+        <Route path="/room/:id" element={<RoomPage />} />
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
+
+export default App;
