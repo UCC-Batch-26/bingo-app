@@ -14,7 +14,6 @@ export async function joinLobby(req, res) {
       message: 'Successfully created Card and Join lobby',
       data: card,
     });
-    
   } catch (error) {
     log('joinLobby', 'Error creating card:', error);
 

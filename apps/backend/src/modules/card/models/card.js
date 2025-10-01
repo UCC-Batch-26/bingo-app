@@ -19,7 +19,7 @@ const cardSchema = new Schema(
 
     room: {
       type: String,
-      ref: 'Room', 
+      ref: 'Room',
       required: true,
     },
   },
