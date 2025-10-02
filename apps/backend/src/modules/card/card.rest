@@ -1,0 +1,16 @@
+### Join Lobby
+# @prompt name
+# @prompt room
+POST http://localhost:3000/v1/card/lobby
+Content-Type: application/json
+
+{
+  "name": "{{name}}",
+  "room": "{{room}}"
+}
+
+
+### Get card
+# @prompt cardId
+GET http://localhost:3000/v1/card/{{cardId}}
+
