@@ -6,13 +6,9 @@ export function LobbyPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 flex flex-col items-center justify-center px-4">
-      
       <div className="max-w-md w-full p-[7px] rounded-xl bg-[#FF4D6D]">
-        
         <div className="p-[4px] rounded-xl bg-[#9B17F8]">
-          
           <div className="bg-white shadow-lg rounded-xl p-6">
-            
             {/* Title */}
             <h1 className="text-2xl font-bold text-center mb-4">Game Lobby</h1>
 
@@ -48,7 +44,6 @@ export function LobbyPage() {
                 Leave Lobby
               </button>
             </div>
-            
           </div>
         </div>
       </div>
