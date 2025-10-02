@@ -9,10 +9,10 @@ export function LandingPage() {
       <div className=" w-[68%] h-[95%] flex-center flex-col">
         <header className="flex-[0.5] size flex justify-center items-start">
           <nav className="border-[2px] border-[#E25645] bg-[#f9f9f9] w-[95%] h-[70px] rounded-[10px] flex-center px-[20px]">
-            <div className='w-[40px] h-[40px]'>
-              <BoxCard letter='B' bgColor='#32BAEC' borderColor='#0C6795' fontSize={35}/>
+            <div className="w-[40px] h-[40px]">
+              <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={35} />
             </div>
-            <div className='flex-[1]'></div>
+            <div className="flex-[1]"></div>
           </nav>
         </header>
 
@@ -37,11 +37,11 @@ export function LandingPage() {
           <div className="flex-[1.5] size flex-center">
             <div className=" w-[76%] h-[80%] flex-center flex-col ">
               <div className="w-[100%] h-[80px] flex-center">
-                  <BoxCard letter='B' bgColor='#32BAEC' borderColor='#0C6795' fontSize={60}/>
-                  <BoxCard letter='I' bgColor='#F37213' borderColor='#D82C23' fontSize={60}/>
-                  <BoxCard letter='T' bgColor='#FFD93D' borderColor='#BC7E06' fontSize={60}/>
-                  <BoxCard letter='9' bgColor='#C6B29B' borderColor='#7D6450' fontSize={60}/>
-                  <BoxCard letter='O' bgColor='#6BCB77' borderColor='#2C7A25' fontSize={60}/>
+                <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={60} />
+                <BoxCard letter="I" bgColor="#F37213" borderColor="#D82C23" fontSize={60} />
+                <BoxCard letter="T" bgColor="#FFD93D" borderColor="#BC7E06" fontSize={60} />
+                <BoxCard letter="9" bgColor="#C6B29B" borderColor="#7D6450" fontSize={60} />
+                <BoxCard letter="O" bgColor="#6BCB77" borderColor="#2C7A25" fontSize={60} />
               </div>
               <div className="bg-[#FF4D6D] size flex-[1] p-[10px] shadow">
                 <form
@@ -98,20 +98,27 @@ export function LandingPage() {
           </p>
           <div className="bg-[#9B17F8] w-[75%] h-[70%] rounded-[10px] shadow flex-center ">
             <div className="flex-center w-[95%] h-[80%] gap-[15px]">
-              
               <div className="flex-[1] size flex-center">
-                <div className='w-[100%] h-[25%] flex-center '>
-                  <BoxCard letter='A' bgColor='#32BAEC' borderColor='#0C6795' fontSize={25}/>
-                  <BoxCard letter='B' bgColor='#F37213' borderColor='#D82C23' fontSize={25}/>
-                  <BoxCard letter='O' bgColor='#FFD93D' borderColor='#BC7E06' fontSize={25}/>
-                  <BoxCard letter='U' bgColor='#C6B29B' borderColor='#7D6450' fontSize={25}/>
-                  <BoxCard letter='T' bgColor='#6BCB77' borderColor='#2C7A25' fontSize={25}/>
+                <div className="w-[100%] h-[25%] flex-center ">
+                  <BoxCard letter="A" bgColor="#32BAEC" borderColor="#0C6795" fontSize={25} />
+                  <BoxCard letter="B" bgColor="#F37213" borderColor="#D82C23" fontSize={25} />
+                  <BoxCard letter="O" bgColor="#FFD93D" borderColor="#BC7E06" fontSize={25} />
+                  <BoxCard letter="U" bgColor="#C6B29B" borderColor="#7D6450" fontSize={25} />
+                  <BoxCard letter="T" bgColor="#6BCB77" borderColor="#2C7A25" fontSize={25} />
                 </div>
               </div>
-              <AboutCards title='Bitgo Made Social.' description='Bring the classic bingo vibe online! Host a room, share the code, and play with your barkada anytime. Simple, exciting, and always fun.'/>
-              <AboutCards title='Connecting People Through Play.' description='Our app transforms bingo into a modern social experience. Create a room, share the unique code, and enjoy seamless online game with friends.'/>
-              <AboutCards title='Bitgo Nights, No Distance Needed.' description='Forget boring nights—this is bitgo with a twist! Host your own game, drop a code, and let your friends hop in.'/>
-              
+              <AboutCards
+                title="Bitgo Made Social."
+                description="Bring the classic bingo vibe online! Host a room, share the code, and play with your barkada anytime. Simple, exciting, and always fun."
+              />
+              <AboutCards
+                title="Connecting People Through Play."
+                description="Our app transforms bingo into a modern social experience. Create a room, share the unique code, and enjoy seamless online game with friends."
+              />
+              <AboutCards
+                title="Bitgo Nights, No Distance Needed."
+                description="Forget boring nights—this is bitgo with a twist! Host your own game, drop a code, and let your friends hop in."
+              />
             </div>
           </div>
         </div>
