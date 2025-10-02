@@ -1,0 +1,14 @@
+### Create room
+# @prompt mode
+POST http://localhost:3000/v1/room
+Content-Type: application/json
+
+{
+  "mode": "{{mode}}"
+}
+
+
+### Get room
+# @prompt roomCode
+GET http://localhost:3000/v1/room/{{roomCode}}
+
