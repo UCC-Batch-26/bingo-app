@@ -12,3 +12,20 @@ Content-Type: application/json
 # @prompt roomCode
 GET http://localhost:3000/v1/room/{{roomCode}}
 
+### Update Drawn Number
+# @prompt number
+PATCH http://localhost:3000/v1/room/3KA3
+Content-Type: application/json
+
+{
+  "drawnNumber": "{{number}}"
+}
+
+### Update Room status
+# @prompt status
+PATCH http://localhost:3000/v1/room/status/3KA3
+Content-Type: application/json
+
+{
+  "status": "{{status}}"
+}
