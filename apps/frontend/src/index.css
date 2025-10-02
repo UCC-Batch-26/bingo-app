@@ -24,4 +24,8 @@
   .bg-gradient{
     @apply bg-gradient-to-br from-purple-600 via-pink-500 to-red-500
   }
+
+  .bg-white {
+    @apply bg-[#F9F9F9];
+  }
 }
