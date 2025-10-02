@@ -1,1 +1,31 @@
 @import 'tailwindcss';
+
+@theme {
+
+}
+
+@layer utilities {
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+
+  .border{
+    @apply border border-black
+  }
+
+  .size {
+    @apply w-[100%] h-[100%];
+  }
+
+  .shadow{
+    @apply shadow-[0_0_3px_2px_rgba(0,0,0,0.3)];
+  }
+
+  .bg-gradient{
+    @apply bg-gradient-to-br from-purple-600 via-pink-500 to-red-500
+  }
+
+  .bg-white {
+    @apply bg-[#F9F9F9];
+  }
+}
