@@ -26,6 +26,10 @@ const roomSchema = new Schema(
       enum: ['quick', 'standard', 'blackout'],
       default: 'quick',
     },
+
+    drawnNumber: {
+      type: [Number],
+    },
   },
   {
     timestamps: true,
