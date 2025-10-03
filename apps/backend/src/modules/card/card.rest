@@ -14,3 +14,12 @@ Content-Type: application/json
 # @prompt cardId
 GET http://localhost:3000/v1/card/{{cardId}}
 
+### Verify card
+POST http://localhost:3000/v1/card/verify
+Content-Type: application/json
+
+{
+  "cardId": "68dfb2c32c98a89aebbe2f1a",
+  "roomCode": "3KA3"
+}
+

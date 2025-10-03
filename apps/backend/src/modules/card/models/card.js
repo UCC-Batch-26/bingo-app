@@ -22,6 +22,10 @@ const cardSchema = new Schema(
       ref: 'Room',
       required: true,
     },
+
+    winningNumber: {
+      type: [Number],
+    },
   },
   {
     timestamps: true,

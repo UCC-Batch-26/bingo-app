@@ -1,11 +1,12 @@
 import { Room } from '#modules/room/models/room.js';
 import { log } from '#utils/log.js';
 import crypto from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function createRoom(req, res) {
   try {
     const randomCode = generateRoomCode();
-    const sessionToken = 123;
+    const sessionToken = uuidv4();
     const { mode } = req.body;
     const roomData = await Room.create({ code: randomCode, sessionToken, mode });
 
