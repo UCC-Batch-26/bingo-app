@@ -1,16 +1,17 @@
 
-const BASE_URL = 'http://localhost:3000/v1';
+const URL = 'http://localhost:3000/v1';
 
-async function handleResponse(res) {
-  const text = await res.text();
+async function fetchData() {
   try {
-    const data = text ? JSON.parse(text) : {};
-    if (!res.ok) throw new Error(data?.message || JSON.stringify(data) || res.statusText);
-    console.log('Response Data:', data);
-    return data;
-  } catch (e) {
-    if (!res.ok) throw new Error(text || res.statusText);
-    return text;
+    const res = await fetchData(URL)
+
+    if(!res.ok){
+      throw new error("Not Successful")
+    } 
+    
+    const data = res.json()
+    console.log(data)
+  } catch (error) {
+    console.error(error)
   }
 }
-
