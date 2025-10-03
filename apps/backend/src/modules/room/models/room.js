@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 
 const roomSchema = new Schema(
   {
@@ -30,10 +30,23 @@ const roomSchema = new Schema(
     drawnNumber: {
       type: [Number],
     },
+
+    winner: {
+      type: Types.ObjectId,
+      ref: 'Card',
+    },
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
 );
+
+roomSchema.virtual('players', {
+  ref: 'Card',
+  localField: 'code',
+  foreignField: 'room',
+});
 
 export const Room = model('Room', roomSchema);

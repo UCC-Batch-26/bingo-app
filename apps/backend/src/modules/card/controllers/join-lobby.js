@@ -1,11 +1,13 @@
 import { Card } from '#modules/card/models/card.js';
 import { log } from '#utils/log.js';
+import { v4 as uuidv4 } from 'uuid';
+
 //JOin lobby and generate card
 export async function joinLobby(req, res) {
   try {
     const cardNumbers = generateNumber(9);
-    //TO DO @use jwt token for session token
-    const sessionToken = 123;
+
+    const sessionToken = uuidv4();
     const { name, room } = req.body;
     const card = await Card.create({ gridNumbers: cardNumbers, sessionToken, name, room });
 

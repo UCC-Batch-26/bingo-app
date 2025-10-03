@@ -5,7 +5,7 @@ export async function getRoom(req, res) {
   const { id: code } = req.params;
 
   try {
-    const room = await Room.findOne({ code: code });
+    const room = await Room.findOne({ code: code }).populate('players', '-_id name -room');
 
     return res.status(200).json(room);
   } catch (error) {
