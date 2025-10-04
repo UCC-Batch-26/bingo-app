@@ -15,13 +15,17 @@ const PORT = process.env.PORT || 3000;
 
 app.set('port', PORT);
 
+app.get('/ping', (_, res) => {
+  res.status(200).json({
+    message: 'PONG',
+  });
+});
+
 // All Global middleware
 app.use(
   cors({
     origin: (origin, callback) => {
-      // eslint-disable-next-line
-      // @todo: Add your whitelisted URL here
-      const whitelist = ['http://localhost:5173', 'https://yourproductionurl.com'];
+      const whitelist = ['http://localhost:5173', 'https://bit9o.com', 'https://www.bit9o.com'];
 
       if (!origin) {
         // 👉 Allow requests with no origin (browser direct, Postman, curl)
@@ -42,12 +46,6 @@ app.use(morgan('combined'));
 
 // Database connection
 await db(process.env.DB_URI);
-
-app.get('/ping', (req, res) => {
-  res.status(200).json({
-    message: 'PONG',
-  });
-});
 
 // Sample route
 app.use('/sample', sampleRoutes);
