@@ -1,0 +1,54 @@
+### Create Card Lobby
+POST http://localhost:3000/v1/card/lobby
+Content-Type: application/json
+
+{
+  "name": "Adrian",
+  "room": "ROOM123"
+}
+
+### Get Card by ID
+GET http://localhost:3000/v1/card/68dfbcea8d79322704f6d3b8
+Content-Type: application/json
+
+
+### Verify Card
+POST http://localhost:3000/v1/card/verify
+Content-Type: application/json
+
+{
+  "cardId": "68dfbcea8d79322704f6d3b8",
+  "roomCode": "ROOM123"
+}
+
+
+################## ROOM ##################
+
+### Create Room
+POST http://localhost:3000/v1/room
+Content-Type: application/json
+
+{
+  "mode": "blackout"
+}
+
+### Get Room by Room Code
+GET http://localhost:3000/v1/room/ROOM123
+Content-Type: application/json
+
+
+### Update Drawn Number in Room
+PATCH http://localhost:3000/v1/room/ROOM123
+Content-Type: application/json
+
+{
+  "drawnNumber": 25
+}
+
+### Update Room Status
+PATCH http://localhost:3000/v1/room/status/ROOM123
+Content-Type: application/json
+
+{
+  "status": "ended"
+}

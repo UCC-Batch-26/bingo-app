@@ -1,13 +1,76 @@
 import { BoxCard } from '@/modules/home/components/box-card';
 import React from 'react';
-import { useParams } from 'react-router';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 export function LobbyPage() {
   const user = 'player';
+  const [userName, setUserName] = useState('Player 1');
+  const [cardNumbers, setCardNumbers] = useState([]);
+  const [roomCode, setRoomCode] = useState('123');
 
-  const { id: roomCode } = useParams();
+  // get the name
+  async function getUserName() {
+    const URL = 'http://localhost:3000/v1/card/68dfbcea8d79322704f6d3b8';
+    try {
+      const res = await fetch(URL);
 
-  const cardNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+      if (!res.ok) {
+        throw new Error('Not Successful');
+      }
+
+      const data = await res.json();
+      setUserName(data.name);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // get the card numbers
+  async function handleCardNumbers() {
+    const URL = 'http://localhost:3000/v1/card/68dfbcea8d79322704f6d3b8';
+    try {
+      const res = await fetch(URL);
+
+      if (!res.ok) {
+        throw new Error('Not Successful');
+      }
+
+      const data = await res.json();
+      setCardNumbers(data.gridNumbers);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // get the room code
+  async function handleRoomCode() {
+    const URL = 'http://localhost:3000/v1/card/68dfbcea8d79322704f6d3b8';
+    try {
+      const res = await fetch(URL);
+
+      if (!res.ok) {
+        throw new Error('Not Successful');
+      }
+
+      const data = await res.json();
+      setRoomCode(data.room);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getUserName();
+  }, []);
+
+  useEffect(() => {
+    handleCardNumbers();
+  }, []);
+
+  useEffect(() => {
+    handleRoomCode();
+  }, []);
 
   return (
     <div className="w-[auto] min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 flex flex-col items-center justify-center px-4">
@@ -25,7 +88,7 @@ export function LobbyPage() {
           <div className="bg-[] p-[4px] rounded-xl bg-[#9B17F8]">
             <div className="bg-white shadow-lg rounded-xl p-6">
               {/* Title */}
-              <h1 className="text-2xl font-bold text-center mb-4">Hello Player 1</h1>
+              <h1 className="text-2xl font-bold text-center mb-4">Hello {userName}</h1>
 
               {/* Room Info */}
               <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
@@ -54,7 +117,7 @@ export function LobbyPage() {
               {/* Actions */}
               <div className="flex flex-col gap-3">
                 <button className="w-full bg-[#FF4D6D] hover:bg-[#9B17F8] text-white py-2 rounded-lg font-semibold transition">
-                  Start Game
+                  Get Card
                 </button>
                 <button className="w-full bg-gray-200 hover:bg-[#9B17F8] text-gray-800 hover:text-white py-2 rounded-lg font-semibold transition">
                   Leave Lobby
