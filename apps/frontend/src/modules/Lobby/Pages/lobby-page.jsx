@@ -5,7 +5,6 @@ import RoomContext from '@/modules/Room/Contexts/room-context';
 import React from 'react';
 import { useContext } from 'react';
 import { useEffect } from 'react';
-import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router';
 
@@ -31,7 +30,7 @@ export function LobbyPage() {
 
   const handleLeavePlayer = async (e) => {
     e.preventDefault();
-    const leave = await leaveRoom(card._id); 
+    const leave = await leaveRoom(card._id);
     if (leave) {
       navigate(`/`, { replace: true });
     }

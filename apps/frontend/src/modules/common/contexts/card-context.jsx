@@ -1,7 +1,6 @@
 import { createContext, useState } from 'react';
-import { getData, patchData, postData } from '@/services/api';
+import { getData, patchData } from '@/services/api';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
 
 const CardContext = createContext();
 

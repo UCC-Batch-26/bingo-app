@@ -1,12 +1,13 @@
 import { createContext, useState } from 'react';
 import { getData, patchData, postData } from '@/services/api';
+import { useNavigate } from 'react-router';
 
 const RoomContext = createContext();
 
 export function RoomProvider({ children }) {
   const [room, setRoom] = useState({});
   const [player, setPlayer] = useState({});
-
+  const navigate = useNavigate();
   const createRoom = async (mode) => {
     const roomData = await postData('/room', mode);
     setRoom(roomData);
@@ -42,7 +43,7 @@ export function RoomProvider({ children }) {
   };
 
   return (
-    <RoomContext.Provider value={{ room, createRoom, getRoom, joinRoom, updateRoomStatus }}>
+    <RoomContext.Provider value={{ room, createRoom, getRoom, joinRoom, updateRoomStatus, player }}>
       {children}
     </RoomContext.Provider>
   );

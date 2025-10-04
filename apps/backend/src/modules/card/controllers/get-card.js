@@ -4,7 +4,7 @@ import { log } from '#utils/log.js';
 export async function getCard(req, res) {
   const { id } = req.params;
 
-  try {    
+  try {
     const card = await Card.findById(id).orFail();
 
     return res.status(200).json(card);
@@ -22,4 +22,3 @@ export async function getCard(req, res) {
     });
   }
 }
-

@@ -24,7 +24,7 @@ export async function verifyToken(req, res) {
     const card = await Card.findOne({ sessionToken });
 
     if (card) {
-      const room = await Room.findOne({code : card.room});
+      const room = await Room.findOne({ code: card.room });
 
       if (room && room.status !== 'ended') {
         return res.json({

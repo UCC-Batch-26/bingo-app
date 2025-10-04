@@ -22,7 +22,7 @@ export function LandingPage() {
     e.preventDefault();
     const player = await joinRoom(join);
 
-    if(player){
+    if (player) {
       alert('Joining Room');
     }
   };
@@ -78,7 +78,7 @@ export function LandingPage() {
                 <BoxCard letter="O" bgColor="#6BCB77" borderColor="#2C7A25" fontSize={60} />
               </div>
               <div className="bg-[#FF4D6D] size flex-[1] p-[10px] shadow">
-                <div className="bg-[#f9f9f9] border-[2px] border-[#9B17F8] size p-[20px] flex-center flex-col">              
+                <div className="bg-[#f9f9f9] border-[2px] border-[#9B17F8] size p-[20px] flex-center flex-col">
                   <div className="flex w-full mb-[20px] bg-[#E0E0E0] rounded-[10px] p-[5px]">
                     <button
                       onClick={() => setFormType('play')}
@@ -119,7 +119,7 @@ export function LandingPage() {
                           <p className="bg-[#C6B29B] p-[5px] rounded-[3px]">Code:</p>
                           <input
                             type="text"
-                            name="roomCode"                            
+                            name="roomCode"
                             className="w-[100%] outline-none"
                             placeholder="Enter your code here"
                             onChange={(e) => setJoin((prev) => ({ ...prev, room: e.target.value }))}
