@@ -26,11 +26,17 @@ export function SessionProvider({ children }) {
       }
       const data = await getData(`/room/verify/${token}`);
 
+      if (!data) {
+        console.warn('No active session found');
+        setSession({ token: null, isHost: null, roomId: null, status: null, loading: false, name: false });
+        localStorage.clear();
+        return;
+      }
+
       if (data.session === 'active') {
         setSession({
           token,
           isHost: data.isHost,
-          name: data.name,
           roomId: data.roomId,
           status: data.status,
           loading: false,
@@ -38,7 +44,7 @@ export function SessionProvider({ children }) {
 
         if (data.status === 'lobby') {
           navigate(`/lobby/${data.roomId}`, { replace: true });
-        } else if (data.status == 'live') {
+        } else if (data.status === 'live') {
           navigate(`/room/${data.roomId}`, { replace: true });
         }
       } else {

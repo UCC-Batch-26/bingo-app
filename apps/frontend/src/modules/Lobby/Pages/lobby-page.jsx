@@ -36,6 +36,14 @@ export function LobbyPage() {
     }
   };
 
+  const handleStartGame = async (e) => {
+    e.preventDefault();
+    const updatedRoom = await updateRoomStatus(room.code, 'live');
+    if (updatedRoom) {
+      navigate(`/room/${room.code}`, { replace: true });
+    }
+  };
+
   return (
     <div className="w-[auto] min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 flex flex-col items-center justify-center px-4">
       <div className="max-w-md w-full flex-center">
@@ -135,7 +143,10 @@ export function LobbyPage() {
 
               {/* Actions */}
               <div className="flex flex-col gap-3">
-                <button className="w-full bg-[#FF4D6D] hover:bg-[#9B17F8] text-white py-2 rounded-lg font-semibold transition">
+                <button
+                  onClick={handleStartGame}
+                  className="w-full bg-[#FF4D6D] hover:bg-[#9B17F8] text-white py-2 rounded-lg font-semibold transition"
+                >
                   Start Game
                 </button>
                 <button

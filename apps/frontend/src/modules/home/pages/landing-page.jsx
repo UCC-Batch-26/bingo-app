@@ -4,11 +4,9 @@ import { AboutCards } from '../components/about-cards';
 import { BoxCard } from '../components/box-card';
 import { useContext } from 'react';
 import RoomContext from '@/modules/Room/Contexts/room-context';
-import { useNavigate } from 'react-router';
 
 export function LandingPage() {
-  const { createRoom, joinRoom } = useContext(RoomContext);
-  const navigate = useNavigate();
+  const { createRoom, joinRoom, error, clearError } = useContext(RoomContext);
   const [create, setCreate] = useState({
     mode: 'quick',
   });
@@ -20,9 +18,10 @@ export function LandingPage() {
 
   const handleJoin = async (e) => {
     e.preventDefault();
-    const player = await joinRoom(join);
+    clearError();
+    const success = await joinRoom(join);
 
-    if (player) {
+    if (success) {
       alert('Joining Room');
     }
   };
@@ -33,7 +32,6 @@ export function LandingPage() {
 
     if (room) {
       alert('Room Created');
-      navigate(`/`, { replace: true });
     }
   };
 
@@ -127,6 +125,14 @@ export function LandingPage() {
                           />
                         </div>
                       </div>
+
+                      {/* Error Display */}
+                      {error && (
+                        <div className="w-[90%] bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-2">
+                          <p className="text-center font-medium">{error}</p>
+                        </div>
+                      )}
+
                       <div className="w-full flex-[1] text-white flex-center flex-col gap-[10px]">
                         <button
                           type="submit"
