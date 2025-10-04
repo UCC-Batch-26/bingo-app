@@ -12,7 +12,7 @@ export async function getRoom(req, res) {
     log('getRoom', 'Unable to retrieve Room:', error);
 
     let statusCode = 400;
-
+    
     if (error.name === 'DocumentNotFoundError') {
       statusCode = 404;
     }

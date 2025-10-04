@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 //JOin lobby and generate card
 export async function joinLobby(req, res) {
   try {
-    const cardNumbers = generateNumber(9);
+    const cardNumbers = generateNumber(30);
 
     const sessionToken = uuidv4();
     const { name, room } = req.body;
