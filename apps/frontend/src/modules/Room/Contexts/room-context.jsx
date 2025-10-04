@@ -7,7 +7,9 @@ const RoomContext = createContext();
 export function RoomProvider({ children }) {
   const [room, setRoom] = useState({});
   const [player, setPlayer] = useState({});
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+
   const createRoom = async (mode) => {
     const roomData = await postData('/room', mode);
     setRoom(roomData);
@@ -18,32 +20,101 @@ export function RoomProvider({ children }) {
   };
 
   const joinRoom = async (player) => {
-    const cardData = await postData('/card/lobby', player);
-    setPlayer(cardData);
-    localStorage.setItem('sessionToken', cardData.data.sessionToken);
-    localStorage.setItem('playerId', cardData.data._id);
-    return true;
-  };
-
-  const getRoom = async (roomCode) => {
-    const roomData = await getData(`/room/${roomCode}`);
-    setRoom(roomData);
-    return true;
-  };
-
-  const updateRoomStatus = async (roomCode, status) => {
-    const roomData = await patchData(`/room/status/${roomCode}`, { status });
-    if (roomData) {
-      if (status == 'ended') {
-        localStorage.removeItem('sessionToken');
-        localStorage.removeItem('sessionToken');
-      }
+    try {
+      setError(null);
+      const cardData = await postData('/card/lobby', player);
+      setPlayer(cardData);
+      localStorage.setItem('sessionToken', cardData.data.sessionToken);
+      localStorage.setItem('playerId', cardData.data._id);
       return true;
+    } catch (error) {
+      if (error.response?.status === 404 && error.response?.data?.message === 'Room not exist') {
+        setError('Room not exist');
+      } else {
+        setError(error.response?.data?.message || 'Failed to join room');
+      }
+      return false;
     }
   };
 
+  const getRoom = async (roomCode) => {
+    try {
+      setError(null);
+      const roomData = await getData(`/room/${roomCode}`);
+      setRoom(roomData);
+      return true;
+    } catch (error) {
+      if (error.response?.status === 404) {
+        setError('Room not exist');
+      } else {
+        setError(error.response?.data?.message || 'Failed to get room');
+      }
+      return false;
+    }
+  };
+
+  const updateRoomStatus = async (roomCode, status) => {
+    try {
+      setError(null);
+      const roomData = await patchData(`/room/status/${roomCode}`, { status });
+      if (roomData) {
+        if (status == 'ended') {
+          localStorage.clear();
+        }
+        return true;
+      }
+      return false;
+    } catch (error) {
+      setError(error.response?.data?.message || 'Failed to update room status');
+      return false;
+    }
+  };
+
+  const updateDrawnNumbers = async (roomCode, newNumber) => {
+    try {
+      setError(null);
+      const roomData = await patchData(`/room/${roomCode}`, { drawnNumber: newNumber });
+      if (roomData) {
+        setRoom(roomData);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      setError(error.response?.data?.message || 'Failed to update drawn numbers');
+      return false;
+    }
+  };
+
+  const verifyCard = async (cardId) => {
+    try {
+      setError(null);
+      const result = await postData('/card/verify', { cardId });
+      return result;
+    } catch (error) {
+      setError(error.response?.data?.message || 'Failed to verify card');
+      return false;
+    }
+  };
+
+  const clearError = () => {
+    setError(null);
+  };
+
   return (
-    <RoomContext.Provider value={{ room, createRoom, getRoom, joinRoom, updateRoomStatus, player }}>
+    <RoomContext.Provider
+      value={{
+        room,
+        createRoom,
+        getRoom,
+        joinRoom,
+        updateRoomStatus,
+        updateDrawnNumbers,
+        verifyCard,
+        player,
+        error,
+        clearError,
+      }}
+    >
       {children}
     </RoomContext.Provider>
   );

@@ -1,14 +1,23 @@
 import { Card } from '#modules/card/models/card.js';
+import { Room } from '#modules/room/models/room.js';
 import { log } from '#utils/log.js';
 import { v4 as uuidv4 } from 'uuid';
 
 //JOin lobby and generate card
 export async function joinLobby(req, res) {
   try {
-    const cardNumbers = generateNumber(30);
-
-    const sessionToken = uuidv4();
     const { name, room } = req.body;
+
+    // Check if room exists
+    const existingRoom = await Room.findOne({ code: room });
+    if (!existingRoom) {
+      return res.status(404).json({
+        message: 'Room not exist',
+      });
+    }
+
+    const cardNumbers = generateNumber(30);
+    const sessionToken = uuidv4();
     const card = await Card.create({ gridNumbers: cardNumbers, sessionToken, name, room });
 
     return res.status(201).json({
