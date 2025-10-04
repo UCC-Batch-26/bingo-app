@@ -1,84 +1,76 @@
 import { BoxCard } from '@/modules/home/components/box-card';
-import { fetchData } from '@/services/api';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useParams } from 'react-router';
 
 export function LobbyPage() {
-
   const user = 'player';
   const [userName, setUserName] = useState('Player 1');
   const [cardNumbers, setCardNumbers] = useState([]);
   const [roomCode, setRoomCode] = useState('123');
-  const [roomMode, setRoomMode] = useState('');
 
   // get the name
-  async function getUserName(e) {
+  async function getUserName() {
     const URL = 'http://localhost:3000/v1/card/68dfbcea8d79322704f6d3b8';
     try {
-      const res = await fetch(URL)
-  
-      if(!res.ok){
-        throw new Error("Not Successful")
-      } 
-      
-      const data = await res.json()
-      setUserName(data.name)
+      const res = await fetch(URL);
+
+      if (!res.ok) {
+        throw new Error('Not Successful');
+      }
+
+      const data = await res.json();
+      setUserName(data.name);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
   // get the card numbers
-  async function handleCardNumbers(e) {
+  async function handleCardNumbers() {
     const URL = 'http://localhost:3000/v1/card/68dfbcea8d79322704f6d3b8';
     try {
-      const res = await fetch(URL)
-  
-      if(!res.ok){
-        throw new Error("Not Successful")
-      } 
-      
-      const data = await res.json()
-      setCardNumbers(data.gridNumbers)
+      const res = await fetch(URL);
+
+      if (!res.ok) {
+        throw new Error('Not Successful');
+      }
+
+      const data = await res.json();
+      setCardNumbers(data.gridNumbers);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
   // get the room code
-  async function handleRoomCode(e) {
+  async function handleRoomCode() {
     const URL = 'http://localhost:3000/v1/card/68dfbcea8d79322704f6d3b8';
     try {
-      const res = await fetch(URL)
-  
-      if(!res.ok){
-        throw new Error("Not Successful")
-      } 
-      
-      const data = await res.json()
-      setRoomCode(data.room)
+      const res = await fetch(URL);
+
+      if (!res.ok) {
+        throw new Error('Not Successful');
+      }
+
+      const data = await res.json();
+      setRoomCode(data.room);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
   useEffect(() => {
     getUserName();
-  }, [])
+  }, []);
 
   useEffect(() => {
     handleCardNumbers();
-  }, [])
+  }, []);
 
   useEffect(() => {
     handleRoomCode();
-  }, [])
-
-
-
-  
+  }, []);
 
   return (
     <div className="w-[auto] min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 flex flex-col items-center justify-center px-4">
@@ -104,7 +96,7 @@ export function LobbyPage() {
                   <span className="font-semibold">Room Code:</span> {roomCode}
                 </p>
                 <p className="text-gray-700">
-                  <span className="font-semibold">Mode:</span> {roomMode}
+                  <span className="font-semibold">Mode:</span> Standard
                 </p>
                 <p className="text-gray-700">
                   <span className="font-semibold">Status:</span> Waiting for players

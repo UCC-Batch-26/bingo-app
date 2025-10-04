@@ -1,8 +1,6 @@
-import { Link } from 'react-router';
 import { HowToPlayCards } from '../components/how-to-play-cards';
 import { AboutCards } from '../components/about-cards';
 import { BoxCard } from '../components/box-card';
-import { fetchData } from '@/services/api';
 
 export function LandingPage() {
   return (
