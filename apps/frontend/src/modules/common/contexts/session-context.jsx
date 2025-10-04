@@ -53,7 +53,7 @@ export function SessionProvider({ children }) {
 
   useEffect(() => {
     checkSession();
-  });
+  },[]);
 
   return <SessionContext.Provider value={{ session }}>{children}</SessionContext.Provider>;
 }
