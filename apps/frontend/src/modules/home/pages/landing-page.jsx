@@ -1,8 +1,43 @@
+import { useState } from 'react';
 import { HowToPlayCards } from '../components/how-to-play-cards';
 import { AboutCards } from '../components/about-cards';
 import { BoxCard } from '../components/box-card';
+import { useContext } from 'react';
+import RoomContext from '@/modules/Room/Contexts/room-context';
+import { useNavigate } from 'react-router';
 
 export function LandingPage() {
+  const { createRoom, joinRoom } = useContext(RoomContext);
+  const navigate = useNavigate();
+  const [create, setCreate] = useState({
+    mode: 'quick',
+  });
+
+  const [join, setJoin] = useState({
+    name: '',
+    room: '',
+  });
+
+  const handleJoin = async (e) => {
+    e.preventDefault();
+    const player = await joinRoom(join);
+
+    if (player) {
+      alert('Joining Room');
+    }
+  };
+
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    const room = await createRoom(create);
+
+    if (room) {
+      alert('Room Created');
+      navigate(`/`, { replace: true });
+    }
+  };
+
+  const [formType, setFormType] = useState('play');
   return (
     <div className="w-full h-dvh flex-center flex-col bg-gradient text-[#fff]">
       <div className=" w-[68%] h-[95%] flex-center flex-col">
@@ -43,31 +78,91 @@ export function LandingPage() {
                 <BoxCard letter="O" bgColor="#6BCB77" borderColor="#2C7A25" fontSize={60} />
               </div>
               <div className="bg-[#FF4D6D] size flex-[1] p-[10px] shadow">
-                <form
-                  action=""
-                  className="bg-[#f9f9f9] border-[2px] border-[#9B17F8] size p-[20px] flex-center flex-col"
-                >
-                  <div className="w-[100%] h-[140px]  text-[#000] flex-center flex-col gap-[10px]">
-                    <div className="w-[90%] border-[1px] border-[#C6B29B] rounded-[5px] flex p-[5px] gap-[10px]">
-                      <p className="bg-[#C6B29B] p-[5px] rounded-[3px]">Name:</p>
-                      <input type="text" className="w-[100%] outline-none" placeholder="Enter your username" />
-                    </div>
-
-                    <div className="w-[90%] border-[1px] border-[#C6B29B] rounded-[5px] flex p-[5px] gap-[10px]">
-                      <p className="bg-[#C6B29B] p-[5px] rounded-[3px]">Code:</p>
-                      <input type="text" className="w-[100%] outline-none" placeholder="Enter your code here" />
-                    </div>
-                  </div>
-
-                  <div className="size flex-[1]  text-white flex-center flex-col gap-[10px]">
-                    <button className="bg-[#FF4D6D] w-[90%] text-[35px] rounded-[10px] p-[10px] font-[700]">
+                <div className="bg-[#f9f9f9] border-[2px] border-[#9B17F8] size p-[20px] flex-center flex-col">
+                  <div className="flex w-full mb-[20px] bg-[#E0E0E0] rounded-[10px] p-[5px]">
+                    <button
+                      onClick={() => setFormType('play')}
+                      className={`flex-1 py-[10px] rounded-[8px] font-[600] transition-all ${
+                        formType === 'play' ? 'bg-[#FF4D6D] text-white' : 'text-[#666] hover:text-[#000]'
+                      }`}
+                    >
                       PLAY
                     </button>
-                    <button className="bg-[#9B17F8] w-[90%] text-[16px] p-[10px] rounded-[10px] font-[700]">
-                      CREATE ROOM
+
+                    <button
+                      onClick={() => setFormType('create')}
+                      className={`flex-1 py-[10px] rounded-[8px] font-[600] transition-all ${
+                        formType === 'create' ? 'bg-[#9B17F8] text-white' : 'text-[#666] hover:text-[#000]'
+                      }`}
+                    >
+                      CREATE
                     </button>
                   </div>
-                </form>
+
+                  {/* Forms */}
+                  {formType === 'play' ? (
+                    <form onSubmit={(e) => handleJoin(e)} className="w-full flex-center flex-col">
+                      <div className="w-[100%] h-[140px] text-[#000] flex-center flex-col gap-[10px]">
+                        <div className="w-[90%] border-[1px] border-[#C6B29B] rounded-[5px] flex p-[5px] gap-[10px]">
+                          <p className="bg-[#C6B29B] p-[5px] rounded-[3px]">Name:</p>
+                          <input
+                            type="text"
+                            name="name"
+                            className="w-[100%] outline-none"
+                            placeholder="Enter your name"
+                            value={join.name}
+                            onChange={(e) => setJoin((prev) => ({ ...prev, name: e.target.value }))}
+                            required
+                          />
+                        </div>
+                        <div className="w-[90%] border-[1px] border-[#C6B29B] rounded-[5px] flex p-[5px] gap-[10px]">
+                          <p className="bg-[#C6B29B] p-[5px] rounded-[3px]">Code:</p>
+                          <input
+                            type="text"
+                            name="roomCode"
+                            className="w-[100%] outline-none"
+                            placeholder="Enter your code here"
+                            onChange={(e) => setJoin((prev) => ({ ...prev, room: e.target.value }))}
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="w-full flex-[1] text-white flex-center flex-col gap-[10px]">
+                        <button
+                          type="submit"
+                          className="w-[90%] text-[35px] rounded-[10px] p-[10px] font-[700] bg-[#FF4D6D] hover:bg-[#E03D5D] transition-colors"
+                        >
+                          PLAY
+                        </button>
+                      </div>
+                    </form>
+                  ) : (
+                    <form onSubmit={(e) => handleCreate(e)} className="w-full flex-center flex-col">
+                      <div className="w-[100%] h-[140px] text-[#000] flex-center flex-col gap-[10px]">
+                        <div className="w-[90%] border-[1px] border-[#C6B29B] rounded-[5px] flex p-[5px] gap-[10px]">
+                          <p className="bg-[#C6B29B] p-[5px] rounded-[3px]">Mode:</p>
+                          <select
+                            name="mode"
+                            className="w-[100%] outline-none bg-transparent text-[14px]"
+                            onChange={(e) => setCreate((prev) => ({ ...prev, mode: e.target.value }))}
+                            required
+                          >
+                            <option value="quick">Quick</option>
+                            <option value="standard">Standard</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="w-full flex-[1] text-white flex-center flex-col gap-[10px]">
+                        <button
+                          type="submit"
+                          className="w-[90%] text-[35px] rounded-[10px] p-[10px] font-[700] bg-[#9B17F8] hover:bg-[#7A0FC6] transition-colors"
+                        >
+                          CREATE ROOM
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </div>
               </div>
             </div>
           </div>

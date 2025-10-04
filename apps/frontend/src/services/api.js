@@ -1,17 +1,58 @@
-const URL = 'http://localhost:3000/v1/card/68dfbcea8d79322704f6d3b8';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/v1';
 
-export async function fetchData(e) {
-  e.preventDefault();
+export async function getData(endpoint) {
   try {
-    const res = await fetch(URL);
+    const response = await fetch(`${API_URL}${endpoint}`);
 
-    if (!res.ok) {
-      throw new Error('Not Successful');
-    }
+    const data = await response.json();
 
-    const data = await res.json();
-    console.log(data);
+    if (!response.ok) throw new Error(data.message || 'Fetch failed');
+
+    return data;
   } catch (error) {
-    console.error(error);
+    console.error('ERROR (GET):', error);
+    return null;
+  }
+}
+
+export async function postData(endpoint, payload) {
+  try {
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message || 'POST failed');
+
+    return data;
+  } catch (error) {
+    console.error('ERROR (POST):', error);
+    return null;
+  }
+}
+
+export async function patchData(endpoint, payload) {
+  try {
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message || 'PATCH failed');
+
+    return data;
+  } catch (error) {
+    console.error('ERROR (PATCH):', error);
+    return null;
   }
 }

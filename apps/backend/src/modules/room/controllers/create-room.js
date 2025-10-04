@@ -23,7 +23,7 @@ export async function createRoom(req, res) {
   }
 }
 
-function generateRoomCode(length = 6) {
+function generateRoomCode(length = 8) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let code = '';
 
