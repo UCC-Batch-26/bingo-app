@@ -192,9 +192,8 @@ export function RoomPage() {
       } else {
         alert('Card verification failed. Please check your marked numbers.');
       }
-    } catch (error) {     
-      const errorMessage = error?.response?.data?.message || 'Error verifying card. Please try again.';
-      alert(errorMessage);
+    } catch (error) {
+      alert('Error verifying card. Please try again.', error);
     }
   };
 
@@ -219,39 +218,10 @@ export function RoomPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 p-4 sm:p-10">
-      {/* Player View: Numbers on top, Card in middle, Players at bottom */}
+      {/* Player Card Section - Show at top for players */}
       {!session?.isHost && card && (
-        <div className="mb-6 sm:mb-8 w-full max-w-2xl">
+        <div className="mb-6 sm:mb-8 w-full max-w-sm">
           <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-6">
-            {/* Top: Called Numbers (compact) */}
-            <div className="mb-4 sm:mb-6">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg sm:text-xl font-bold text-gray-800">Called Numbers ({calledNumbers.length})</h3>
-                <button
-                  onClick={() => setShowNumberBoard(true)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-1.5 rounded-lg font-semibold text-xs sm:text-sm"
-                >
-                  Show Board
-                </button>
-              </div>
-              <div className="grid grid-cols-10 gap-2 sm:gap-3 text-base sm:text-lg font-bold">
-                {Array.from({ length: 30 }, (_, i) => i + 1).map((num) => {
-                  const isDrawn = calledNumbers.includes(num);
-                  return (
-                    <div
-                      key={num}
-                      className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow ${
-                        isDrawn ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-700'
-                      }`}
-                    >
-                      {num}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Middle: Player Card */}
             <div className="text-center mb-4 sm:mb-6">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">Your Bit9o Card</h2>
               <p className="text-sm sm:text-base text-gray-600">
@@ -316,31 +286,6 @@ export function RoomPage() {
                 Verify Card
               </button>
             </div>
-
-            {/* Bottom: Players List */}
-            <div className="mt-6 sm:mt-8">
-              <h3 className="text-lg sm:text-xl font-bold text-center mb-3 sm:mb-4">Players ({players.length})</h3>
-              <ul className="space-y-2 sm:space-y-3 text-center text-base sm:text-lg max-h-40 overflow-y-auto">
-                {players.length > 0 ? (
-                  players.map((player, i) => (
-                    <li key={i} className="font-bold p-2 bg-gray-100 rounded text-sm sm:text-base">
-                      {player.name}
-                      {player.isHost && <span className="text-xs sm:text-sm text-blue-500 ml-2">(Host)</span>}
-                    </li>
-                  ))
-                ) : (
-                  <li className="text-gray-500 text-sm sm:text-base">No players yet</li>
-                )}
-              </ul>
-              <div className="mt-4 sm:mt-6 text-center">
-                <button
-                  onClick={handleExitRoom}
-                  className="bg-sky-400 hover:bg-sky-500 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-2xl text-sm sm:text-base"
-                >
-                  Exit Room
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       )}
@@ -350,25 +295,40 @@ export function RoomPage() {
           {/* Left Column (Board + BIT9O letters) */}
           <div className="flex flex-col items-start max-sm:w-[100%]">
             {/* Called Numbers Board */}
-            <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-10 w-[910px] h-[455px] max-sm:w-[100%] max-sm:order-[1] max-sm:mt-[10px]">
+            <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-10 w-[910px] h-[455px] flex-center flex-col gap-[30px] max-sm:w-[100%] max-sm:order-[1] max-sm:mt-[10px]">
               <h3 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">
                 Called Numbers ({calledNumbers.length})
               </h3>
-              <div className="grid grid-cols-10 gap-2 sm:gap-3 text-2xl sm:text-3xl font-bold justify-center">
-                {Array.from({ length: 30 }, (_, i) => i + 1).map((num) => {
-                  const isDrawn = calledNumbers.includes(num);
-                  return (
+
+              <div className="flex flex-wrap gap-2 sm:gap-4 text-2xl sm:text-4xl font-bold justify-center">
+                {calledNumbers.length > 0 ? (
+                  calledNumbers.map((num, i) => (
                     <div
-                      key={num}
-                      className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-lg text-sm sm:text-base ${
-                        isDrawn ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-700'
-                      }`}
+                      key={i}
+                      className="w-12 h-12 sm:w-16 sm:h-16 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg text-sm sm:text-base"
                     >
                       {num}
                     </div>
-                  );
-                })}
+                  ))
+                ) : (
+                  <div className="text-gray-500 text-lg sm:text-xl">No numbers drawn yet</div>
+                )}
               </div>
+
+              {/* ✅ Player Number Board View (when toggled ON by Player) */}
+              {!session?.isHost && showNumberBoard && (
+                <div className="flex flex-col items-start w-full max-w-7xl max-sm:w-[100%]">
+                  {/* 👇 Hide Button (Player Only) */}
+                  <div className="w-full text-center mb-4">
+                    <button
+                      onClick={() => setShowNumberBoard(false)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-colors text-sm sm:text-base"
+                    >
+                      Hide All Numbers
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* BIT9O Letters Row - Only show for hosts */}
@@ -429,7 +389,56 @@ export function RoomPage() {
         </div>
       )}
 
-      {/* Removed compact player view block; integrated into player card section above */}
+      {/* Compact Number View for Players when board is hidden */}
+      {!session?.isHost && !showNumberBoard && (
+        <div className="mb-6 sm:mb-8 w-full max-w-4xl">
+          <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Left Column - Current Number */}
+              <div className="text-center">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">Current Number</h3>
+                <div className="w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center text-xl sm:text-2xl font-bold border-[6px] sm:border-[8px] border-black rounded-full bg-yellow-300 mx-auto mb-3 sm:mb-4">
+                  {currentNumber || '--'}
+                </div>
+                <button
+                  onClick={() => setShowNumberBoard(true)}
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-colors text-sm sm:text-base"
+                >
+                  Show All Numbers
+                </button>
+              </div>
+
+              {/* Right Column - Player List and Exit Button */}
+              <div className="flex flex-col justify-between">
+                {/* Player List */}
+                <div className="mb-4">
+                  <h3 className="text-lg sm:text-xl font-bold text-center mb-3 sm:mb-4">Players ({players.length})</h3>
+                  <ul className="space-y-2 text-center text-sm sm:text-base max-h-32 overflow-y-auto">
+                    {players.length > 0 ? (
+                      players.map((player, i) => (
+                        <li key={i} className="font-bold p-2 bg-gray-100 rounded text-xs sm:text-sm">
+                          {player.name}
+                          {player.isHost && <span className="text-xs text-blue-500 ml-2">(Host)</span>}
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-gray-500 text-xs sm:text-sm">No players yet</li>
+                    )}
+                  </ul>
+                </div>
+
+                {/* Exit Button */}
+                <button
+                  onClick={handleExitRoom}
+                  className="bg-sky-400 hover:bg-sky-500 text-white font-bold px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base transition-colors"
+                >
+                  Exit Room
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Win Notification Modal */}
       {winNotification && (
@@ -444,7 +453,13 @@ export function RoomPage() {
                 ? `Congratulations! You got ${winNotification.winType}!`
                 : `${winNotification.playerName} won with ${winNotification.winType}!`}
             </p>
-            <div className="flex gap-4 justify-center">             
+            <div className="flex gap-4 justify-center">
+              <button
+                onClick={() => setWinNotification(null)}
+                className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-6 py-3 rounded-xl text-lg transition-colors"
+              >
+                {winNotification.isWinner ? 'Continue Playing' : 'OK'}
+              </button>
               <button
                 onClick={() => {
                   setWinNotification(null);
