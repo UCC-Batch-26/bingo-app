@@ -295,10 +295,11 @@ export function RoomPage() {
           {/* Left Column (Board + BIT9O letters) */}
           <div className="flex flex-col items-start max-sm:w-[100%]">
             {/* Called Numbers Board */}
-            <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-10 w-[910px] h-[455px] max-sm:w-[100%] max-sm:order-[1] max-sm:mt-[10px]">
+            <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-10 w-[910px] h-[455px] flex-center flex-col gap-[30px] max-sm:w-[100%] max-sm:order-[1] max-sm:mt-[10px]">
               <h3 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">
                 Called Numbers ({calledNumbers.length})
               </h3>
+
               <div className="flex flex-wrap gap-2 sm:gap-4 text-2xl sm:text-4xl font-bold justify-center">
                 {calledNumbers.length > 0 ? (
                   calledNumbers.map((num, i) => (
@@ -313,6 +314,21 @@ export function RoomPage() {
                   <div className="text-gray-500 text-lg sm:text-xl">No numbers drawn yet</div>
                 )}
               </div>
+
+              {/* ✅ Player Number Board View (when toggled ON by Player) */}
+              {!session?.isHost && showNumberBoard && (
+                <div className="flex flex-col items-start w-full max-w-7xl max-sm:w-[100%]">
+                  {/* 👇 Hide Button (Player Only) */}
+                  <div className="w-full text-center mb-4">
+                    <button
+                      onClick={() => setShowNumberBoard(false)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-colors text-sm sm:text-base"
+                    >
+                      Hide All Numbers
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* BIT9O Letters Row - Only show for hosts */}
