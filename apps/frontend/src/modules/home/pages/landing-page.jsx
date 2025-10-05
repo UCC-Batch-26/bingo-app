@@ -38,21 +38,23 @@ export function LandingPage() {
   };
 
   const [formType, setFormType] = useState('play');
+
+  const isMobile = window.innerWidth < 768;
   return (
-    <div className="w-full h-dvh flex-center flex-col bg-gradient text-[#fff]">
-      <div className=" w-[68%] h-[95%] flex-center flex-col">
-        <header className="flex-[0.5] size flex justify-center items-start">
-          <nav className="border-[2px] border-[#E25645] bg-[#f9f9f9] w-[95%] h-[70px] rounded-[10px] flex-center px-[20px]">
-            <div className="w-[40px] h-[40px]">
-              <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={35} />
+    <div className="w-full h-dvh flex-center flex-col bg-gradient text-[#fff] max-sm:w-[100%] max-sm:h-[auto] max-sm:pb-[20px]">
+      <div className=" w-[68%] h-[95%] flex-center flex-col max-sm:w-[100%] max-h-[100%]">
+        <header className="flex-[0.5] size flex justify-center items-start max-sm:mt-[10px]">
+          <nav className="border-[2px] border-[#E25645] bg-[#f9f9f9] w-[95%] h-[70px] rounded-[10px] flex-center px-[20px] max-sm:h-[50px]">
+            <div className="w-[40px] h-[40px] max-sm:w-[35px] max-sm:h-[35px]">
+              <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={isMobile ? 25 : 35} />
             </div>
             <div className="flex-[1]"></div>
           </nav>
         </header>
 
-        <div className="flex-[2] size  flex-center">
-          <div className="flex-[1] size  flex-center">
-            <div className="bg-[] w-[80%] h-[80%] flex justify-start items-start flex-col gap-[20px]">
+        <div className="flex-[2] size  flex-center max-sm:flex-col">
+          <div className="flex-[1] size  flex-center max-sm:mb-[20px] max-sm:p-[20px]">
+            <div className="bg-[] w-[80%] h-[80%] flex justify-start items-start flex-col gap-[20px] max-sm:w-[100%]">
               <div className="w-[100%] h-[30%] ">
                 <p className="text-[40px] font-[1000]">Play Bit9o,</p>
                 <p className="text-[30px] font-[700]">Together Anywhere</p>
@@ -63,19 +65,19 @@ export function LandingPage() {
                   play together online—whether you’re near or far. Simple, social, and full of laughs, bingo nights are
                   now just a click away.
                 </p>
-                <div className="w-[100%] h-[100px] border"></div>
+                <div className="w-[100%] h-[100px] border max-sm:hidden"></div>
               </div>
             </div>
           </div>
 
           <div className="flex-[1.5] size flex-center">
-            <div className=" w-[76%] h-[80%] flex-center flex-col ">
-              <div className="w-[100%] h-[80px] flex-center">
-                <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={60} />
-                <BoxCard letter="I" bgColor="#F37213" borderColor="#D82C23" fontSize={60} />
-                <BoxCard letter="T" bgColor="#FFD93D" borderColor="#BC7E06" fontSize={60} />
-                <BoxCard letter="9" bgColor="#C6B29B" borderColor="#7D6450" fontSize={60} />
-                <BoxCard letter="O" bgColor="#6BCB77" borderColor="#2C7A25" fontSize={60} />
+            <div className=" w-[76%] h-[80%] flex-center flex-col max-sm:w-[90%]">
+              <div className="w-[100%] h-[80px] flex-center max-sm:h-[60px]">
+                <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={isMobile ? 45 : 60} />
+                <BoxCard letter="I" bgColor="#F37213" borderColor="#D82C23" fontSize={isMobile ? 45 : 60} />
+                <BoxCard letter="T" bgColor="#FFD93D" borderColor="#BC7E06" fontSize={isMobile ? 45 : 60} />
+                <BoxCard letter="9" bgColor="#C6B29B" borderColor="#7D6450" fontSize={isMobile ? 45 : 60} />
+                <BoxCard letter="O" bgColor="#6BCB77" borderColor="#2C7A25" fontSize={isMobile ? 45 : 60} />
               </div>
               <div className="bg-[#FF4D6D] size flex-[1] p-[10px] shadow">
                 <div className="bg-[#f9f9f9] border-[2px] border-[#9B17F8] size p-[20px] flex-center flex-col">
@@ -138,9 +140,9 @@ export function LandingPage() {
                       <div className="w-full flex-[1] text-white flex-center flex-col gap-[10px]">
                         <button
                           type="submit"
-                          className="w-[90%] text-[35px] rounded-[10px] p-[10px] font-[700] bg-[#FF4D6D] hover:bg-[#E03D5D] transition-colors"
+                          className="w-[90%] text-[35px] rounded-[10px] p-[10px] font-[700] bg-[#FF4D6D] hover:bg-[#E03D5D] transition-colors max-sm:text-[25px]"
                         >
-                          PLAY
+                          JOIN
                         </button>
                       </div>
                     </form>
@@ -163,7 +165,7 @@ export function LandingPage() {
                       <div className="w-full flex-[1] text-white flex-center flex-col gap-[10px]">
                         <button
                           type="submit"
-                          className="w-[90%] text-[35px] rounded-[10px] p-[10px] font-[700] bg-[#9B17F8] hover:bg-[#7A0FC6] transition-colors"
+                          className="w-[90%] text-[35px] rounded-[10px] p-[10px] font-[700] bg-[#9B17F8] hover:bg-[#7A0FC6] transition-colors max-sm:text-[25px]"
                         >
                           CREATE ROOM
                         </button>
@@ -175,7 +177,7 @@ export function LandingPage() {
             </div>
           </div>
 
-          <div className="flex-[1] size flex-center flex-col gap-[20px]">
+          <div className="flex-[1] size flex-center flex-col gap-[20px] max-sm:mt-[50px]">
             <div className="w-[80%] h-[auto]">
               <p className="text-[18px font-[700] text-[#564D43]">🎲 HOW TO PLAY</p>
             </div>
@@ -194,12 +196,12 @@ export function LandingPage() {
         </div>
 
         {/* About */}
-        <div className="flex-[1] size flex justify-start items-center flex-col gap-[30px]">
-          <p className="text-[14px]">
+        <div className="flex-[1] size flex justify-start items-center flex-col gap-[30px] max-sm:mt-[30px]">
+          <p className="text-[14px] max-sm:text-center">
             Host and join bingo games with friends online—just like hanging out, no matter the distance.
           </p>
-          <div className="bg-[#9B17F8] w-[75%] h-[70%] rounded-[10px] shadow flex-center ">
-            <div className="flex-center w-[95%] h-[80%] gap-[15px]">
+          <div className="bg-[#9B17F8] w-[75%] h-[70%] rounded-[10px] shadow flex-center max-sm:w-[90%] max-sm:p-[20px]">
+            <div className="flex-center w-[95%] h-[80%] gap-[15px] max-sm:flex-col">
               <div className="flex-[1] size flex-center">
                 <div className="w-[100%] h-[25%] flex-center ">
                   <BoxCard letter="A" bgColor="#32BAEC" borderColor="#0C6795" fontSize={25} />

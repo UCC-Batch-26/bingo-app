@@ -4,6 +4,7 @@ import RoomContext from '@/modules/Room/Contexts/room-context';
 import CardContext from '@/modules/common/contexts/card-context';
 import SessionContext from '@/modules/common/contexts/session-context';
 import SocketContext from '@/modules/common/contexts/socket-context';
+import { BoxCard } from '@/modules/home/components/box-card';
 
 export function RoomPage() {
   const { room, getRoom, updateRoomStatus, updateDrawnNumbers, verifyCard, error } = useContext(RoomContext);
@@ -213,6 +214,8 @@ export function RoomPage() {
     );
   }
 
+  const isMobile = window.innerWidth < 768;
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 p-4 sm:p-10">
       {/* Player Card Section - Show at top for players */}
@@ -288,11 +291,11 @@ export function RoomPage() {
       )}
 
       {(session?.isHost || showNumberBoard) && (
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 items-start w-full max-w-7xl">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 items-start w-full max-w-7xl max-sm:w-[100%]">
           {/* Left Column (Board + BIT9O letters) */}
-          <div className="flex flex-col items-start">
+          <div className="flex flex-col items-start max-sm:w-[100%]">
             {/* Called Numbers Board */}
-            <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-10 w-full max-w-4xl sm:w-[910px] min-h-[300px] sm:h-[455px]">
+            <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-10 w-[910px] h-[455px] max-sm:w-[100%] max-sm:order-[1] max-sm:mt-[10px]">
               <h3 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">
                 Called Numbers ({calledNumbers.length})
               </h3>
@@ -314,22 +317,12 @@ export function RoomPage() {
 
             {/* BIT9O Letters Row - Only show for hosts */}
             {session?.isHost && (
-              <div className="flex gap-4 mt-8">
-                <div className="bg-sky-400 border-6 border-[#0C6795] w-40 h-40 flex items-center justify-center rounded-2xl text-white text-6xl font-bold shadow-lg">
-                  B
-                </div>
-                <div className="bg-orange-500 border-6 border-[#D82C23] w-40 h-40 flex items-center justify-center rounded-2xl text-white text-6xl font-bold shadow-lg">
-                  I
-                </div>
-                <div className="bg-yellow-300 border-6 border-[#BC7E06] w-40 h-40 flex items-center justify-center rounded-2xl text-white text-6xl font-bold shadow-lg">
-                  T
-                </div>
-                <div className="bg-[#C6B29B] border-6 border-[#7D6450] w-40 h-40 flex items-center justify-center rounded-2xl text-white text-6xl font-bold shadow-lg">
-                  9
-                </div>
-                <div className="bg-green-500 border-6 border-[#2C7A25] w-40 h-40 flex items-center justify-center rounded-2xl text-white text-6xl font-bold shadow-lg">
-                  O
-                </div>
+              <div className="flex gap-4 mt-8 max-sm:w-[100%] max-sm:gap-2 text-white w-[100%] h-[100px] max-sm:h-[60px]">
+                <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={isMobile ? 45 : 70} />
+                <BoxCard letter="I" bgColor="#F37213" borderColor="#D82C23" fontSize={isMobile ? 45 : 70} />
+                <BoxCard letter="T" bgColor="#FFD93D" borderColor="#BC7E06" fontSize={isMobile ? 45 : 70} />
+                <BoxCard letter="9" bgColor="#C6B29B" borderColor="#7D6450" fontSize={isMobile ? 45 : 70} />
+                <BoxCard letter="O" bgColor="#6BCB77" borderColor="#2C7A25" fontSize={isMobile ? 45 : 70} />
               </div>
             )}
           </div>
