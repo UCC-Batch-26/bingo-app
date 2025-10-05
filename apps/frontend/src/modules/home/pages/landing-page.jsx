@@ -3,10 +3,12 @@ import { HowToPlayCards } from '../components/how-to-play-cards';
 import { AboutCards } from '../components/about-cards';
 import { BoxCard } from '../components/box-card';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router';
 import RoomContext from '@/modules/Room/Contexts/room-context';
 
 export function LandingPage() {
   const { createRoom, joinRoom, error, clearError } = useContext(RoomContext);
+  const navigate = useNavigate();
   const [create, setCreate] = useState({
     mode: 'quick',
   });
@@ -22,7 +24,7 @@ export function LandingPage() {
     const success = await joinRoom(join);
 
     if (success) {
-      alert('Joining Room');
+      navigate(`/lobby/${join.room}`, { replace: true });
     }
   };
 

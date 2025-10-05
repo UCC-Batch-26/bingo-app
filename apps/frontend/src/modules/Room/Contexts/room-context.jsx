@@ -15,6 +15,7 @@ export function RoomProvider({ children }) {
     setRoom(roomData);
     localStorage.setItem('sessionToken', roomData.data.sessionToken);
     localStorage.setItem('roomCode', roomData.data.code);
+    window.dispatchEvent(new CustomEvent('sessionUpdated'));
     navigate(`/lobby/${roomData.data.code}`, { replace: true });
     return true;
   };
@@ -26,6 +27,7 @@ export function RoomProvider({ children }) {
       setPlayer(cardData);
       localStorage.setItem('sessionToken', cardData.data.sessionToken);
       localStorage.setItem('playerId', cardData.data._id);
+      window.dispatchEvent(new CustomEvent('sessionUpdated'));
       return true;
     } catch (error) {
       if (error.response?.status === 404 && error.response?.data?.message === 'Room not exist') {
@@ -60,6 +62,7 @@ export function RoomProvider({ children }) {
       if (roomData) {
         if (status == 'ended') {
           localStorage.clear();
+          window.dispatchEvent(new CustomEvent('sessionUpdated'));
         }
         return true;
       }
@@ -85,10 +88,10 @@ export function RoomProvider({ children }) {
     }
   };
 
-  const verifyCard = async (cardId) => {
+  const verifyCard = async (cardId, markedNumbers) => {
     try {
       setError(null);
-      const result = await postData('/card/verify', { cardId });
+      const result = await postData('/card/verify', { cardId, markedNumbers });
       return result;
     } catch (error) {
       setError(error.response?.data?.message || 'Failed to verify card');

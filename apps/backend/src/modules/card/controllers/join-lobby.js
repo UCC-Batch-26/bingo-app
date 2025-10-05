@@ -20,6 +20,16 @@ export async function joinLobby(req, res) {
     const sessionToken = uuidv4();
     const card = await Card.create({ gridNumbers: cardNumbers, sessionToken, name, room });
 
+    const io = req.app.get('io');
+    if (io) {
+      io.to(room).emit('player-joined', {
+        roomCode: room,
+        playerName: name,
+        playerId: card._id,
+      });
+      log('socket', `Emitted player-joined event for room ${room}: ${name}`);
+    }
+
     return res.status(201).json({
       message: 'Successfully created Card and Join lobby',
       data: card,

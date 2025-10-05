@@ -61,6 +61,25 @@ export function SessionProvider({ children }) {
     checkSession();
   }, []);
 
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'sessionToken') {
+        checkSession();
+      }
+    };
+
+    const handleSessionUpdate = () => {
+      checkSession();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('sessionUpdated', handleSessionUpdate);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('sessionUpdated', handleSessionUpdate);
+    };
+  }, []);
+
   return <SessionContext.Provider value={{ session }}>{children}</SessionContext.Provider>;
 }
 
