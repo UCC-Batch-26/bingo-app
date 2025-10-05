@@ -93,9 +93,8 @@ export function RoomProvider({ children }) {
       setError(null);
       const result = await postData('/card/verify', { cardId, markedNumbers });
       return result;
-    } catch (error) {
-      setError(error.response?.data?.message || 'Failed to verify card');
-      return false;
+    } catch (error) {     
+      throw error;
     }
   };
 

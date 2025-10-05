@@ -21,19 +21,27 @@ export async function verifyCard(req, res) {
       return res.status(404).json({
         message: 'Room not found',
       });
-    }
+    } 
 
-    const drawnNumbers = room.drawnNumber || [];
-    const cardNumbers = card.gridNumbers || [];
+   
+    const drawnNumbers = (room.drawnNumber || []).map((n) => Number(n));
+    const cardNumbers = (card.gridNumbers || []).map((n) => Number(n));
+    const marked = Array.isArray(markedNumbers) ? markedNumbers.map((n) => Number(n)) : [];
 
-    const allMarkedAreDrawn = markedNumbers.every((num) => drawnNumbers.includes(num));
+ 
+    const allMarkedAreDrawn = marked.length > 0 ? marked.every((num) => drawnNumbers.includes(num)) : false;
+    const markedNumbersMatchCard = marked.length > 0 ? marked.every((num) => cardNumbers.includes(num)) : false;
+  
+    isWinner = marked.length > 0 && allMarkedAreDrawn && markedNumbersMatchCard;
 
-    const allCardNumbersMarked = cardNumbers.every((num) => markedNumbers.includes(num));
-
-    const markedNumbersMatchCard = markedNumbers.every((num) => cardNumbers.includes(num));
-
-    if (allMarkedAreDrawn && allCardNumbersMarked && markedNumbersMatchCard) {
-      isWinner = true;
+    if (!isWinner) {
+      return res.status(400).json({
+        message: 'Not win yet: check your card',
+        data: {
+          isWin: false,
+          verified: false,
+        },
+      });
     }
 
     return res.status(200).json({
