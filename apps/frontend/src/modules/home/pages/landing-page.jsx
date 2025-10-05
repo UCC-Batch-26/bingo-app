@@ -5,9 +5,11 @@ import { BoxCard } from '../components/box-card';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import RoomContext from '@/modules/Room/Contexts/room-context';
+import BGMContext from '@/modules/common/contexts/bgm-context';
 
 export function LandingPage() {
   const { createRoom, joinRoom, error, clearError } = useContext(RoomContext);
+  const { isBgmPlaying, toggleBGM } = useContext(BGMContext);
   const navigate = useNavigate();
   const [create, setCreate] = useState({
     mode: 'quick',
@@ -49,6 +51,14 @@ export function LandingPage() {
               <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={isMobile ? 25 : 35} />
             </div>
             <div className="flex-[1]"></div>
+            <button
+              onClick={toggleBGM}
+              className={`px-3 py-1.5 rounded-lg font-semibold text-sm transition-colors ${
+                isBgmPlaying ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'
+              }`}
+            >
+              {isBgmPlaying ? '🔊 BGM' : '🔇 BGM'}
+            </button>
           </nav>
         </header>
 

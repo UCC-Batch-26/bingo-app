@@ -4,12 +4,14 @@ import RoomContext from '@/modules/Room/Contexts/room-context';
 import CardContext from '@/modules/common/contexts/card-context';
 import SessionContext from '@/modules/common/contexts/session-context';
 import SocketContext from '@/modules/common/contexts/socket-context';
+import BGMContext from '@/modules/common/contexts/bgm-context';
 import { BoxCard } from '@/modules/home/components/box-card';
 
 export function RoomPage() {
   const { room, getRoom, updateRoomStatus, updateDrawnNumbers, verifyCard, error } = useContext(RoomContext);
   const { card, leaveRoom } = useContext(CardContext);
   const { session } = useContext(SessionContext);
+  const { isBgmPlaying, toggleBGM, stopBGM } = useContext(BGMContext);
   const {
     socket,
     isConnected,
@@ -82,6 +84,27 @@ export function RoomPage() {
           winType: data.winType,
           isWinner: false,
         });
+        // Play victory sound when someone else wins
+        playVictorySound();
+      }
+    };
+
+    const handlePlaySound = (data) => {
+      console.log('Received sound broadcast:', data);
+      if (data.roomCode === roomCode) {
+        switch (data.soundType) {
+          case 'drawing':
+            playDrawingSound();
+            break;
+          case 'reveal':
+            playNumberRevealSound();
+            break;
+          case 'victory':
+            playVictorySound();
+            break;
+          default:
+            console.log('Unknown sound type:', data.soundType);
+        }
       }
     };
 
@@ -91,12 +114,22 @@ export function RoomPage() {
     onRoomStatusChanged(handleRoomStatusChanged);
     onPlayerWon(handlePlayerWon);
 
+    // Add socket listener for sound broadcasts
+    if (socket) {
+      socket.on('play-sound', handlePlaySound);
+    }
+
     return () => {
       offNumberDrawn(handleNumberDrawn);
       offPlayerJoined(handlePlayerJoined);
       offPlayerLeft(handlePlayerLeft);
       offRoomStatusChanged(handleRoomStatusChanged);
       offPlayerWon(handlePlayerWon);
+
+      // Remove socket listener
+      if (socket) {
+        socket.off('play-sound', handlePlaySound);
+      }
     };
   }, [
     roomCode,
@@ -124,6 +157,38 @@ export function RoomPage() {
   const [newDrawnNumber, setNewDrawnNumber] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
 
+  const playDrawingSound = () => {
+    const audio = new Audio('/sounds/drawball.mp3');
+    audio.volume = 0.7;
+    audio.play().catch((error) => {
+      console.log('Drawing sound error:', error);
+    });
+  };
+
+  const playNumberRevealSound = () => {
+    const audio = new Audio('/sounds/drawball.mp3');
+    audio.volume = 0.8;
+    audio.play().catch((error) => {
+      console.log('Number reveal sound error:', error);
+    });
+  };
+
+  const playWinSound = () => {
+    const audio = new Audio('/sounds/victory.mp3');
+    audio.volume = 1.0;
+    audio.play().catch((error) => {
+      console.log('Win sound error:', error);
+    });
+  };
+
+  const playVictorySound = () => {
+    const audio = new Audio('/sounds/victory.mp3');
+    audio.volume = 1.0;
+    audio.play().catch((error) => {
+      console.log('Victory sound error:', error);
+    });
+  };
+
   const handleExitRoom = async () => {
     if (confirm('Are you sure you want to exit the room?')) {
       if (session?.isHost) {
@@ -146,26 +211,37 @@ export function RoomPage() {
 
     setIsDrawing(true);
 
-    // Animation sequence: show random numbers before revealing the actual number
     const animationNumbers = [];
     for (let i = 0; i < 8; i++) {
       animationNumbers.push(Math.floor(Math.random() * 30) + 1);
     }
 
-    // Show animation numbers rapidly
     for (let i = 0; i < animationNumbers.length; i++) {
       setNewDrawnNumber(animationNumbers[i]);
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    // Get the actual number to draw
     let newNumber;
     do {
       newNumber = Math.floor(Math.random() * 30) + 1;
     } while (calledNumbers.includes(newNumber));
 
-    // Show the final number with a longer pause
     setNewDrawnNumber(newNumber);
+
+
+    stopBGM();
+
+    playNumberRevealSound();
+
+   
+    if (socket && isConnected) {
+      socket.emit('play-sound', {
+        roomCode: roomCode,
+        soundType: 'reveal',
+        volume: 0.8,
+      });
+    }
+
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     // Update the room with the new number
@@ -195,6 +271,15 @@ export function RoomPage() {
       return;
     }
 
+    // Check if all numbers are marked
+    const allNumbers = card?.gridNumbers || [];
+    if (markedNumbers.length !== allNumbers.length) {
+      alert(
+        `Please mark ALL numbers on your card! You have marked ${markedNumbers.length} out of ${allNumbers.length} numbers.`,
+      );
+      return;
+    }
+
     try {
       const result = await verifyCard(card._id, markedNumbers);
       if (result && result.data && result.data.isWin) {
@@ -213,6 +298,17 @@ export function RoomPage() {
           isWinner: true,
         });
         setIsBit9o(true);
+
+        playWinSound();
+
+        // Broadcast victory sound to all players
+        if (socket && isConnected) {
+          socket.emit('play-sound', {
+            roomCode: roomCode,
+            soundType: 'victory',
+            volume: 1.0,
+          });
+        }
       } else {
         alert('Card verification failed. Please check your marked numbers.');
       }
@@ -250,12 +346,24 @@ export function RoomPage() {
             <div className="bg-white border-2 border-gray-300 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-lg sm:text-xl font-bold text-gray-800">Called Numbers ({calledNumbers.length})</h3>
-                <button
-                  onClick={() => setShowNumberBoard(true)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-1.5 rounded-lg font-semibold text-xs sm:text-sm"
-                >
-                  Show Board
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={toggleBGM}
+                    className={`px-3 sm:px-4 py-1.5 rounded-lg font-semibold text-xs sm:text-sm transition-colors ${
+                      isBgmPlaying
+                        ? 'bg-green-500 hover:bg-green-600 text-white'
+                        : 'bg-gray-500 hover:bg-gray-600 text-white'
+                    }`}
+                  >
+                    {isBgmPlaying ? '🔊 BGM' : '🔇 BGM'}
+                  </button>
+                  <button
+                    onClick={() => setShowNumberBoard(true)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-1.5 rounded-lg font-semibold text-xs sm:text-sm"
+                  >
+                    Show Board
+                  </button>
+                </div>
               </div>
               <div className="flex flex-wrap gap-2 sm:gap-3 text-base sm:text-lg font-bold">
                 {calledNumbers.length > 0 ? (
@@ -337,17 +445,19 @@ export function RoomPage() {
               <div className="mt-4 sm:mt-6 text-center">
                 <button
                   onClick={handleVerifyCard}
-                  disabled={markedNumbers.length === 0}
+                  disabled={markedNumbers.length !== (card?.gridNumbers?.length || 0)}
                   className={`
                     px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 transform
                     ${
-                      markedNumbers.length > 0
+                      markedNumbers.length === (card?.gridNumbers?.length || 0)
                         ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white cursor-pointer hover:scale-105 shadow-lg hover:shadow-xl'
                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }
                   `}
                 >
-                  {markedNumbers.length > 0 ? '🎯 Verify Card!' : 'Mark Numbers First'}
+                  {markedNumbers.length === (card?.gridNumbers?.length || 0)
+                    ? '🎯 Verify Card!'
+                    : `Mark All Numbers (${markedNumbers.length}/${card?.gridNumbers?.length || 0})`}
                 </button>
               </div>
             </div>

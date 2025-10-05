@@ -56,6 +56,13 @@ io.on('connection', (socket) => {
     socket.to(data.roomCode).emit('player-won', data);
   });
 
+  // Handle sound broadcast event
+  socket.on('play-sound', (data) => {
+    log('socket', `Broadcasting sound: ${data.soundType} in room ${data.roomCode}`);
+    // Broadcast the sound to all players in the room
+    socket.to(data.roomCode).emit('play-sound', data);
+  });
+
   // Handle disconnection
   socket.on('disconnect', () => {
     log('socket', `User disconnected: ${socket.id}`);

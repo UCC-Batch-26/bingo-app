@@ -3,6 +3,7 @@ import SessionContext from '@/modules/common/contexts/session-context';
 import { BoxCard } from '@/modules/home/components/box-card';
 import RoomContext from '@/modules/Room/Contexts/room-context';
 import SocketContext from '@/modules/common/contexts/socket-context';
+import BGMContext from '@/modules/common/contexts/bgm-context';
 import React from 'react';
 import { useContext } from 'react';
 import { useEffect } from 'react';
@@ -14,6 +15,7 @@ export function LobbyPage() {
   const { room, getRoom, updateRoomStatus } = useContext(RoomContext);
   const { id: roomCode } = useParams();
   const { card, leaveRoom } = useContext(CardContext);
+  const { isBgmPlaying, toggleBGM } = useContext(BGMContext);
   const {
     joinRoom,
     leaveRoom: socketLeaveRoom,
@@ -96,6 +98,18 @@ export function LobbyPage() {
           <BoxCard letter="B" bgColor="#C6B29B" borderColor="#7D6450" fontSize={50} />
           <BoxCard letter="Y" bgColor="#6BCB77" borderColor="#2C7A25" fontSize={50} />
         </div>
+      </div>
+
+      {/* BGM Toggle Button */}
+      <div className="mb-4">
+        <button
+          onClick={toggleBGM}
+          className={`px-4 py-2 rounded-lg font-semibold text-sm transition-colors ${
+            isBgmPlaying ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-500 hover:bg-gray-600 text-white'
+          }`}
+        >
+          {isBgmPlaying ? '🔊 BGM' : '🔇 BGM'}
+        </button>
       </div>
       {session?.isHost === false ? (
         <div className=" max-w-md w-full p-[7px] rounded-xl bg-[#FF4D6D]">
