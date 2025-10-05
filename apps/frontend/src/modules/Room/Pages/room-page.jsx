@@ -121,6 +121,8 @@ export function RoomPage() {
   const [isBit9o, setIsBit9o] = useState(false);
   const [showNumberBoard, setShowNumberBoard] = useState(false);
   const [winNotification, setWinNotification] = useState(null);
+  const [newDrawnNumber, setNewDrawnNumber] = useState(null);
+  const [isDrawing, setIsDrawing] = useState(false);
 
   const handleExitRoom = async () => {
     if (confirm('Are you sure you want to exit the room?')) {
@@ -142,14 +144,36 @@ export function RoomPage() {
       return;
     }
 
-    const newNumber = Math.floor(Math.random() * 30) + 1;
-
-    if (calledNumbers.includes(newNumber)) {
-      handleDrawNumber();
-      return;
+    setIsDrawing(true);
+    
+    // Animation sequence: show random numbers before revealing the actual number
+    const animationNumbers = [];
+    for (let i = 0; i < 8; i++) {
+      animationNumbers.push(Math.floor(Math.random() * 30) + 1);
+    }
+    
+    // Show animation numbers rapidly
+    for (let i = 0; i < animationNumbers.length; i++) {
+      setNewDrawnNumber(animationNumbers[i]);
+      await new Promise(resolve => setTimeout(resolve, 100));
     }
 
+    // Get the actual number to draw
+    let newNumber;
+    do {
+      newNumber = Math.floor(Math.random() * 30) + 1;
+    } while (calledNumbers.includes(newNumber));
+
+    // Show the final number with a longer pause
+    setNewDrawnNumber(newNumber);
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // Update the room with the new number
     await updateDrawnNumbers(room.code, newNumber);
+    
+    // Clear the animation state
+    setIsDrawing(false);
+    setNewDrawnNumber(null);
   };
 
   const handleMarkNumber = (number) => {
@@ -218,73 +242,138 @@ export function RoomPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 p-4 sm:p-10">
-      {/* Player Card Section - Show at top for players */}
+      {/* Player View: Numbers on top, Card in middle, Players at bottom */}
       {!session?.isHost && card && (
-        <div className="mb-6 sm:mb-8 w-full max-w-sm">
+        <div className="mb-6 sm:mb-8 w-full max-w-2xl">
           <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-6">
-            <div className="text-center mb-4 sm:mb-6">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">Your Bit9o Card</h2>
-              <p className="text-sm sm:text-base text-gray-600">
-                Listen carefully for called numbers and mark them on your card
-              </p>
-              {isBit9o && (
-                <div className="bg-green-500 text-white text-lg sm:text-xl font-bold py-2 px-4 rounded-lg mt-3 sm:mt-4">
-                  🎉 BIT9O! 🎉
-                </div>
-              )}
-            </div>
-
-            <div className="grid grid-cols-3 gap-2 sm:gap-3 max-w-xs mx-auto">
-              {card?.gridNumbers?.length > 0 ? (
-                card.gridNumbers.map((number, index) => {
-                  const isMarked = markedNumbers.includes(number);
-
-                  return (
-                    <button
-                      key={index}
-                      onClick={() => handleMarkNumber(number)}
-                      className={`
-                        w-14 h-14 sm:w-16 sm:h-16 rounded-lg text-base sm:text-lg font-bold transition-all duration-200
-                        ${
-                          isMarked
-                            ? 'bg-green-500 text-white shadow-lg transform scale-105'
-                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300 cursor-pointer'
-                        }
-                      `}
+            {/* Top: Called Numbers (compact) - only show drawn numbers */}
+            <div className="bg-white border-2 border-gray-300 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800">Called Numbers ({calledNumbers.length})</h3>
+                <button
+                  onClick={() => setShowNumberBoard(true)}
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-1.5 rounded-lg font-semibold text-xs sm:text-sm"
+                >
+                  Show Board
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2 sm:gap-3 text-base sm:text-lg font-bold">
+                {calledNumbers.length > 0 ? (
+                  calledNumbers.map((num, i) => (
+                    <div
+                      key={i}
+                      className={`w-8 h-8 sm:w-10 sm:h-10 bg-red-500 text-white rounded-full flex items-center justify-center shadow transition-all duration-500 ${
+                        i === calledNumbers.length - 1 ? 'animate-pulse scale-110 ring-4 ring-yellow-400' : 'hover:scale-105'
+                      }`}
                     >
-                      {number}
-                    </button>
-                  );
-                })
-              ) : (
-                <div className="col-span-3 text-center text-gray-500 py-6 text-sm sm:text-base">
-                  Loading your bit9o card...
+                      {num}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-gray-500 text-sm sm:text-base">No numbers drawn yet</div>
+                )}
+              </div>
+            </div>
+
+            {/* Player Card - Separate Box */}
+            <div className="bg-white border-2 border-gray-300 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6">
+              {/* BIT9O Letters inside the box */}
+              <div className="mb-4 sm:mb-6">
+                <div className="flex gap-2 sm:gap-3 text-white w-full h-16 sm:h-20">
+                  <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={isMobile ? 30 : 40} />
+                  <BoxCard letter="I" bgColor="#F37213" borderColor="#D82C23" fontSize={isMobile ? 30 : 40} />
+                  <BoxCard letter="T" bgColor="#FFD93D" borderColor="#BC7E06" fontSize={isMobile ? 30 : 40} />
+                  <BoxCard letter="9" bgColor="#C6B29B" borderColor="#7D6450" fontSize={isMobile ? 30 : 40} />
+                  <BoxCard letter="O" bgColor="#6BCB77" borderColor="#2C7A25" fontSize={isMobile ? 30 : 40} />
                 </div>
-              )}
+              </div>
+
+              <div className="text-center mb-4">
+                {isBit9o && (
+                  <div className="bg-green-500 text-white text-lg sm:text-xl font-bold py-2 px-4 rounded-lg mb-4">
+                    🎉 BIT9O! 🎉
+                  </div>
+                )}
+              </div>
+
+              {/* Bit9o Card Grid - 3x3 */}
+              <div className="max-w-xs mx-auto">
+                <div className="grid grid-cols-3 gap-3 border-4 border-gradient-to-r from-purple-500 to-blue-500 bg-gradient-to-br from-white via-blue-50 to-purple-50 rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 p-4">
+                  {card?.gridNumbers?.length > 0 ? (
+                    card.gridNumbers.map((number, index) => {
+                      const isMarked = markedNumbers.includes(number);
+
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => handleMarkNumber(number)}
+                          className={`w-16 h-16 sm:w-20 sm:h-20 text-lg sm:text-xl font-black border-2 rounded-2xl transition-colors duration-200 cursor-pointer ${
+                            isMarked 
+                              ? 'bg-green-100 border-green-300 hover:bg-green-200' 
+                              : 'bg-white text-gray-700 hover:bg-gray-100 border-gray-300'
+                          }`}
+                        >
+                          <div className="flex items-center justify-center h-full relative">
+                            <span className="text-lg sm:text-xl font-bold text-gray-700">{number}</span>
+                            {isMarked && (
+                              <div className="absolute top-1 right-1 w-6 h-6 sm:w-7 sm:h-7 bg-green-600 rounded-full flex items-center justify-center shadow-lg">
+                                <span className="text-white text-sm sm:text-base font-bold">✓</span>
+                              </div>
+                            )}
+                          </div>
+                        </button>
+                      );
+                    })
+                  ) : (
+                    <div className="col-span-3 text-center text-gray-500 py-8 text-sm sm:text-base bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl">
+                      <div className="animate-pulse">Loading your bit9o card...</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+
+              <div className="mt-4 sm:mt-6 text-center">
+                <button
+                  onClick={handleVerifyCard}
+                  disabled={markedNumbers.length === 0}
+                  className={`
+                    px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 transform
+                    ${
+                      markedNumbers.length > 0
+                        ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white cursor-pointer hover:scale-105 shadow-lg hover:shadow-xl'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }
+                  `}
+                >
+                  {markedNumbers.length > 0 ? '🎯 Verify Card!' : 'Mark Numbers First'}
+                </button>
+              </div>
             </div>
 
-            <div className="mt-4 sm:mt-6 text-center">
-              <p className="text-sm sm:text-base text-gray-700">
-                Marked: {markedNumbers.length} / {card?.gridNumbers?.length || 0}
-              </p>
-              <p className="text-xs sm:text-sm text-gray-500">Called numbers: {calledNumbers.length}</p>
-            </div>
-
-            <div className="mt-4 sm:mt-6 text-center">
-              <button
-                onClick={handleVerifyCard}
-                disabled={markedNumbers.length === 0}
-                className={`
-                  px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-colors text-sm sm:text-base
-                  ${
-                    markedNumbers.length > 0
-                      ? 'bg-green-500 hover:bg-green-600 text-white cursor-pointer'
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  }
-                `}
-              >
-                Verify Card
-              </button>
+            {/* Bottom: Players List */}
+            <div className="bg-white border-2 border-gray-300 rounded-xl p-4 sm:p-6 mt-6 sm:mt-8">
+              <h3 className="text-lg sm:text-xl font-bold text-center mb-3 sm:mb-4">Players ({players.length})</h3>
+              <ul className="space-y-2 sm:space-y-3 text-center text-base sm:text-lg max-h-40 overflow-y-auto">
+                {players.length > 0 ? (
+                  players.map((player, i) => (
+                    <li key={i} className="font-bold p-2 bg-gray-100 rounded text-sm sm:text-base">
+                      {player.name}
+                      {player.isHost && <span className="text-xs sm:text-sm text-blue-500 ml-2">(Host)</span>}
+                    </li>
+                  ))
+                ) : (
+                  <li className="text-gray-500 text-sm sm:text-base">No players yet</li>
+                )}
+              </ul>
+              <div className="mt-4 sm:mt-6 text-center">
+                <button
+                  onClick={handleExitRoom}
+                  className="bg-sky-400 hover:bg-sky-500 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-2xl text-sm sm:text-base"
+                >
+                  Exit Room
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -305,7 +394,9 @@ export function RoomPage() {
                   calledNumbers.map((num, i) => (
                     <div
                       key={i}
-                      className="w-12 h-12 sm:w-16 sm:h-16 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg text-sm sm:text-base"
+                      className={`w-12 h-12 sm:w-16 sm:h-16 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg text-sm sm:text-base transition-all duration-500 ${
+                        i === calledNumbers.length - 1 ? 'animate-bounce scale-125 ring-4 ring-yellow-400' : 'hover:scale-110'
+                      }`}
                     >
                       {num}
                     </div>
@@ -367,13 +458,29 @@ export function RoomPage() {
               {session?.isHost ? (
                 <button
                   onClick={handleDrawNumber}
-                  className="w-full h-full flex items-center justify-center text-lg sm:text-2xl font-bold border-[8px] sm:border-[14px] border-green-500 rounded-full bg-green-400 hover:bg-green-500 text-white transition-colors"
+                  disabled={isDrawing}
+                  className={`w-full h-full flex items-center justify-center text-lg sm:text-2xl font-bold border-[8px] sm:border-[14px] rounded-full transition-all duration-300 ${
+                    isDrawing 
+                      ? 'border-yellow-500 bg-yellow-400 animate-pulse' 
+                      : 'border-green-500 bg-green-400 hover:bg-green-500 hover:scale-105'
+                  }`}
                 >
-                  {currentNumber ? `Drew: ${currentNumber}` : 'Draw Number'}
+                  {isDrawing ? (
+                    <div className="text-center">
+                      <div className="text-4xl sm:text-6xl font-black animate-bounce">
+                        {newDrawnNumber || '🎲'}
+                      </div>
+                      <div className="text-xs sm:text-sm mt-1">Drawing...</div>
+                    </div>
+                  ) : (
+                    currentNumber ? `Drew: ${currentNumber}` : 'Draw Number'
+                  )}
                 </button>
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-3xl sm:text-5xl font-bold border-[8px] sm:border-[14px] border-black rounded-full bg-white">
-                  {currentNumber || '--'}
+                <div className={`w-full h-full flex items-center justify-center text-3xl sm:text-5xl font-bold border-[8px] sm:border-[14px] rounded-full transition-all duration-500 ${
+                  newDrawnNumber ? 'border-yellow-500 bg-yellow-300 animate-pulse scale-110' : 'border-black bg-white'
+                }`}>
+                  {newDrawnNumber || currentNumber || '--'}
                 </div>
               )}
             </div>
@@ -389,56 +496,6 @@ export function RoomPage() {
         </div>
       )}
 
-      {/* Compact Number View for Players when board is hidden */}
-      {!session?.isHost && !showNumberBoard && (
-        <div className="mb-6 sm:mb-8 w-full max-w-4xl">
-          <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left Column - Current Number */}
-              <div className="text-center">
-                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">Current Number</h3>
-                <div className="w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center text-xl sm:text-2xl font-bold border-[6px] sm:border-[8px] border-black rounded-full bg-yellow-300 mx-auto mb-3 sm:mb-4">
-                  {currentNumber || '--'}
-                </div>
-                <button
-                  onClick={() => setShowNumberBoard(true)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-colors text-sm sm:text-base"
-                >
-                  Show All Numbers
-                </button>
-              </div>
-
-              {/* Right Column - Player List and Exit Button */}
-              <div className="flex flex-col justify-between">
-                {/* Player List */}
-                <div className="mb-4">
-                  <h3 className="text-lg sm:text-xl font-bold text-center mb-3 sm:mb-4">Players ({players.length})</h3>
-                  <ul className="space-y-2 text-center text-sm sm:text-base max-h-32 overflow-y-auto">
-                    {players.length > 0 ? (
-                      players.map((player, i) => (
-                        <li key={i} className="font-bold p-2 bg-gray-100 rounded text-xs sm:text-sm">
-                          {player.name}
-                          {player.isHost && <span className="text-xs text-blue-500 ml-2">(Host)</span>}
-                        </li>
-                      ))
-                    ) : (
-                      <li className="text-gray-500 text-xs sm:text-sm">No players yet</li>
-                    )}
-                  </ul>
-                </div>
-
-                {/* Exit Button */}
-                <button
-                  onClick={handleExitRoom}
-                  className="bg-sky-400 hover:bg-sky-500 text-white font-bold px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base transition-colors"
-                >
-                  Exit Room
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Win Notification Modal */}
       {winNotification && (
@@ -453,13 +510,7 @@ export function RoomPage() {
                 ? `Congratulations! You got ${winNotification.winType}!`
                 : `${winNotification.playerName} won with ${winNotification.winType}!`}
             </p>
-            <div className="flex gap-4 justify-center">
-              <button
-                onClick={() => setWinNotification(null)}
-                className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-6 py-3 rounded-xl text-lg transition-colors"
-              >
-                {winNotification.isWinner ? 'Continue Playing' : 'OK'}
-              </button>
+            <div className="flex gap-4 justify-center">             
               <button
                 onClick={() => {
                   setWinNotification(null);
