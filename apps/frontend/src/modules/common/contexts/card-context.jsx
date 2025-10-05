@@ -22,8 +22,10 @@ export function CardProvider({ children }) {
       const cardData = await patchData(`/card/${playerId}`, { room: '' });
       console.log(cardData);
       if (cardData) {
+        setCard(cardData);
         localStorage.removeItem('playerId');
         localStorage.removeItem('sessionToken');
+        window.dispatchEvent(new CustomEvent('sessionUpdated'));
         return true;
       }
     } catch (error) {

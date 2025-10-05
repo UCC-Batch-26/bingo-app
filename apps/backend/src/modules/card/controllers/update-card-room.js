@@ -11,6 +11,18 @@ export async function updateCardRoom(req, res) {
       return res.status(404).json({ error: 'Card not found' });
     }
 
+    if (room === '' && card.room) {
+      const io = req.app.get('io');
+      if (io) {
+        io.to(card.room).emit('player-left', {
+          roomCode: card.room,
+          playerName: card.name,
+          playerId: card._id,
+        });
+        log('socket', `Emitted player-left event for room ${card.room}: ${card.name}`);
+      }
+    }
+
     return res.json(card);
   } catch (error) {
     log('getRoom', 'Unable to update Card:', error);

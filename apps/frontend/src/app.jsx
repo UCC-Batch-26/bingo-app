@@ -7,23 +7,26 @@ import { UnauthorizedPage } from './modules/common/Pages/unauthorized-page';
 import { RoomProvider } from './modules/Room/Contexts/room-context';
 import { SessionProvider } from './modules/common/contexts/session-context';
 import { CardProvider } from './modules/common/contexts/card-context';
+import { SocketProvider } from './modules/common/contexts/socket-context';
 
 function App() {
   return (
     <BrowserRouter>
-      <SessionProvider>
-        <RoomProvider>
-          <CardProvider>
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/lobby/:id" element={<LobbyPage />} />
-              <Route path="/room/:id" element={<RoomPage />} />
-              <Route path="/unauthorized" element={<UnauthorizedPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </CardProvider>
-        </RoomProvider>
-      </SessionProvider>
+      <SocketProvider>
+        <SessionProvider>
+          <RoomProvider>
+            <CardProvider>
+              <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/lobby/:id" element={<LobbyPage />} />
+                <Route path="/room/:id" element={<RoomPage />} />
+                <Route path="/unauthorized" element={<UnauthorizedPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </CardProvider>
+          </RoomProvider>
+        </SessionProvider>
+      </SocketProvider>
     </BrowserRouter>
   );
 }

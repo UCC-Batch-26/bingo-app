@@ -10,6 +10,16 @@ export async function createRoom(req, res) {
     const { mode } = req.body;
     const roomData = await Room.create({ code: randomCode, sessionToken, mode });
 
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('room-created', {
+        roomCode: randomCode,
+        mode: mode,
+        hostToken: sessionToken,
+      });
+      log('socket', `Emitted room-created event: ${randomCode}`);
+    }
+
     return res.status(201).json({
       message: 'Successfully created Room',
       data: roomData,

@@ -3,26 +3,123 @@ import { useParams, useNavigate } from 'react-router';
 import RoomContext from '@/modules/Room/Contexts/room-context';
 import CardContext from '@/modules/common/contexts/card-context';
 import SessionContext from '@/modules/common/contexts/session-context';
+import SocketContext from '@/modules/common/contexts/socket-context';
 
 export function RoomPage() {
   const { room, getRoom, updateRoomStatus, updateDrawnNumbers, verifyCard, error } = useContext(RoomContext);
   const { card, leaveRoom } = useContext(CardContext);
   const { session } = useContext(SessionContext);
+  const {
+    socket,
+    isConnected,
+    joinRoom,
+    leaveRoom: socketLeaveRoom,
+    onNumberDrawn,
+    offNumberDrawn,
+    onPlayerJoined,
+    offPlayerJoined,
+    onPlayerLeft,
+    offPlayerLeft,
+    onRoomStatusChanged,
+    offRoomStatusChanged,
+    onPlayerWon,
+    offPlayerWon,
+  } = useContext(SocketContext);
   const { id: roomCode } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (roomCode) {
       getRoom(roomCode);
+      joinRoom(roomCode);
     }
-  }, [roomCode]);
+
+    return () => {
+      if (roomCode) {
+        socketLeaveRoom(roomCode);
+      }
+    };
+  }, [roomCode, joinRoom, socketLeaveRoom]);
+
+  useEffect(() => {
+    const handleNumberDrawn = (data) => {
+      console.log('Number drawn:', data);
+      if (data.roomCode === roomCode) {
+        getRoom(roomCode);
+      }
+    };
+
+    const handlePlayerJoined = (data) => {
+      console.log('Player joined:', data);
+      if (data.roomCode === roomCode) {
+        getRoom(roomCode);
+      }
+    };
+
+    const handlePlayerLeft = (data) => {
+      console.log('Player left:', data);
+      if (data.roomCode === roomCode) {
+        getRoom(roomCode);
+      }
+    };
+
+    const handleRoomStatusChanged = (data) => {
+      console.log('Room status changed:', data);
+      if (data.roomCode === roomCode) {
+        getRoom(roomCode);
+        if (data.status === 'ended') {
+          navigate('/', { replace: true });
+        }
+      }
+    };
+
+    const handlePlayerWon = (data) => {
+      console.log('Player won:', data);
+      if (data.roomCode === roomCode) {
+        setWinNotification({
+          playerName: data.playerName,
+          winType: data.winType,
+          isWinner: false,
+        });
+      }
+    };
+
+    onNumberDrawn(handleNumberDrawn);
+    onPlayerJoined(handlePlayerJoined);
+    onPlayerLeft(handlePlayerLeft);
+    onRoomStatusChanged(handleRoomStatusChanged);
+    onPlayerWon(handlePlayerWon);
+
+    return () => {
+      offNumberDrawn(handleNumberDrawn);
+      offPlayerJoined(handlePlayerJoined);
+      offPlayerLeft(handlePlayerLeft);
+      offRoomStatusChanged(handleRoomStatusChanged);
+      offPlayerWon(handlePlayerWon);
+    };
+  }, [
+    roomCode,
+    getRoom,
+    navigate,
+    onNumberDrawn,
+    offNumberDrawn,
+    onPlayerJoined,
+    offPlayerJoined,
+    onPlayerLeft,
+    offPlayerLeft,
+    onRoomStatusChanged,
+    offRoomStatusChanged,
+    onPlayerWon,
+    offPlayerWon,
+  ]);
 
   const players = room?.players || [];
   const calledNumbers = room?.drawnNumber || [];
   const currentNumber = calledNumbers[calledNumbers.length - 1] || null;
   const [markedNumbers, setMarkedNumbers] = useState([]);
   const [isBit9o, setIsBit9o] = useState(false);
-  const [showNumberBoard, setShowNumberBoard] = useState(session?.isHost || false);
+  const [showNumberBoard, setShowNumberBoard] = useState(false);
+  const [winNotification, setWinNotification] = useState(null);
 
   const handleExitRoom = async () => {
     if (confirm('Are you sure you want to exit the room?')) {
@@ -74,9 +171,23 @@ export function RoomPage() {
     }
 
     try {
-      const result = await verifyCard(card._id);
-      if (result) {
-        alert('Card verification successful!');
+      const result = await verifyCard(card._id, markedNumbers);
+      if (result && result.data && result.data.isWin) {
+        if (socket && isConnected) {
+          socket.emit('player-won', {
+            roomCode: roomCode,
+            playerName: card?.name || 'Player',
+            playerId: card._id,
+            winType: 'BIT9O',
+          });
+        }
+
+        setWinNotification({
+          playerName: card?.name || 'You',
+          winType: 'BIT9O',
+          isWinner: true,
+        });
+        setIsBit9o(true);
       } else {
         alert('Card verification failed. Please check your marked numbers.');
       }
@@ -84,22 +195,6 @@ export function RoomPage() {
       alert('Error verifying card. Please try again.', error);
     }
   };
-
-  const checkBit9o = () => {
-    if (!card?.gridNumbers) return false;
-
-    const cardNumbers = card.gridNumbers;
-    const markedCount = cardNumbers.filter((num) => markedNumbers.includes(num)).length;
-    return markedCount === cardNumbers.length;
-  };
-
-  useEffect(() => {
-    const bit9o = checkBit9o();
-    setIsBit9o(bit9o);
-    if (bit9o) {
-      alert('BIT9O! You won!');
-    }
-  }, [markedNumbers, card]);
 
   if (error) {
     return (
@@ -125,16 +220,10 @@ export function RoomPage() {
         <div className="mb-6 sm:mb-8 w-full max-w-sm">
           <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-6">
             <div className="text-center mb-4 sm:mb-6">
-              <div className="flex flex-col sm:flex-row justify-between items-center mb-3 sm:mb-4 gap-3">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Your Bit9o Card</h2>
-                <button
-                  onClick={() => setShowNumberBoard(!showNumberBoard)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-colors text-sm sm:text-base"
-                >
-                  {showNumberBoard ? 'Hide Numbers' : 'Show Numbers'}
-                </button>
-              </div>
-              <p className="text-sm sm:text-base text-gray-600">Click on numbers that have been called</p>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">Your Bit9o Card</h2>
+              <p className="text-sm sm:text-base text-gray-600">
+                Listen carefully for called numbers and mark them on your card
+              </p>
               {isBit9o && (
                 <div className="bg-green-500 text-white text-lg sm:text-xl font-bold py-2 px-4 rounded-lg mt-3 sm:mt-4">
                   🎉 BIT9O! 🎉
@@ -146,25 +235,17 @@ export function RoomPage() {
               {card?.gridNumbers?.length > 0 ? (
                 card.gridNumbers.map((number, index) => {
                   const isMarked = markedNumbers.includes(number);
-                  const isCalled = calledNumbers.includes(number);
-                  const canMark = isCalled && !isMarked;
-                  const isMarkedAndCalled = isMarked && isCalled;
 
                   return (
                     <button
                       key={index}
                       onClick={() => handleMarkNumber(number)}
-                      disabled={!canMark && !isMarkedAndCalled}
                       className={`
                         w-14 h-14 sm:w-16 sm:h-16 rounded-lg text-base sm:text-lg font-bold transition-all duration-200
                         ${
-                          isMarkedAndCalled
+                          isMarked
                             ? 'bg-green-500 text-white shadow-lg transform scale-105'
-                            : canMark
-                              ? 'bg-yellow-300 text-black hover:bg-yellow-400 cursor-pointer'
-                              : isCalled
-                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300 cursor-pointer'
                         }
                       `}
                     >
@@ -345,6 +426,40 @@ export function RoomPage() {
                   Exit Room
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Win Notification Modal */}
+      {winNotification && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white border-8 border-yellow-400 rounded-2xl p-8 max-w-md text-center shadow-2xl">
+            <div className="text-6xl mb-4">🎉</div>
+            <h2 className="text-3xl font-bold text-yellow-600 mb-4">
+              {winNotification.isWinner ? 'YOU WON!' : 'SOMEONE WON!'}
+            </h2>
+            <p className="text-xl text-gray-700 mb-6">
+              {winNotification.isWinner
+                ? `Congratulations! You got ${winNotification.winType}!`
+                : `${winNotification.playerName} won with ${winNotification.winType}!`}
+            </p>
+            <div className="flex gap-4 justify-center">
+              <button
+                onClick={() => setWinNotification(null)}
+                className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-6 py-3 rounded-xl text-lg transition-colors"
+              >
+                {winNotification.isWinner ? 'Continue Playing' : 'OK'}
+              </button>
+              <button
+                onClick={() => {
+                  setWinNotification(null);
+                  handleExitRoom();
+                }}
+                className="bg-red-500 hover:bg-red-600 text-white font-bold px-6 py-3 rounded-xl text-lg transition-colors"
+              >
+                Leave Room
+              </button>
             </div>
           </div>
         </div>

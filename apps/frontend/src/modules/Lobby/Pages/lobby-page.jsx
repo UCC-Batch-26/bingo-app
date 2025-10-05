@@ -2,6 +2,7 @@ import CardContext from '@/modules/common/contexts/card-context';
 import SessionContext from '@/modules/common/contexts/session-context';
 import { BoxCard } from '@/modules/home/components/box-card';
 import RoomContext from '@/modules/Room/Contexts/room-context';
+import SocketContext from '@/modules/common/contexts/socket-context';
 import React from 'react';
 import { useContext } from 'react';
 import { useEffect } from 'react';
@@ -13,12 +14,53 @@ export function LobbyPage() {
   const { room, getRoom, updateRoomStatus } = useContext(RoomContext);
   const { id: roomCode } = useParams();
   const { card, leaveRoom } = useContext(CardContext);
+  const {
+    joinRoom,
+    leaveRoom: socketLeaveRoom,
+    onPlayerJoined,
+    offPlayerJoined,
+    onRoomStatusChanged,
+    offRoomStatusChanged,
+  } = useContext(SocketContext);
   const cardNumbers = card.gridNumbers;
   const navigate = useNavigate();
 
   useEffect(() => {
     getRoom(roomCode);
-  }, []);
+    joinRoom(roomCode);
+
+    return () => {
+      socketLeaveRoom(roomCode);
+    };
+  }, [roomCode, joinRoom, socketLeaveRoom]);
+
+  useEffect(() => {
+    const handlePlayerJoined = (data) => {
+      console.log('Player joined lobby:', data);
+      if (data.roomCode === roomCode) {
+        getRoom(roomCode);
+      }
+    };
+
+    const handleRoomStatusChanged = (data) => {
+      console.log('Room status changed in lobby:', data);
+      if (data.roomCode === roomCode) {
+        if (data.status === 'live') {
+          navigate(`/room/${roomCode}`, { replace: true });
+        } else {
+          getRoom(roomCode);
+        }
+      }
+    };
+
+    onPlayerJoined(handlePlayerJoined);
+    onRoomStatusChanged(handleRoomStatusChanged);
+
+    return () => {
+      offPlayerJoined(handlePlayerJoined);
+      offRoomStatusChanged(handleRoomStatusChanged);
+    };
+  }, [roomCode, getRoom, navigate, onPlayerJoined, offPlayerJoined, onRoomStatusChanged, offRoomStatusChanged]);
 
   const handleLeaveHost = async (e) => {
     e.preventDefault();

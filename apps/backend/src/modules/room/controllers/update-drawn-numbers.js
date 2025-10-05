@@ -7,6 +7,16 @@ export async function updateDrawnNumber(req, res) {
   try {
     const room = await Room.findOneAndUpdate({ code, status: 'live' }, { $push: { drawnNumber } }, { new: true });
 
+    const io = req.app.get('io');
+    if (io) {
+      io.to(code).emit('number-drawn', {
+        roomCode: code,
+        newNumber: drawnNumber,
+        allNumbers: room.drawnNumber,
+      });
+      log('socket', `Emitted number-drawn event for room ${code}: ${drawnNumber}`);
+    }
+
     return res.status(200).json(room);
   } catch (error) {
     log('getRoom', 'Unable to update Room Drawn Number:', error);
