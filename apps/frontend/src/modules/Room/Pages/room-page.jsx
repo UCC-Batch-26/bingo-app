@@ -228,12 +228,10 @@ export function RoomPage() {
 
     setNewDrawnNumber(newNumber);
 
-
     stopBGM();
 
     playNumberRevealSound();
 
-   
     if (socket && isConnected) {
       socket.emit('play-sound', {
         roomCode: roomCode,
