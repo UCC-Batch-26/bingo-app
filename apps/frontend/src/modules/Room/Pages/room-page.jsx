@@ -145,17 +145,17 @@ export function RoomPage() {
     }
 
     setIsDrawing(true);
-    
+
     // Animation sequence: show random numbers before revealing the actual number
     const animationNumbers = [];
     for (let i = 0; i < 8; i++) {
       animationNumbers.push(Math.floor(Math.random() * 30) + 1);
     }
-    
+
     // Show animation numbers rapidly
     for (let i = 0; i < animationNumbers.length; i++) {
       setNewDrawnNumber(animationNumbers[i]);
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
     // Get the actual number to draw
@@ -166,11 +166,11 @@ export function RoomPage() {
 
     // Show the final number with a longer pause
     setNewDrawnNumber(newNumber);
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     // Update the room with the new number
     await updateDrawnNumbers(room.code, newNumber);
-    
+
     // Clear the animation state
     setIsDrawing(false);
     setNewDrawnNumber(null);
@@ -263,7 +263,9 @@ export function RoomPage() {
                     <div
                       key={i}
                       className={`w-8 h-8 sm:w-10 sm:h-10 bg-red-500 text-white rounded-full flex items-center justify-center shadow transition-all duration-500 ${
-                        i === calledNumbers.length - 1 ? 'animate-pulse scale-110 ring-4 ring-yellow-400' : 'hover:scale-105'
+                        i === calledNumbers.length - 1
+                          ? 'animate-pulse scale-110 ring-4 ring-yellow-400'
+                          : 'hover:scale-105'
                       }`}
                     >
                       {num}
@@ -308,8 +310,8 @@ export function RoomPage() {
                           key={index}
                           onClick={() => handleMarkNumber(number)}
                           className={`w-16 h-16 sm:w-20 sm:h-20 text-lg sm:text-xl font-black border-2 rounded-2xl transition-colors duration-200 cursor-pointer ${
-                            isMarked 
-                              ? 'bg-green-100 border-green-300 hover:bg-green-200' 
+                            isMarked
+                              ? 'bg-green-100 border-green-300 hover:bg-green-200'
                               : 'bg-white text-gray-700 hover:bg-gray-100 border-gray-300'
                           }`}
                         >
@@ -331,7 +333,6 @@ export function RoomPage() {
                   )}
                 </div>
               </div>
-
 
               <div className="mt-4 sm:mt-6 text-center">
                 <button
@@ -395,7 +396,9 @@ export function RoomPage() {
                     <div
                       key={i}
                       className={`w-12 h-12 sm:w-16 sm:h-16 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg text-sm sm:text-base transition-all duration-500 ${
-                        i === calledNumbers.length - 1 ? 'animate-bounce scale-125 ring-4 ring-yellow-400' : 'hover:scale-110'
+                        i === calledNumbers.length - 1
+                          ? 'animate-bounce scale-125 ring-4 ring-yellow-400'
+                          : 'hover:scale-110'
                       }`}
                     >
                       {num}
@@ -460,26 +463,28 @@ export function RoomPage() {
                   onClick={handleDrawNumber}
                   disabled={isDrawing}
                   className={`w-full h-full flex items-center justify-center text-lg sm:text-2xl font-bold border-[8px] sm:border-[14px] rounded-full transition-all duration-300 ${
-                    isDrawing 
-                      ? 'border-yellow-500 bg-yellow-400 animate-pulse' 
+                    isDrawing
+                      ? 'border-yellow-500 bg-yellow-400 animate-pulse'
                       : 'border-green-500 bg-green-400 hover:bg-green-500 hover:scale-105'
                   }`}
                 >
                   {isDrawing ? (
                     <div className="text-center">
-                      <div className="text-4xl sm:text-6xl font-black animate-bounce">
-                        {newDrawnNumber || '🎲'}
-                      </div>
+                      <div className="text-4xl sm:text-6xl font-black animate-bounce">{newDrawnNumber || '🎲'}</div>
                       <div className="text-xs sm:text-sm mt-1">Drawing...</div>
                     </div>
+                  ) : currentNumber ? (
+                    `Drew: ${currentNumber}`
                   ) : (
-                    currentNumber ? `Drew: ${currentNumber}` : 'Draw Number'
+                    'Draw Number'
                   )}
                 </button>
               ) : (
-                <div className={`w-full h-full flex items-center justify-center text-3xl sm:text-5xl font-bold border-[8px] sm:border-[14px] rounded-full transition-all duration-500 ${
-                  newDrawnNumber ? 'border-yellow-500 bg-yellow-300 animate-pulse scale-110' : 'border-black bg-white'
-                }`}>
+                <div
+                  className={`w-full h-full flex items-center justify-center text-3xl sm:text-5xl font-bold border-[8px] sm:border-[14px] rounded-full transition-all duration-500 ${
+                    newDrawnNumber ? 'border-yellow-500 bg-yellow-300 animate-pulse scale-110' : 'border-black bg-white'
+                  }`}
+                >
                   {newDrawnNumber || currentNumber || '--'}
                 </div>
               )}
@@ -496,7 +501,6 @@ export function RoomPage() {
         </div>
       )}
 
-
       {/* Win Notification Modal */}
       {winNotification && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -510,7 +514,7 @@ export function RoomPage() {
                 ? `Congratulations! You got ${winNotification.winType}!`
                 : `${winNotification.playerName} won with ${winNotification.winType}!`}
             </p>
-            <div className="flex gap-4 justify-center">             
+            <div className="flex gap-4 justify-center">
               <button
                 onClick={() => {
                   setWinNotification(null);

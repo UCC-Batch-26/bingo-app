@@ -8,7 +8,7 @@ export function SocketProvider({ children }) {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const newSocket = io(import.meta.env.VITE_API_URL || 'http://localhost:3000' || 'https://www.bit9o.com/', {
+    const newSocket = io(import.meta.env.VITE_API_URL || 'https://www.bit9o.com/', {
       autoConnect: true,
     });
 

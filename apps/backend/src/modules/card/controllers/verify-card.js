@@ -21,17 +21,15 @@ export async function verifyCard(req, res) {
       return res.status(404).json({
         message: 'Room not found',
       });
-    } 
+    }
 
-   
     const drawnNumbers = (room.drawnNumber || []).map((n) => Number(n));
     const cardNumbers = (card.gridNumbers || []).map((n) => Number(n));
     const marked = Array.isArray(markedNumbers) ? markedNumbers.map((n) => Number(n)) : [];
 
- 
     const allMarkedAreDrawn = marked.length > 0 ? marked.every((num) => drawnNumbers.includes(num)) : false;
     const markedNumbersMatchCard = marked.length > 0 ? marked.every((num) => cardNumbers.includes(num)) : false;
-  
+
     isWinner = marked.length > 0 && allMarkedAreDrawn && markedNumbersMatchCard;
 
     if (!isWinner) {
