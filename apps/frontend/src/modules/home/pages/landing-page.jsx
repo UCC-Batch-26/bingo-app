@@ -7,6 +7,7 @@ import { useAudio } from '@/hooks/use-audio';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import RoomContext from '@/modules/Room/Contexts/room-context';
+import { Footer } from '@/modules/common/components/footer';
 
 export function LandingPage() {
   const { createRoom, joinRoom, error, clearError } = useContext(RoomContext);
@@ -192,8 +193,8 @@ export function LandingPage() {
           </div>
 
           <div className="flex-[1] size flex-center flex-col gap-[20px] max-sm:mt-[50px]">
-            <div className="w-[80%] h-[auto]">
-              <p className="text-[18px font-[700] text-[#564D43]">🎲 HOW TO PLAY</p>
+              <div className="w-[80%] h-[auto]">
+                <p className="text-[18px] font-[700] text-[#564D43]">🎲 HOW TO PLAY</p>
             </div>
             <HowToPlayCards
               type="Host"
@@ -240,6 +241,7 @@ export function LandingPage() {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   );
