@@ -43,11 +43,9 @@ export function SocketProvider({ children }) {
         pusher.unsubscribe(`room-${currentRoom}`);
       }
 
-      // Subscribe to new room
       const channel = pusher.subscribe(`room-${roomCode}`);
       setCurrentRoom(roomCode);
 
-      // Log channel event listeners
       channel.bind('pusher:subscription_succeeded', () => {
         console.log('Successfully subscribe to room:', roomCode);
       });
