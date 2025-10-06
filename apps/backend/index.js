@@ -25,7 +25,6 @@ app.set('port', port);
 
 const server = http.createServer(app);
 
-// Initialize Pusher
 const pusher = new Pusher({
   appId: process.env.APP_ID,
   key: process.env.KEY,
