@@ -46,7 +46,11 @@ export function LandingPage() {
         <header className="flex-[0.5] size flex justify-center items-start max-sm:mt-[10px]">
           <nav className="border-[2px] border-[#E25645] bg-[#f9f9f9] w-[95%] h-[70px] rounded-[10px] flex-center px-[20px] max-sm:h-[50px]">
             <div className="w-[70px] h-[70px] max-sm:w-[45px] max-sm:h-[45px]">
-              <img src="https://res.cloudinary.com/dks2psaem/image/upload/v1759745114/bit9o_icon_xpjb9p.ico" className='w-[100%] h-[100%]' alt="" />
+              <img
+                src="https://res.cloudinary.com/dks2psaem/image/upload/v1759745114/bit9o_icon_xpjb9p.ico"
+                className="w-[100%] h-[100%]"
+                alt=""
+              />
             </div>
             <div className="flex-[1]"></div>
           </nav>
