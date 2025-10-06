@@ -8,11 +8,9 @@ export async function updateRoomStatus(req, res) {
   try {
     const room = await Room.findOneAndUpdate({ code }, { $set: { status } }, { new: true });
 
-    // If room is being ended, remove all players from the room
     if (status === 'ended') {
       const playersInRoom = await Card.find({ room: code });
 
-      // Remove all players from the room
       await Card.updateMany({ room: code }, { $set: { room: '' } });
 
       log('room', `Removed ${playersInRoom.length} players from room ${code} because host left`);
