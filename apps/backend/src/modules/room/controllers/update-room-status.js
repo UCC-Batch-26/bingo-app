@@ -8,58 +8,38 @@ export async function updateRoomStatus(req, res) {
   try {
     const room = await Room.findOneAndUpdate({ code }, { $set: { status } }, { new: true });
 
-    // If room is being ended, remove all players from the room
+
     if (status === 'ended') {
       const playersInRoom = await Card.find({ room: code });
 
+    
       await Card.updateMany({ room: code }, { $set: { room: '' } });
 
       log('room', `Removed ${playersInRoom.length} players from room ${code} because host left`);
 
+      // Notify each player that they've been removed
       const pusher = req.app.get('pusher');
       if (pusher && playersInRoom.length > 0) {
-        log('pusher', `Attempting to notify ${playersInRoom.length} players that host left room ${code}`);
         for (const player of playersInRoom) {
-          pusher
-            .trigger(`room-${code}`, 'player-left', {
-              roomCode: code,
-              playerName: player.name,
-              playerId: player._id,
-              reason: 'host-left',
-            })
-            .then(() => {
-              log('pusher', `Successfully notified player ${player.name} that host left room ${code}`);
-            })
-            .catch((error) => {
-              log(
-                'pusher',
-                `ERROR: Failed to notify player ${player.name} that host left room ${code}:`,
-                error.message,
-              );
-            });
+          pusher.trigger(`room-${code}`, 'player-left', {
+            roomCode: code,
+            playerName: player.name,
+            playerId: player._id,
+            reason: 'host-left',
+          });
         }
-      } else if (!pusher) {
-        log('pusher', `ERROR: Pusher instance not available for host-left notifications in room ${code}`);
+        log('pusher', `Notified ${playersInRoom.length} players that host left room ${code}`);
       }
     }
 
     const pusher = req.app.get('pusher');
     if (pusher) {
-      log('pusher', `Attempting to trigger room-status-changed event for room ${code}: ${status}`);
-      pusher
-        .trigger(`room-${code}`, 'room-status-changed', {
-          roomCode: code,
-          status: status,
-          room: room,
-        })
-        .then(() => {
-          log('pusher', `Successfully triggered room-status-changed event for room ${code}: ${status}`);
-        })
-        .catch((error) => {
-          log('pusher', `ERROR: Failed to trigger room-status-changed event for room ${code}:`, error.message);
-        });
-    } else {
-      log('pusher', `ERROR: Pusher instance not available for room-status-changed event in room ${code}`);
+      pusher.trigger(`room-${code}`, 'room-status-changed', {
+        roomCode: code,
+        status: status,
+        room: room,
+      });
+      log('pusher', `Triggered room-status-changed event for room ${code}: ${status}`);
     }
 
     return res.status(200).json(room);

@@ -9,21 +9,12 @@ export async function updateDrawnNumber(req, res) {
 
     const pusher = req.app.get('pusher');
     if (pusher) {
-      log('pusher', `Attempting to trigger number-drawn event for room ${code}: ${drawnNumber}`);
-      pusher
-        .trigger(`room-${code}`, 'number-drawn', {
-          roomCode: code,
-          newNumber: drawnNumber,
-          allNumbers: room.drawnNumber,
-        })
-        .then(() => {
-          log('pusher', `Successfully triggered number-drawn event for room ${code}: ${drawnNumber}`);
-        })
-        .catch((error) => {
-          log('pusher', `ERROR: Failed to trigger number-drawn event for room ${code}:`, error.message);
-        });
-    } else {
-      log('pusher', `ERROR: Pusher instance not available for number-drawn event in room ${code}`);
+      pusher.trigger(`room-${code}`, 'number-drawn', {
+        roomCode: code,
+        newNumber: drawnNumber,
+        allNumbers: room.drawnNumber,
+      });
+      log('pusher', `Triggered number-drawn event for room ${code}: ${drawnNumber}`);
     }
 
     return res.status(200).json(room);
