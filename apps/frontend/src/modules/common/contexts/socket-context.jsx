@@ -10,9 +10,8 @@ export function SocketProvider({ children }) {
 
   useEffect(() => {
     const pusherKey = '77e522a933cb626f5be0';
-    const pusherCluster = 'ap1';   
-    
-    
+    const pusherCluster = 'ap1';
+
     const newPusher = new Pusher(pusherKey, {
       cluster: pusherCluster,
       encrypted: true,
