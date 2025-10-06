@@ -60,8 +60,12 @@ export function LandingPage() {
       <div className=" w-[68%] h-[95%] flex-center flex-col max-sm:w-[100%] max-h-[100%]">
         <header className="flex-[0.5] size flex justify-center items-start max-sm:mt-[10px]">
           <nav className="border-[2px] border-[#E25645] bg-[#f9f9f9] w-[95%] h-[70px] rounded-[10px] flex-center px-[20px] max-sm:h-[50px]">
-            <div className="w-[40px] h-[40px] max-sm:w-[35px] max-sm:h-[35px]">
-              <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={isMobile ? 25 : 35} />
+            <div className="w-[70px] h-[70px] max-sm:w-[45px] max-sm:h-[45px]">
+              <img
+                src="https://res.cloudinary.com/dks2psaem/image/upload/v1759745114/bit9o_icon_xpjb9p.ico"
+                className="w-[100%] h-[100%]"
+                alt=""
+              />
             </div>
             <div className="flex-[1]"></div>
           </nav>
@@ -80,7 +84,7 @@ export function LandingPage() {
                   play together online—whether you’re near or far. Simple, social, and full of laughs, bingo nights are
                   now just a click away.
                 </p>
-                <div className="w-[100%] h-[100px] border max-sm:hidden"></div>
+                <div className="w-[100%] h-[100px] max-sm:hidden"></div>
               </div>
             </div>
           </div>
