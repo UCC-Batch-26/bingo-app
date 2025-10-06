@@ -9,8 +9,12 @@ export function SocketProvider({ children }) {
   const [currentRoom, setCurrentRoom] = useState(null);
 
   useEffect(() => {
-    const newPusher = new Pusher('77e522a933cb626f5be0', {
-      cluster: 'ap1',
+    const pusherKey = '77e522a933cb626f5be0';
+    const pusherCluster = 'ap1';   
+    
+    
+    const newPusher = new Pusher(pusherKey, {
+      cluster: pusherCluster,
       encrypted: true,
     });
 
