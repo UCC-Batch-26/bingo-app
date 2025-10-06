@@ -193,8 +193,8 @@ export function LandingPage() {
           </div>
 
           <div className="flex-[1] size flex-center flex-col gap-[20px] max-sm:mt-[50px]">
-              <div className="w-[80%] h-[auto]">
-                <p className="text-[18px] font-[700] text-[#564D43]">🎲 HOW TO PLAY</p>
+            <div className="w-[80%] h-[auto]">
+              <p className="text-[18px] font-[700] text-[#564D43]">🎲 HOW TO PLAY</p>
             </div>
             <HowToPlayCards
               type="Host"

@@ -42,10 +42,10 @@ export function SocketProvider({ children }) {
       if (currentRoom) {
         pusher.unsubscribe(`room-${currentRoom}`);
       }
-    
+
       const channel = pusher.subscribe(`room-${roomCode}`);
       setCurrentRoom(roomCode);
-    
+
       channel.bind('pusher:subscription_succeeded', () => {
         console.log('Successfully subscribe to room:', roomCode);
       });
