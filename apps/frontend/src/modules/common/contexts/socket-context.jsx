@@ -163,7 +163,6 @@ export function SocketProvider({ children }) {
   return (
     <SocketContext.Provider
       value={{
-        socket: pusher, // Keep socket name for backward compatibility
         pusher,
         isConnected,
         joinRoom,
