@@ -156,7 +156,7 @@ export function RoomPage() {
 
     // Animation sequence: show random numbers before revealing the actual number
     const animationNumbers = [];
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 5; i++) {
       animationNumbers.push(Math.floor(Math.random() * 30) + 1);
     }
 
@@ -171,7 +171,7 @@ export function RoomPage() {
     } while (calledNumbers.includes(newNumber));
 
     setNewDrawnNumber(newNumber);
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     await updateDrawnNumbers(room.code, newNumber);
 
