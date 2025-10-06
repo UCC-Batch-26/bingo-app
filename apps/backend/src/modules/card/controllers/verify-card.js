@@ -60,18 +60,19 @@ export async function verifyCard(req, res) {
     const pusher = req.app.get('pusher');
     if (pusher) {
       log('pusher', `Attempting to trigger player-won event for room ${card.room}: ${card.name}`);
-      pusher.trigger(`room-${card.room}`, 'player-won', {
-        roomCode: card.room,
-        playerName: card.name || 'Player',
-        playerId: card._id,
-        winType: 'BIT9O',
-      })
-      .then(() => {
-        log('pusher', `Successfully triggered player-won event for room ${card.room}: ${card.name}`);
-      })
-      .catch((error) => {
-        log('pusher', `ERROR: Failed to trigger player-won event for room ${card.room}:`, error.message);
-      });
+      pusher
+        .trigger(`room-${card.room}`, 'player-won', {
+          roomCode: card.room,
+          playerName: card.name || 'Player',
+          playerId: card._id,
+          winType: 'BIT9O',
+        })
+        .then(() => {
+          log('pusher', `Successfully triggered player-won event for room ${card.room}: ${card.name}`);
+        })
+        .catch((error) => {
+          log('pusher', `ERROR: Failed to trigger player-won event for room ${card.room}:`, error.message);
+        });
     } else {
       log('pusher', `ERROR: Pusher instance not available for player-won event in room ${card.room}`);
     }

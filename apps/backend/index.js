@@ -65,18 +65,18 @@ try {
     cluster: process.env.PUSHER_CLUSTER,
     useTLS: true,
   });
-  
+
   log('pusher', 'Pusher instance created successfully');
-  
+
   // Test Pusher connection by triggering a test event
-  pusher.trigger('test-channel', 'test-event', { message: 'Pusher connection test' })
+  pusher
+    .trigger('test-channel', 'test-event', { message: 'Pusher connection test' })
     .then(() => {
       log('pusher', 'Pusher connection test successful');
     })
     .catch((error) => {
       log('pusher', 'ERROR: Pusher connection test failed:', error.message);
     });
-    
 } catch (error) {
   log('pusher', 'ERROR: Failed to create Pusher instance:', error.message);
   log('pusher', 'Pusher will not be available for real-time features');

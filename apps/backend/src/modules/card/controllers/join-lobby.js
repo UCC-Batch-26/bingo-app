@@ -23,17 +23,18 @@ export async function joinLobby(req, res) {
     const pusher = req.app.get('pusher');
     if (pusher) {
       log('pusher', `Attempting to trigger player-joined event for room ${room}: ${name}`);
-      pusher.trigger(`room-${room}`, 'player-joined', {
-        roomCode: room,
-        playerName: name,
-        playerId: card._id,
-      })
-      .then(() => {
-        log('pusher', `Successfully triggered player-joined event for room ${room}: ${name}`);
-      })
-      .catch((error) => {
-        log('pusher', `ERROR: Failed to trigger player-joined event for room ${room}:`, error.message);
-      });
+      pusher
+        .trigger(`room-${room}`, 'player-joined', {
+          roomCode: room,
+          playerName: name,
+          playerId: card._id,
+        })
+        .then(() => {
+          log('pusher', `Successfully triggered player-joined event for room ${room}: ${name}`);
+        })
+        .catch((error) => {
+          log('pusher', `ERROR: Failed to trigger player-joined event for room ${room}:`, error.message);
+        });
     } else {
       log('pusher', `ERROR: Pusher instance not available for player-joined event in room ${room}`);
     }
