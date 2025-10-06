@@ -7,12 +7,10 @@ import SocketContext from '@/modules/common/contexts/socket-context';
 import { BoxCard } from '@/modules/home/components/box-card';
 
 export function RoomPage() {
-  const { room, getRoom, updateRoomStatus, updateDrawnNumbers, verifyCard, error } = useContext(RoomContext);
+  const { room, getRoom, updateRoomStatus, updateDrawnNumbers, verifyCard } = useContext(RoomContext);
   const { card, leaveRoom } = useContext(CardContext);
   const { session } = useContext(SessionContext);
-  const {
-    socket,
-    isConnected,
+  const { 
     joinRoom,
     leaveRoom: socketLeaveRoom,
     onNumberDrawn,
@@ -43,45 +41,50 @@ export function RoomPage() {
   }, [roomCode, joinRoom, socketLeaveRoom]);
 
   useEffect(() => {
-    const handleNumberDrawn = (data) => {
-      console.log('Number drawn:', data);
+    const handleNumberDrawn = (data) => {   
       if (data.roomCode === roomCode) {
         getRoom(roomCode);
       }
     };
 
-    const handlePlayerJoined = (data) => {
-      console.log('Player joined:', data);
+    const handlePlayerJoined = (data) => {     
       if (data.roomCode === roomCode) {
         getRoom(roomCode);
       }
     };
 
-    const handlePlayerLeft = (data) => {
-      console.log('Player left:', data);
-      if (data.roomCode === roomCode) {
-        getRoom(roomCode);
+    const handlePlayerLeft = (data) => {   
+      if (data.roomCode === roomCode) {    
+        if (data.reason === 'host-left') {
+          alert('Host has left the room. You have been removed from the game.');
+          navigate('/', { replace: true });
+        } else {
+          getRoom(roomCode);
+        }
       }
     };
 
     const handleRoomStatusChanged = (data) => {
-      console.log('Room status changed:', data);
       if (data.roomCode === roomCode) {
         getRoom(roomCode);
         if (data.status === 'ended') {
+          alert('Host has ended the room. You have been removed from the game.');
           navigate('/', { replace: true });
         }
       }
     };
 
-    const handlePlayerWon = (data) => {
-      console.log('Player won:', data);
-      if (data.roomCode === roomCode) {
+    const handlePlayerWon = (data) => {    
+      if (data.roomCode === roomCode) {     
+        
         setWinNotification({
-          playerName: data.playerName,
-          winType: data.winType,
-          isWinner: false,
+          playerName: data.playerName || 'Unknown Player',
+          winType: data.winType || 'BIT9O',
+          isWinner: data.playerId === card?._id, // Check if this is the current player
         });
+        setIsBit9o(true);
+      } else {
+        console.log('Player won event for different room:', data.roomCode, 'current room:', roomCode);
       }
     };
 
@@ -123,6 +126,7 @@ export function RoomPage() {
   const [winNotification, setWinNotification] = useState(null);
   const [newDrawnNumber, setNewDrawnNumber] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [verificationError, setVerificationError] = useState(null);
 
   const handleExitRoom = async () => {
     if (confirm('Are you sure you want to exit the room?')) {
@@ -144,6 +148,11 @@ export function RoomPage() {
       return;
     }
 
+    if (calledNumbers.length >= 30) {
+      alert('All 30 numbers have been drawn! Game is over.');
+      return;
+    }
+
     setIsDrawing(true);
 
     // Animation sequence: show random numbers before revealing the actual number
@@ -152,26 +161,25 @@ export function RoomPage() {
       animationNumbers.push(Math.floor(Math.random() * 30) + 1);
     }
 
-    // Show animation numbers rapidly
+ 
     for (let i = 0; i < animationNumbers.length; i++) {
       setNewDrawnNumber(animationNumbers[i]);
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 200));
     }
 
-    // Get the actual number to draw
+  
     let newNumber;
     do {
       newNumber = Math.floor(Math.random() * 30) + 1;
     } while (calledNumbers.includes(newNumber));
 
-    // Show the final number with a longer pause
+  
     setNewDrawnNumber(newNumber);
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
-    // Update the room with the new number
+
     await updateDrawnNumbers(room.code, newNumber);
-
-    // Clear the animation state
+  
     setIsDrawing(false);
     setNewDrawnNumber(null);
   };
@@ -195,18 +203,15 @@ export function RoomPage() {
       return;
     }
 
-    try {
-      const result = await verifyCard(card._id, markedNumbers);
-      if (result && result.data && result.data.isWin) {
-        if (socket && isConnected) {
-          socket.emit('player-won', {
-            roomCode: roomCode,
-            playerName: card?.name || 'Player',
-            playerId: card._id,
-            winType: 'BIT9O',
-          });
-        }
+    if (markedNumbers.length !== 9) {
+      alert(`You need to mark all 9 numbers on your card. Currently marked: ${markedNumbers.length}/9`);
+      return;
+    }
 
+    try {
+      const result = await verifyCard(card._id, markedNumbers);     
+      
+      if (result && result.data && result.data.isWin) {     
         setWinNotification({
           playerName: card?.name || 'You',
           winType: 'BIT9O',
@@ -214,34 +219,50 @@ export function RoomPage() {
         });
         setIsBit9o(true);
       } else {
-        alert('Card verification failed. Please check your marked numbers.');
+        setVerificationError({
+          message: 'Not Win Yet',
+          details: 'Please check your marked numbers and try again.'
+        });
       }
     } catch (error) {
-      alert('Error verifying card. Please try again.', error);
+      console.error('Verification error:', error);
+      setVerificationError({
+        message: 'Failed to verify card',
+        details: 'Please try again.'
+      });
     }
   };
 
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 p-10">
-        <div className="bg-white border-8 border-red-400 rounded-2xl p-10 max-w-md text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">Error</h2>
-          <p className="text-lg mb-6">{error}</p>
-          <button
-            onClick={() => navigate('/')}
-            className="bg-sky-400 hover:bg-sky-500 text-white font-bold px-8 py-3 rounded-2xl"
-          >
-            Go Home
-          </button>
-        </div>
-      </div>
-    );
-  }
+  
 
   const isMobile = window.innerWidth < 768;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 p-4 sm:p-10">
+      {/* Winner Banner - Shows at top for all players */}
+      {winNotification && (
+        <div className="fixed top-0 left-0 right-0 z-40 bg-yellow-400 border-b-4 border-yellow-600 shadow-lg">
+          <div className="text-center py-4 px-4 relative">
+            <button
+              onClick={() => setWinNotification(null)}
+              className="absolute top-2 right-4 text-gray-600 hover:text-gray-800 text-2xl font-bold"
+              title="Close notification"
+            >
+              ×
+            </button>
+            <div className="text-2xl sm:text-4xl font-black text-red-600 mb-2">
+              🎉 WINNER ANNOUNCEMENT! 🎉
+            </div>
+            <div className="text-lg sm:text-2xl font-bold text-gray-800">
+              {winNotification.isWinner ? (
+                <span className="text-green-600">Congratulations! You won {winNotification.winType}!</span>
+              ) : (
+                <span className="text-blue-600">{winNotification.playerName} won {winNotification.winType}!</span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       {/* Player View: Numbers on top, Card in middle, Players at bottom */}
       {!session?.isHost && card && (
         <div className="mb-6 sm:mb-8 w-full max-w-2xl">
@@ -337,17 +358,17 @@ export function RoomPage() {
               <div className="mt-4 sm:mt-6 text-center">
                 <button
                   onClick={handleVerifyCard}
-                  disabled={markedNumbers.length === 0}
+                  disabled={markedNumbers.length !== 9}
                   className={`
                     px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 transform
                     ${
-                      markedNumbers.length > 0
+                      markedNumbers.length === 9
                         ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white cursor-pointer hover:scale-105 shadow-lg hover:shadow-xl'
                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }
                   `}
                 >
-                  {markedNumbers.length > 0 ? '🎯 Verify Card!' : 'Mark Numbers First'}
+                  {markedNumbers.length === 9 ? '🎯 Verify Card!' : `Mark All Numbers (${markedNumbers.length}/9)`}
                 </button>
               </div>
             </div>
@@ -461,17 +482,26 @@ export function RoomPage() {
               {session?.isHost ? (
                 <button
                   onClick={handleDrawNumber}
-                  disabled={isDrawing}
+                  disabled={isDrawing || calledNumbers.length >= 30}
                   className={`w-full h-full flex items-center justify-center text-lg sm:text-2xl font-bold border-[8px] sm:border-[14px] rounded-full transition-all duration-300 ${
                     isDrawing
                       ? 'border-yellow-500 bg-yellow-400 animate-pulse'
+                      : calledNumbers.length >= 30
+                      ? 'border-gray-400 bg-gray-300 cursor-not-allowed'
                       : 'border-green-500 bg-green-400 hover:bg-green-500 hover:scale-105'
                   }`}
                 >
                   {isDrawing ? (
                     <div className="text-center">
-                      <div className="text-4xl sm:text-6xl font-black animate-bounce">{newDrawnNumber || '🎲'}</div>
+                      <div className="text-6xl sm:text-8xl font-black animate-spin">
+                        {newDrawnNumber ? newDrawnNumber : '🎲'}
+                      </div>
                       <div className="text-xs sm:text-sm mt-1">Drawing...</div>
+                    </div>
+                  ) : calledNumbers.length >= 30 ? (
+                    <div className="text-center">
+                      <div className="text-2xl sm:text-3xl font-black">Game Over</div>
+                      <div className="text-xs sm:text-sm mt-1">All 30 numbers drawn</div>
                     </div>
                   ) : currentNumber ? (
                     `Drew: ${currentNumber}`
@@ -482,10 +512,16 @@ export function RoomPage() {
               ) : (
                 <div
                   className={`w-full h-full flex items-center justify-center text-3xl sm:text-5xl font-bold border-[8px] sm:border-[14px] rounded-full transition-all duration-500 ${
-                    newDrawnNumber ? 'border-yellow-500 bg-yellow-300 animate-pulse scale-110' : 'border-black bg-white'
+                    newDrawnNumber ? 'border-yellow-500 bg-yellow-300 scale-110' : 'border-black bg-white'
                   }`}
                 >
-                  {newDrawnNumber || currentNumber || '--'}
+                  {newDrawnNumber ? (
+                    <div className="animate-spin text-4xl sm:text-6xl">
+                      {newDrawnNumber}
+                    </div>
+                  ) : (
+                    currentNumber || '--'
+                  )}
                 </div>
               )}
             </div>
@@ -503,26 +539,58 @@ export function RoomPage() {
 
       {/* Win Notification Modal */}
       {winNotification && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white border-8 border-yellow-400 rounded-2xl p-8 max-w-md text-center shadow-2xl">
-            <div className="text-6xl mb-4">🎉</div>
-            <h2 className="text-3xl font-bold text-yellow-600 mb-4">
-              {winNotification.isWinner ? 'YOU WON!' : 'SOMEONE WON!'}
+        <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+          <div className="bg-yellow-100 border-8 border-yellow-500 rounded-3xl p-8 max-w-lg text-center shadow-2xl">
+            <div className="text-8xl mb-6">🎉</div>
+            <h2 className="text-4xl font-black text-yellow-700 mb-6">
+              {winNotification.isWinner ? '🎊 YOU WON! 🎊' : '🏆 WINNER! 🏆'}
             </h2>
-            <p className="text-xl text-gray-700 mb-6">
-              {winNotification.isWinner
-                ? `Congratulations! You got ${winNotification.winType}!`
-                : `${winNotification.playerName} won with ${winNotification.winType}!`}
-            </p>
+            <div className="bg-white rounded-2xl p-6 mb-6 border-4 border-yellow-400">
+              <p className="text-2xl font-bold text-gray-800 mb-2">
+                {winNotification.isWinner ? 'Congratulations!' : 'Winner:'}
+              </p>
+              <p className="text-3xl font-black text-blue-600 mb-2">
+                {winNotification.playerName}
+              </p>
+              <p className="text-xl text-gray-700">
+                Won <span className="font-bold text-green-600">{winNotification.winType}</span>!
+              </p>
+            </div>
             <div className="flex gap-4 justify-center">
+             
               <button
                 onClick={() => {
                   setWinNotification(null);
                   handleExitRoom();
                 }}
-                className="bg-red-500 hover:bg-red-600 text-white font-bold px-6 py-3 rounded-xl text-lg transition-colors"
+                className="bg-red-500 hover:bg-red-600 text-white font-bold px-8 py-4 rounded-2xl text-xl shadow-lg"
               >
                 Leave Room
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Verification Error Modal */}
+      {verificationError && (
+        <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+          <div className="bg-red-100 border-8 border-red-500 rounded-3xl p-8 max-w-lg text-center shadow-2xl">
+            <div className="text-8xl mb-6">❌</div>
+            <h2 className="text-4xl font-black text-red-700 mb-6">
+              {verificationError.message}
+            </h2>
+            <div className="bg-white rounded-2xl p-6 mb-6 border-4 border-red-400">
+              <p className="text-xl text-gray-700">
+                {verificationError.details}
+              </p>
+            </div>
+            <div className="flex gap-4 justify-center">
+              <button
+                onClick={() => setVerificationError(null)}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-2xl text-xl shadow-lg"
+              >
+                Return to Game
               </button>
             </div>
           </div>

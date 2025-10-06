@@ -1,115 +1,170 @@
 import { createContext, useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
+import Pusher from 'pusher-js';
 
 const SocketContext = createContext();
 
 export function SocketProvider({ children }) {
-  const [socket, setSocket] = useState(null);
+  const [pusher, setPusher] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [currentRoom, setCurrentRoom] = useState(null);
 
   useEffect(() => {
-    const socketUrl = import.meta.env.PROD ? 'https://www.bit9o.com' : 'http://localhost:3000';
-
-    const newSocket = io(socketUrl, {
-      autoConnect: true,
+    const newPusher = new Pusher('82306468a122ba973769', {
+      cluster: 'ap1',
+      encrypted: true,
     });
 
-    newSocket.on('connect', () => {
+    newPusher.connection.bind('connected', () => {
       setIsConnected(true);
     });
 
-    newSocket.on('disconnect', () => {
+    newPusher.connection.bind('disconnected', () => {
       setIsConnected(false);
     });
 
-    newSocket.on('connect_error', (error) => {
-      console.error('Socket connection error:', error);
+    newPusher.connection.bind('error', (error) => {
+      console.error('Pusher connection error:', error);
       setIsConnected(false);
     });
 
-    setSocket(newSocket);
+    setPusher(newPusher);
 
     return () => {
-      newSocket.close();
+      newPusher.disconnect();
     };
   }, []);
 
   const joinRoom = (roomCode) => {
-    if (socket && isConnected) {
-      socket.emit('join-room', roomCode);
+    if (pusher && isConnected) {   
+      if (currentRoom) {      
+        pusher.unsubscribe(`room-${currentRoom}`);
+      }
+      
+      // Subscribe to new room   
+      const channel = pusher.subscribe(`room-${roomCode}`);
+      setCurrentRoom(roomCode);
+      
+      // Add channel event listeners for debugging
+      channel.bind('pusher:subscription_succeeded', () => {
+        console.log('Successfully subscribed to room:', roomCode);
+      });
+      
+      channel.bind('pusher:subscription_error', (error) => {
+        console.error('Failed to subscribe to room:', roomCode, error);
+      });
+    } else {
+      console.log('Cannot join room - pusher or connection not ready:', { pusher: !!pusher, isConnected });
     }
   };
 
   const leaveRoom = (roomCode) => {
-    if (socket && isConnected) {
-      socket.emit('leave-room', roomCode);
+    if (pusher && isConnected) {
+      pusher.unsubscribe(`room-${roomCode}`);
+      if (currentRoom === roomCode) {
+        setCurrentRoom(null);
+      }
     }
   };
 
   const onNumberDrawn = (callback) => {
-    if (socket) {
-      socket.on('number-drawn', callback);
+    if (pusher && currentRoom) {
+      const channel = pusher.channel(`room-${currentRoom}`);
+      if (channel) {
+        channel.bind('number-drawn', callback);
+      }
     }
   };
 
   const offNumberDrawn = (callback) => {
-    if (socket) {
-      socket.off('number-drawn', callback);
+    if (pusher && currentRoom) {
+      const channel = pusher.channel(`room-${currentRoom}`);
+      if (channel) {
+        channel.unbind('number-drawn', callback);
+      }
     }
   };
 
   const onPlayerJoined = (callback) => {
-    if (socket) {
-      socket.on('player-joined', callback);
+    if (pusher && currentRoom) {
+      const channel = pusher.channel(`room-${currentRoom}`);
+      if (channel) {
+        channel.bind('player-joined', callback);
+      }
     }
   };
 
   const offPlayerJoined = (callback) => {
-    if (socket) {
-      socket.off('player-joined', callback);
+    if (pusher && currentRoom) {
+      const channel = pusher.channel(`room-${currentRoom}`);
+      if (channel) {
+        channel.unbind('player-joined', callback);
+      }
     }
   };
 
   const onPlayerLeft = (callback) => {
-    if (socket) {
-      socket.on('player-left', callback);
+    if (pusher && currentRoom) {
+      const channel = pusher.channel(`room-${currentRoom}`);
+      if (channel) {
+        channel.bind('player-left', callback);
+      }
     }
   };
 
   const offPlayerLeft = (callback) => {
-    if (socket) {
-      socket.off('player-left', callback);
+    if (pusher && currentRoom) {
+      const channel = pusher.channel(`room-${currentRoom}`);
+      if (channel) {
+        channel.unbind('player-left', callback);
+      }
     }
   };
 
   const onRoomStatusChanged = (callback) => {
-    if (socket) {
-      socket.on('room-status-changed', callback);
+    if (pusher && currentRoom) {
+      const channel = pusher.channel(`room-${currentRoom}`);
+      if (channel) {
+        channel.bind('room-status-changed', callback);
+      }
     }
   };
 
   const offRoomStatusChanged = (callback) => {
-    if (socket) {
-      socket.off('room-status-changed', callback);
+    if (pusher && currentRoom) {
+      const channel = pusher.channel(`room-${currentRoom}`);
+      if (channel) {
+        channel.unbind('room-status-changed', callback);
+      }
     }
   };
 
   const onPlayerWon = (callback) => {
-    if (socket) {
-      socket.on('player-won', callback);
+    if (pusher && currentRoom) {
+      const channel = pusher.channel(`room-${currentRoom}`);
+      if (channel) {     
+        channel.bind('player-won', callback);
+      } else {
+        console.log('Channel not found for room:', currentRoom);
+      }
+    } else {
+      console.log('Pusher or currentRoom not available:', { pusher: !!pusher, currentRoom });
     }
   };
 
   const offPlayerWon = (callback) => {
-    if (socket) {
-      socket.off('player-won', callback);
+    if (pusher && currentRoom) {
+      const channel = pusher.channel(`room-${currentRoom}`);
+      if (channel) {
+        channel.unbind('player-won', callback);
+      }
     }
   };
 
   return (
     <SocketContext.Provider
       value={{
-        socket,
+        socket: pusher, // Keep socket name for backward compatibility
+        pusher,
         isConnected,
         joinRoom,
         leaveRoom,
