@@ -9,7 +9,7 @@ export function SocketProvider({ children }) {
   const [currentRoom, setCurrentRoom] = useState(null);
 
   useEffect(() => {
-    const newPusher = new Pusher('82306468a122ba973769', {
+    const newPusher = new Pusher('77e522a933cb626f5be0', {
       cluster: 'ap1',
       encrypted: true,
     });
