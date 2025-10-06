@@ -9,7 +9,7 @@ export function SocketProvider({ children }) {
   const [currentRoom, setCurrentRoom] = useState(null);
 
   useEffect(() => {
-    const pusherKey = '77e522a933cb626f5be0';
+    const pusherKey = '82306468a122ba973769';
     const pusherCluster = 'ap1';
 
     const newPusher = new Pusher(pusherKey, {
