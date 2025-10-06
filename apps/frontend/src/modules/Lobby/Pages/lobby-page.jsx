@@ -3,6 +3,8 @@ import SessionContext from '@/modules/common/contexts/session-context';
 import { BoxCard } from '@/modules/home/components/box-card';
 import RoomContext from '@/modules/Room/Contexts/room-context';
 import SocketContext from '@/modules/common/contexts/socket-context';
+import { AudioControls } from '@/modules/common/components/audio-controls';
+import { useAudio } from '@/hooks/use-audio';
 import React from 'react';
 import { useContext } from 'react';
 import { useEffect } from 'react';
@@ -27,6 +29,9 @@ export function LobbyPage() {
   const cardNumbers = card.gridNumbers;
   const navigate = useNavigate();
 
+  // Audio system
+  const { playBgm, resumeAudioContext } = useAudio();
+
   useEffect(() => {
     getRoom(roomCode);
     joinRoom(roomCode);
@@ -35,6 +40,12 @@ export function LobbyPage() {
       socketLeaveRoom(roomCode);
     };
   }, [roomCode, joinRoom, socketLeaveRoom]);
+
+  // Start BGM when lobby loads
+  useEffect(() => {
+    resumeAudioContext();
+    playBgm();
+  }, [playBgm, resumeAudioContext]);
 
   useEffect(() => {
     const handlePlayerJoined = (data) => {
@@ -118,6 +129,8 @@ export function LobbyPage() {
 
   return (
     <div className="w-[auto] min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 flex flex-col items-center justify-center px-4">
+      {/* Audio Controls */}
+      <AudioControls />
       <div className="max-w-md w-full flex-center">
         <div className="w-[95%] h-[70px] flex-center text-white">
           <BoxCard letter="L" bgColor="#32BAEC" borderColor="#0C6795" fontSize={50} />
