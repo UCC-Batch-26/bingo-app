@@ -27,19 +27,45 @@ export async function verifyCard(req, res) {
     const cardNumbers = (card.gridNumbers || []).map((n) => Number(n));
     const marked = Array.isArray(markedNumbers) ? markedNumbers.map((n) => Number(n)) : [];
 
+    const allNumbersMarked = marked.length === 9;
     const allMarkedAreDrawn = marked.length > 0 ? marked.every((num) => drawnNumbers.includes(num)) : false;
     const markedNumbersMatchCard = marked.length > 0 ? marked.every((num) => cardNumbers.includes(num)) : false;
 
-    isWinner = marked.length > 0 && allMarkedAreDrawn && markedNumbersMatchCard;
+    isWinner = allNumbersMarked && allMarkedAreDrawn && markedNumbersMatchCard;
 
     if (!isWinner) {
+      let errorMessage = 'Not win yet: ';
+      if (!allNumbersMarked) {
+        errorMessage += `You need to mark all 9 numbers on your card (currently marked: ${marked.length})`;
+      } else if (!allMarkedAreDrawn) {
+        errorMessage += 'Some of your marked numbers have not been drawn yet';
+      } else if (!markedNumbersMatchCard) {
+        errorMessage += 'Some marked numbers do not match your card';
+      } else {
+        errorMessage += 'Check your card';
+      }
+
       return res.status(400).json({
-        message: 'Not win yet: check your card',
+        message: errorMessage,
         data: {
           isWin: false,
           verified: false,
+          markedCount: marked.length,
+          requiredCount: 9,
         },
       });
+    }
+
+    // Trigger player won event via Pusher
+    const pusher = req.app.get('pusher');
+    if (pusher) {
+      pusher.trigger(`room-${card.room}`, 'player-won', {
+        roomCode: card.room,
+        playerName: card.name || 'Player',
+        playerId: card._id,
+        winType: 'BIT9O',
+      });
+      log('pusher', `Triggered player-won event for room ${card.room}: ${card.name}`);
     }
 
     return res.status(200).json({

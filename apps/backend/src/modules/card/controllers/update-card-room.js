@@ -12,14 +12,14 @@ export async function updateCardRoom(req, res) {
     }
 
     if (room === '' && card.room) {
-      const io = req.app.get('io');
-      if (io) {
-        io.to(card.room).emit('player-left', {
+      const pusher = req.app.get('pusher');
+      if (pusher) {
+        pusher.trigger(`room-${card.room}`, 'player-left', {
           roomCode: card.room,
           playerName: card.name,
           playerId: card._id,
         });
-        log('socket', `Emitted player-left event for room ${card.room}: ${card.name}`);
+        log('pusher', `Triggered player-left event for room ${card.room}: ${card.name}`);
       }
     }
 

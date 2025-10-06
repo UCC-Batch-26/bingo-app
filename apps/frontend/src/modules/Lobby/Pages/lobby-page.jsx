@@ -19,6 +19,8 @@ export function LobbyPage() {
     leaveRoom: socketLeaveRoom,
     onPlayerJoined,
     offPlayerJoined,
+    onPlayerLeft,
+    offPlayerLeft,
     onRoomStatusChanged,
     offRoomStatusChanged,
   } = useContext(SocketContext);
@@ -42,11 +44,27 @@ export function LobbyPage() {
       }
     };
 
+    const handlePlayerLeft = (data) => {
+      console.log('Player left lobby:', data);
+      if (data.roomCode === roomCode) {
+        // Check if this player was removed because host left
+        if (data.reason === 'host-left') {
+          alert('Host has left the lobby. You have been removed from the room.');
+          navigate('/', { replace: true });
+        } else {
+          getRoom(roomCode);
+        }
+      }
+    };
+
     const handleRoomStatusChanged = (data) => {
       console.log('Room status changed in lobby:', data);
       if (data.roomCode === roomCode) {
         if (data.status === 'live') {
           navigate(`/room/${roomCode}`, { replace: true });
+        } else if (data.status === 'ended') {
+          alert('Host has ended the room. You have been removed from the lobby.');
+          navigate('/', { replace: true });
         } else {
           getRoom(roomCode);
         }
@@ -54,13 +72,25 @@ export function LobbyPage() {
     };
 
     onPlayerJoined(handlePlayerJoined);
+    onPlayerLeft(handlePlayerLeft);
     onRoomStatusChanged(handleRoomStatusChanged);
 
     return () => {
       offPlayerJoined(handlePlayerJoined);
+      offPlayerLeft(handlePlayerLeft);
       offRoomStatusChanged(handleRoomStatusChanged);
     };
-  }, [roomCode, getRoom, navigate, onPlayerJoined, offPlayerJoined, onRoomStatusChanged, offRoomStatusChanged]);
+  }, [
+    roomCode,
+    getRoom,
+    navigate,
+    onPlayerJoined,
+    offPlayerJoined,
+    onPlayerLeft,
+    offPlayerLeft,
+    onRoomStatusChanged,
+    offRoomStatusChanged,
+  ]);
 
   const handleLeaveHost = async (e) => {
     e.preventDefault();
