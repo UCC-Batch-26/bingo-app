@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { HowToPlayCards } from '../components/how-to-play-cards';
 import { AboutCards } from '../components/about-cards';
 import { BoxCard } from '../components/box-card';
+import { AudioControls } from '@/modules/common/components/audio-controls';
+import { useAudio } from '@/hooks/use-audio';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import RoomContext from '@/modules/Room/Contexts/room-context';
@@ -9,6 +11,10 @@ import RoomContext from '@/modules/Room/Contexts/room-context';
 export function LandingPage() {
   const { createRoom, joinRoom, error, clearError } = useContext(RoomContext);
   const navigate = useNavigate();
+
+  // Audio system
+  const { playBgm, resumeAudioContext } = useAudio();
+
   const [create, setCreate] = useState({
     mode: 'quick',
   });
@@ -39,9 +45,17 @@ export function LandingPage() {
 
   const [formType, setFormType] = useState('play');
 
+  // Start BGM when landing page loads
+  useEffect(() => {
+    resumeAudioContext();
+    playBgm();
+  }, [playBgm, resumeAudioContext]);
+
   const isMobile = window.innerWidth < 768;
   return (
     <div className="w-full h-dvh flex-center flex-col bg-gradient text-[#fff] max-sm:w-[100%] max-sm:h-[auto] max-sm:pb-[20px]">
+      {/* Audio Controls */}
+      <AudioControls />
       <div className=" w-[68%] h-[95%] flex-center flex-col max-sm:w-[100%] max-h-[100%]">
         <header className="flex-[0.5] size flex justify-center items-start max-sm:mt-[10px]">
           <nav className="border-[2px] border-[#E25645] bg-[#f9f9f9] w-[95%] h-[70px] rounded-[10px] flex-center px-[20px] max-sm:h-[50px]">

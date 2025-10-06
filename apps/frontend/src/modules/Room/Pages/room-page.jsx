@@ -5,6 +5,8 @@ import CardContext from '@/modules/common/contexts/card-context';
 import SessionContext from '@/modules/common/contexts/session-context';
 import SocketContext from '@/modules/common/contexts/socket-context';
 import { BoxCard } from '@/modules/home/components/box-card';
+import { AudioControls } from '@/modules/common/components/audio-controls';
+import { useAudio } from '@/hooks/use-audio';
 
 export function RoomPage() {
   const { room, getRoom, updateRoomStatus, updateDrawnNumbers, verifyCard } = useContext(RoomContext);
@@ -27,6 +29,17 @@ export function RoomPage() {
   const { id: roomCode } = useParams();
   const navigate = useNavigate();
 
+  // Audio system
+  const { playBgm, playBallDraw, playVictory, resumeAudioContext } = useAudio();
+
+  // Start BGM when room is active
+  useEffect(() => {
+    if (room?.status === 'active' || room?.status === 'started') {
+      resumeAudioContext();
+      playBgm();
+    }
+  }, [room?.status, playBgm, resumeAudioContext]);
+
   useEffect(() => {
     if (roomCode) {
       getRoom(roomCode);
@@ -44,6 +57,8 @@ export function RoomPage() {
     const handleNumberDrawn = (data) => {
       if (data.roomCode === roomCode) {
         getRoom(roomCode);
+        // Play ball draw sound effect
+        playBallDraw();
       }
     };
 
@@ -82,6 +97,8 @@ export function RoomPage() {
           isWinner: data.playerId === card?._id, // Check if this is the current player
         });
         setIsBit9o(true);
+        // Play victory sound effect
+        playVictory();
       } else {
         console.log('Player won event for different room:', data.roomCode, 'current room:', roomCode);
       }
@@ -114,6 +131,8 @@ export function RoomPage() {
     offRoomStatusChanged,
     onPlayerWon,
     offPlayerWon,
+    playBallDraw,
+    playVictory,
   ]);
 
   const players = room?.players || [];
@@ -232,6 +251,8 @@ export function RoomPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 p-4 sm:p-10">
+      {/* Audio Controls */}
+      <AudioControls />
       {/* Winner Banner - Shows at top for all players */}
       {winNotification && (
         <div className="fixed top-0 left-0 right-0 z-40 bg-yellow-400 border-b-4 border-yellow-600 shadow-lg">
