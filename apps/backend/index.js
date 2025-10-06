@@ -82,7 +82,6 @@ try {
   log('pusher', 'Pusher will not be available for real-time features');
 }
 
-// Make pusher available globally
 app.set('pusher', pusher);
 
 server.listen(port);
