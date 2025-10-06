@@ -27,10 +27,10 @@ const server = http.createServer(app);
 
 // Initialize Pusher
 const pusher = new Pusher({
-  appId: process.env.PUSHER_APP_ID || '2059813',
-  key: process.env.PUSHER_KEY || '82306468a122ba973769',
-  secret: process.env.PUSHER_SECRET || '5355ac5392c8a16d9e5b',
-  cluster: process.env.PUSHER_CLUSTER || 'ap1',
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: process.env.PUSHER_CLUSTER,
   useTLS: true,
 });
 
