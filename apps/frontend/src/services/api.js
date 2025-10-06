@@ -1,8 +1,8 @@
-const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000/v1';
+const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
 export async function getData(endpoint) {
   try {
-    const response = await fetch(`${API_URL}/v1/${endpoint}`);
+    const response = await fetch(`${API_URL}/v1${endpoint}`);
 
     const data = await response.json();
 
@@ -17,7 +17,7 @@ export async function getData(endpoint) {
 
 export async function postData(endpoint, payload) {
   try {
-    const response = await fetch(`${API_URL}/v1/${endpoint}`, {
+    const response = await fetch(`${API_URL}/v1${endpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export async function postData(endpoint, payload) {
 
 export async function patchData(endpoint, payload) {
   try {
-    const response = await fetch(`${API_URL}/v1/${endpoint}`, {
+    const response = await fetch(`${API_URL}/v1${endpoint}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
