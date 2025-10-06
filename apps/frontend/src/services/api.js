@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/v1';
+const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000/v1';
 
 export async function getData(endpoint) {
   try {
