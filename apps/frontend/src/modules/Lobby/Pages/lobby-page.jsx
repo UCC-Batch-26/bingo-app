@@ -80,7 +80,17 @@ export function LobbyPage() {
       offPlayerLeft(handlePlayerLeft);
       offRoomStatusChanged(handleRoomStatusChanged);
     };
-  }, [roomCode, getRoom, navigate, onPlayerJoined, offPlayerJoined, onPlayerLeft, offPlayerLeft, onRoomStatusChanged, offRoomStatusChanged]);
+  }, [
+    roomCode,
+    getRoom,
+    navigate,
+    onPlayerJoined,
+    offPlayerJoined,
+    onPlayerLeft,
+    offPlayerLeft,
+    onRoomStatusChanged,
+    offRoomStatusChanged,
+  ]);
 
   const handleLeaveHost = async (e) => {
     e.preventDefault();

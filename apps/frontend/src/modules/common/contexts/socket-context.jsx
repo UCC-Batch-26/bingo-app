@@ -35,20 +35,20 @@ export function SocketProvider({ children }) {
   }, []);
 
   const joinRoom = (roomCode) => {
-    if (pusher && isConnected) {   
-      if (currentRoom) {      
+    if (pusher && isConnected) {
+      if (currentRoom) {
         pusher.unsubscribe(`room-${currentRoom}`);
       }
-      
-      // Subscribe to new room   
+
+      // Subscribe to new room
       const channel = pusher.subscribe(`room-${roomCode}`);
       setCurrentRoom(roomCode);
-      
+
       // Add channel event listeners for debugging
       channel.bind('pusher:subscription_succeeded', () => {
         console.log('Successfully subscribed to room:', roomCode);
       });
-      
+
       channel.bind('pusher:subscription_error', (error) => {
         console.error('Failed to subscribe to room:', roomCode, error);
       });
@@ -141,7 +141,7 @@ export function SocketProvider({ children }) {
   const onPlayerWon = (callback) => {
     if (pusher && currentRoom) {
       const channel = pusher.channel(`room-${currentRoom}`);
-      if (channel) {     
+      if (channel) {
         channel.bind('player-won', callback);
       } else {
         console.log('Channel not found for room:', currentRoom);

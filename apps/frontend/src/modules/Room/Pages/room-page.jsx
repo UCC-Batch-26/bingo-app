@@ -10,7 +10,7 @@ export function RoomPage() {
   const { room, getRoom, updateRoomStatus, updateDrawnNumbers, verifyCard } = useContext(RoomContext);
   const { card, leaveRoom } = useContext(CardContext);
   const { session } = useContext(SessionContext);
-  const { 
+  const {
     joinRoom,
     leaveRoom: socketLeaveRoom,
     onNumberDrawn,
@@ -41,20 +41,20 @@ export function RoomPage() {
   }, [roomCode, joinRoom, socketLeaveRoom]);
 
   useEffect(() => {
-    const handleNumberDrawn = (data) => {   
+    const handleNumberDrawn = (data) => {
       if (data.roomCode === roomCode) {
         getRoom(roomCode);
       }
     };
 
-    const handlePlayerJoined = (data) => {     
+    const handlePlayerJoined = (data) => {
       if (data.roomCode === roomCode) {
         getRoom(roomCode);
       }
     };
 
-    const handlePlayerLeft = (data) => {   
-      if (data.roomCode === roomCode) {    
+    const handlePlayerLeft = (data) => {
+      if (data.roomCode === roomCode) {
         if (data.reason === 'host-left') {
           alert('Host has left the room. You have been removed from the game.');
           navigate('/', { replace: true });
@@ -74,9 +74,8 @@ export function RoomPage() {
       }
     };
 
-    const handlePlayerWon = (data) => {    
-      if (data.roomCode === roomCode) {     
-        
+    const handlePlayerWon = (data) => {
+      if (data.roomCode === roomCode) {
         setWinNotification({
           playerName: data.playerName || 'Unknown Player',
           winType: data.winType || 'BIT9O',
@@ -161,25 +160,21 @@ export function RoomPage() {
       animationNumbers.push(Math.floor(Math.random() * 30) + 1);
     }
 
- 
     for (let i = 0; i < animationNumbers.length; i++) {
       setNewDrawnNumber(animationNumbers[i]);
       await new Promise((resolve) => setTimeout(resolve, 200));
     }
 
-  
     let newNumber;
     do {
       newNumber = Math.floor(Math.random() * 30) + 1;
     } while (calledNumbers.includes(newNumber));
 
-  
     setNewDrawnNumber(newNumber);
     await new Promise((resolve) => setTimeout(resolve, 300));
 
-
     await updateDrawnNumbers(room.code, newNumber);
-  
+
     setIsDrawing(false);
     setNewDrawnNumber(null);
   };
@@ -209,9 +204,9 @@ export function RoomPage() {
     }
 
     try {
-      const result = await verifyCard(card._id, markedNumbers);     
-      
-      if (result && result.data && result.data.isWin) {     
+      const result = await verifyCard(card._id, markedNumbers);
+
+      if (result && result.data && result.data.isWin) {
         setWinNotification({
           playerName: card?.name || 'You',
           winType: 'BIT9O',
@@ -221,19 +216,17 @@ export function RoomPage() {
       } else {
         setVerificationError({
           message: 'Not Win Yet',
-          details: 'Please check your marked numbers and try again.'
+          details: 'Please check your marked numbers and try again.',
         });
       }
     } catch (error) {
       console.error('Verification error:', error);
       setVerificationError({
         message: 'Failed to verify card',
-        details: 'Please try again.'
+        details: 'Please try again.',
       });
     }
   };
-
-  
 
   const isMobile = window.innerWidth < 768;
 
@@ -250,14 +243,14 @@ export function RoomPage() {
             >
               ×
             </button>
-            <div className="text-2xl sm:text-4xl font-black text-red-600 mb-2">
-              🎉 WINNER ANNOUNCEMENT! 🎉
-            </div>
+            <div className="text-2xl sm:text-4xl font-black text-red-600 mb-2">🎉 WINNER ANNOUNCEMENT! 🎉</div>
             <div className="text-lg sm:text-2xl font-bold text-gray-800">
               {winNotification.isWinner ? (
                 <span className="text-green-600">Congratulations! You won {winNotification.winType}!</span>
               ) : (
-                <span className="text-blue-600">{winNotification.playerName} won {winNotification.winType}!</span>
+                <span className="text-blue-600">
+                  {winNotification.playerName} won {winNotification.winType}!
+                </span>
               )}
             </div>
           </div>
@@ -487,8 +480,8 @@ export function RoomPage() {
                     isDrawing
                       ? 'border-yellow-500 bg-yellow-400 animate-pulse'
                       : calledNumbers.length >= 30
-                      ? 'border-gray-400 bg-gray-300 cursor-not-allowed'
-                      : 'border-green-500 bg-green-400 hover:bg-green-500 hover:scale-105'
+                        ? 'border-gray-400 bg-gray-300 cursor-not-allowed'
+                        : 'border-green-500 bg-green-400 hover:bg-green-500 hover:scale-105'
                   }`}
                 >
                   {isDrawing ? (
@@ -516,9 +509,7 @@ export function RoomPage() {
                   }`}
                 >
                   {newDrawnNumber ? (
-                    <div className="animate-spin text-4xl sm:text-6xl">
-                      {newDrawnNumber}
-                    </div>
+                    <div className="animate-spin text-4xl sm:text-6xl">{newDrawnNumber}</div>
                   ) : (
                     currentNumber || '--'
                   )}
@@ -549,15 +540,12 @@ export function RoomPage() {
               <p className="text-2xl font-bold text-gray-800 mb-2">
                 {winNotification.isWinner ? 'Congratulations!' : 'Winner:'}
               </p>
-              <p className="text-3xl font-black text-blue-600 mb-2">
-                {winNotification.playerName}
-              </p>
+              <p className="text-3xl font-black text-blue-600 mb-2">{winNotification.playerName}</p>
               <p className="text-xl text-gray-700">
                 Won <span className="font-bold text-green-600">{winNotification.winType}</span>!
               </p>
             </div>
             <div className="flex gap-4 justify-center">
-             
               <button
                 onClick={() => {
                   setWinNotification(null);
@@ -577,13 +565,9 @@ export function RoomPage() {
         <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
           <div className="bg-red-100 border-8 border-red-500 rounded-3xl p-8 max-w-lg text-center shadow-2xl">
             <div className="text-8xl mb-6">❌</div>
-            <h2 className="text-4xl font-black text-red-700 mb-6">
-              {verificationError.message}
-            </h2>
+            <h2 className="text-4xl font-black text-red-700 mb-6">{verificationError.message}</h2>
             <div className="bg-white rounded-2xl p-6 mb-6 border-4 border-red-400">
-              <p className="text-xl text-gray-700">
-                {verificationError.details}
-              </p>
+              <p className="text-xl text-gray-700">{verificationError.details}</p>
             </div>
             <div className="flex gap-4 justify-center">
               <button

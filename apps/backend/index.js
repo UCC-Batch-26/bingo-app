@@ -31,7 +31,7 @@ const pusher = new Pusher({
   key: process.env.PUSHER_KEY || '82306468a122ba973769',
   secret: process.env.PUSHER_SECRET || '5355ac5392c8a16d9e5b',
   cluster: process.env.PUSHER_CLUSTER || 'ap1',
-  useTLS: true
+  useTLS: true,
 });
 
 // Make pusher available globally
