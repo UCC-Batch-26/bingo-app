@@ -3,6 +3,7 @@ import { useRef, useCallback, useEffect, useState } from 'react';
 export function useAudio() {
   const audioContextRef = useRef(null);
   const bgmAudioRef = useRef(null);
+  const bgmStartingRef = useRef(false);
   const ballDrawAudioRef = useRef(null);
   const victoryAudioRef = useRef(null);
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
@@ -68,8 +69,9 @@ export function useAudio() {
   );
 
   const playBgm = useCallback(async () => {
-    if (!isAudioEnabled || isBgmPlaying) return;
+    if (!isAudioEnabled || isBgmPlaying || bgmStartingRef.current) return;
 
+    bgmStartingRef.current = true;
     try {
       const bgmSource = await playSound('/sounds/bgm.mp3', 0.3, true);
       if (bgmSource) {
@@ -78,6 +80,8 @@ export function useAudio() {
       }
     } catch (error) {
       console.error('Error playing BGM:', error);
+    } finally {
+      bgmStartingRef.current = false;
     }
   }, [isAudioEnabled, isBgmPlaying, playSound]);
 
