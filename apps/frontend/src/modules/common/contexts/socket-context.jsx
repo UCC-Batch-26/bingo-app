@@ -1,5 +1,20 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState, useRef } from 'react';
 import Pusher from 'pusher-js';
+
+let pusherInstance = null;
+function getPusherInstance() {
+  if (!pusherInstance) {
+    const pusherKey = '77e522a933cb626f5be0';
+    const pusherCluster = 'ap1';
+    pusherInstance = new Pusher(pusherKey, {
+      cluster: pusherCluster,
+      forceTLS: true,
+      disableStats: true,
+      enabledTransports: ['ws', 'wss'],
+    });
+  }
+  return pusherInstance;
+}
 
 const SocketContext = createContext();
 
@@ -7,38 +22,46 @@ export function SocketProvider({ children }) {
   const [pusher, setPusher] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [currentRoom, setCurrentRoom] = useState(null);
+  const boundHandlersRef = useRef(false);
 
   useEffect(() => {
-    const pusherKey = '77e522a933cb626f5be0';
-    const pusherCluster = 'ap1';
+    const instance = getPusherInstance();
+    setPusher(instance);
 
-    const newPusher = new Pusher(pusherKey, {
-      cluster: pusherCluster,
-      encrypted: true,
-    });
+    if (!boundHandlersRef.current) {
+      instance.connection.bind('connected', () => {
+        setIsConnected(true);
+      });
 
-    newPusher.connection.bind('connected', () => {
-      setIsConnected(true);
-    });
+      instance.connection.bind('disconnected', () => {
+        setIsConnected(false);
+      });
 
-    newPusher.connection.bind('disconnected', () => {
-      setIsConnected(false);
-    });
+      instance.connection.bind('error', (error) => {
+        console.error('Pusher connection error:', error);
+        setIsConnected(false);
+      });
 
-    newPusher.connection.bind('error', (error) => {
-      console.error('Pusher connection error:', error);
-      setIsConnected(false);
-    });
+      boundHandlersRef.current = true;
+    }
 
-    setPusher(newPusher);
+    const handleBeforeUnload = () => {
+      try {
+        instance.disconnect();
+      } catch (error) {
+        console.error('Error disconnecting Pusher on unload:', error);
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
-      newPusher.disconnect();
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      // Do not disconnect here to avoid StrictMode double-unmount churn in dev
     };
   }, []);
 
   const joinRoom = (roomCode) => {
-    if (pusher && isConnected) {
+    if (pusher && (isConnected || (pusher.connection && pusher.connection.state === 'connected'))) {
       if (currentRoom) {
         pusher.unsubscribe(`room-${currentRoom}`);
       }
