@@ -56,7 +56,7 @@ export function SessionProvider({ children }) {
       setSession({ token: null, isHost: null, roomId: null, status: null, loading: false, name: false });
     }
   };
-
+  //Check Session on mount
   useEffect(() => {
     checkSession();
   }, []);
