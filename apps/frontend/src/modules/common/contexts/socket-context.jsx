@@ -55,7 +55,7 @@ export function SocketProvider({ children }) {
     window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);      
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
 
