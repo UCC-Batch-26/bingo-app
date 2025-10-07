@@ -22,12 +22,16 @@ export async function joinLobby(req, res) {
 
     const pusher = req.app.get('pusher');
     if (pusher) {
-      pusher.trigger(`room-${room}`, 'player-joined', {
-        roomCode: room,
-        playerName: name,
-        playerId: card._id,
-      });
-      log('pusher', `Triggered player-joined event for room ${room}: ${name}`);
+      try {
+        await pusher.trigger(`room-${room}`, 'player-joined', {
+          roomCode: room,
+          playerName: name,
+          playerId: card._id,
+        });
+        log('pusher', `Triggered player-joined event for room ${room}: ${name}`);
+      } catch (err) {
+        log('pusher', `Failed to trigger player-joined for room ${room}:`, err);
+      }
     }
 
     return res.status(201).json({

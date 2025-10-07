@@ -32,12 +32,16 @@ export async function updateRoomStatus(req, res) {
 
     const pusher = req.app.get('pusher');
     if (pusher) {
-      pusher.trigger(`room-${code}`, 'room-status-changed', {
-        roomCode: code,
-        status: status,
-        room: room,
-      });
-      log('pusher', `Triggered room-status-changed event for room ${code}: ${status}`);
+      try {
+        await pusher.trigger(`room-${code}`, 'room-status-changed', {
+          roomCode: code,
+          status: status,
+          room: room,
+        });
+        log('pusher', `Triggered room-status-changed event for room ${code}: ${status}`);
+      } catch (err) {
+        log('pusher', `Failed to trigger room-status-changed for room ${code}:`, err);
+      }
     }
 
     return res.status(200).json(room);

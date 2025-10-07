@@ -59,13 +59,17 @@ export async function verifyCard(req, res) {
     // Trigger player won event via Pusher
     const pusher = req.app.get('pusher');
     if (pusher) {
-      pusher.trigger(`room-${card.room}`, 'player-won', {
-        roomCode: card.room,
-        playerName: card.name || 'Player',
-        playerId: card._id,
-        winType: 'BIT9O',
-      });
-      log('pusher', `Triggered player-won event for room ${card.room}: ${card.name}`);
+      try {
+        await pusher.trigger(`room-${card.room}`, 'player-won', {
+          roomCode: card.room,
+          playerName: card.name || 'Player',
+          playerId: card._id,
+          winType: 'BIT9O',
+        });
+        log('pusher', `Triggered player-won event for room ${card.room}: ${card.name}`);
+      } catch (err) {
+        log('pusher', `Failed to trigger player-won for room ${card.room}:`, err);
+      }
     }
 
     return res.status(200).json({
