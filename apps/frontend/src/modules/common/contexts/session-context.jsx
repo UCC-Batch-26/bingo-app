@@ -15,6 +15,7 @@ export function SessionProvider({ children }) {
     loading: true,
   });
 
+  // Navigate is used here to redirect users based on session status
   const navigate = useNavigate();
   const checkSession = async () => {
     try {

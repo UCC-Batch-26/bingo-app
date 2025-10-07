@@ -55,8 +55,7 @@ export function SocketProvider({ children }) {
     window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      // Do not disconnect here to avoid StrictMode double-unmount churn in dev
+      window.removeEventListener('beforeunload', handleBeforeUnload);      
     };
   }, []);
 
