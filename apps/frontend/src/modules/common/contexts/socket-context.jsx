@@ -4,13 +4,20 @@ import Pusher from 'pusher-js';
 let pusherInstance = null;
 function getPusherInstance() {
   if (!pusherInstance) {
-    const pusherKey = '77e522a933cb626f5be0';
-    const pusherCluster = 'ap1';
+    // Read credentials from Vite env (set these in Vercel as VITE_PUSHER_KEY and VITE_PUSHER_CLUSTER)
+    const pusherKey = import.meta.env.VITE_PUSHER_KEY || '77e522a933cb626f5be0';
+    const pusherCluster = import.meta.env.VITE_PUSHER_CLUSTER || 'ap1';
+
+    if (!pusherKey) {
+      console.warn('Pusher key is not configured. Set VITE_PUSHER_KEY in your environment.');
+      return null;
+    }
+
     pusherInstance = new Pusher(pusherKey, {
       cluster: pusherCluster,
       forceTLS: true,
       disableStats: true,
-      enabledTransports: ['ws', 'wss'],
+      // Let Pusher JS pick the best transport (wss/ws/xhr_streaming) so it works in various environments
     });
   }
   return pusherInstance;
