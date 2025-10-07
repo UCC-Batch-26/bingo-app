@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 const SessionContext = createContext();
-
+// Manages user session state and verification
 export function SessionProvider({ children }) {
   const [session, setSession] = useState({
     token: null,

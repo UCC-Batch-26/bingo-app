@@ -26,10 +26,10 @@ app.set('port', port);
 const server = http.createServer(app);
 
 const pusher = new Pusher({
-  appId: '2059813',
-  key: '82306468a122ba973769',
-  secret: '5355ac5392c8a16d9e5b',
-  cluster: 'ap1',
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: process.env.PUSHER_CLUSTER,
   useTLS: true,
 });
 
