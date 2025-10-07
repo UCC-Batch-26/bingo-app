@@ -12,12 +12,16 @@ export async function createRoom(req, res) {
 
     const pusher = req.app.get('pusher');
     if (pusher) {
-      pusher.trigger('global', 'room-created', {
-        roomCode: randomCode,
-        mode: mode,
-        hostToken: sessionToken,
-      });
-      log('pusher', `Triggered room-created event: ${randomCode}`);
+      try {
+        await pusher.trigger('global', 'room-created', {
+          roomCode: randomCode,
+          mode: mode,
+          hostToken: sessionToken,
+        });
+        log('pusher', `Triggered room-created event: ${randomCode}`);
+      } catch (err) {
+        log('pusher', `Failed to trigger room-created for ${randomCode}:`, err);
+      }
     }
 
     return res.status(201).json({

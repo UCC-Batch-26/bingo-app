@@ -9,8 +9,12 @@ export function useAudio() {
   const [isBgmPlaying, setIsBgmPlaying] = useState(false);
 
   const initAudioContext = useCallback(() => {
-    if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    const Ctor = window.AudioContext || window.webkitAudioContext;
+    if (!Ctor) {
+      return null;
+    }
+    if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
+      audioContextRef.current = new Ctor();
     }
     return audioContextRef.current;
   }, []);
@@ -19,7 +23,9 @@ export function useAudio() {
     try {
       const response = await fetch(src);
       const arrayBuffer = await response.arrayBuffer();
-      const audioBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
+      const context = initAudioContext();
+      if (!context) return null;
+      const audioBuffer = await context.decodeAudioData(arrayBuffer);
       return audioBuffer;
     } catch (error) {
       console.error('Error loading audio:', error);
@@ -33,6 +39,10 @@ export function useAudio() {
 
       try {
         const audioContext = initAudioContext();
+        if (!audioContext) return;
+        if (audioContext.state === 'suspended') {
+          await audioContext.resume();
+        }
         const audioBuffer = await loadAudio(src);
 
         if (!audioBuffer) return;
@@ -115,6 +125,9 @@ export function useAudio() {
   }, [stopBgm]);
 
   const resumeAudioContext = useCallback(async () => {
+    if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
+      initAudioContext();
+    }
     if (audioContextRef.current && audioContextRef.current.state === 'suspended') {
       await audioContextRef.current.resume();
     }
@@ -123,8 +136,9 @@ export function useAudio() {
   useEffect(() => {
     return () => {
       stopBgm();
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
+      if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+        // Suspend instead of closing so subsequent sounds can resume without warnings
+        audioContextRef.current.suspend().catch(() => {});
       }
     };
   }, [stopBgm]);

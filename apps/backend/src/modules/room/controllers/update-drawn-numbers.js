@@ -9,12 +9,16 @@ export async function updateDrawnNumber(req, res) {
 
     const pusher = req.app.get('pusher');
     if (pusher) {
-      pusher.trigger(`room-${code}`, 'number-drawn', {
-        roomCode: code,
-        newNumber: drawnNumber,
-        allNumbers: room.drawnNumber,
-      });
-      log('pusher', `Triggered number-drawn event for room ${code}: ${drawnNumber}`);
+      try {
+        await pusher.trigger(`room-${code}`, 'number-drawn', {
+          roomCode: code,
+          newNumber: drawnNumber,
+          allNumbers: room.drawnNumber,
+        });
+        log('pusher', `Triggered number-drawn event for room ${code}: ${drawnNumber}`);
+      } catch (err) {
+        log('pusher', `Failed to trigger number-drawn for room ${code}:`, err);
+      }
     }
 
     return res.status(200).json(room);

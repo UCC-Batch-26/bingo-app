@@ -15,6 +15,7 @@ export function SessionProvider({ children }) {
     loading: true,
   });
 
+  // Navigate is used here to redirect users based on session status
   const navigate = useNavigate();
   const checkSession = async () => {
     try {
@@ -56,7 +57,7 @@ export function SessionProvider({ children }) {
       setSession({ token: null, isHost: null, roomId: null, status: null, loading: false, name: false });
     }
   };
-
+  //extra commit for deployment test
   useEffect(() => {
     checkSession();
   }, []);

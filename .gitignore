@@ -39,3 +39,4 @@ yarn-error.log*
 Thumbs.db
 __MACOSX
 ._*
+apps/frontend/VERCEL_ENV.md

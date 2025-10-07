@@ -14,12 +14,16 @@ export async function updateCardRoom(req, res) {
     if (room === '' && card.room) {
       const pusher = req.app.get('pusher');
       if (pusher) {
-        pusher.trigger(`room-${card.room}`, 'player-left', {
-          roomCode: card.room,
-          playerName: card.name,
-          playerId: card._id,
-        });
-        log('pusher', `Triggered player-left event for room ${card.room}: ${card.name}`);
+        try {
+          await pusher.trigger(`room-${card.room}`, 'player-left', {
+            roomCode: card.room,
+            playerName: card.name,
+            playerId: card._id,
+          });
+          log('pusher', `Triggered player-left event for room ${card.room}: ${card.name}`);
+        } catch (err) {
+          log('pusher', `Failed to trigger player-left for room ${card.room}:`, err);
+        }
       }
     }
 

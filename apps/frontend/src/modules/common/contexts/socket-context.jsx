@@ -1,5 +1,27 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState, useRef } from 'react';
 import Pusher from 'pusher-js';
+
+let pusherInstance = null;
+function getPusherInstance() {
+  if (!pusherInstance) {
+    // Read credentials from Vite env (set these in Vercel as VITE_PUSHER_KEY and VITE_PUSHER_CLUSTER)
+    const pusherKey = import.meta.env.VITE_PUSHER_KEY || '77e522a933cb626f5be0';
+    const pusherCluster = import.meta.env.VITE_PUSHER_CLUSTER || 'ap1';
+
+    if (!pusherKey) {
+      console.warn('Pusher key is not configured. Set VITE_PUSHER_KEY in your environment.');
+      return null;
+    }
+
+    pusherInstance = new Pusher(pusherKey, {
+      cluster: pusherCluster,
+      forceTLS: true,
+      disableStats: true,
+      // Let Pusher JS pick the best transport (wss/ws/xhr_streaming) so it works in various environments
+    });
+  }
+  return pusherInstance;
+}
 
 const SocketContext = createContext();
 
@@ -7,39 +29,46 @@ export function SocketProvider({ children }) {
   const [pusher, setPusher] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [currentRoom, setCurrentRoom] = useState(null);
+  const boundHandlersRef = useRef(false);
 
   //Replace with your Pusher key and cluster from env string
   useEffect(() => {
-    const pusherKey = '82306468a122ba973769';
-    const pusherCluster = 'ap1';
+    const instance = getPusherInstance();
+    setPusher(instance);
 
-    const newPusher = new Pusher(pusherKey, {
-      cluster: pusherCluster,
-      encrypted: true,
-    });
+    if (!boundHandlersRef.current) {
+      instance.connection.bind('connected', () => {
+        setIsConnected(true);
+      });
 
-    newPusher.connection.bind('connected', () => {
-      setIsConnected(true);
-    });
+      instance.connection.bind('disconnected', () => {
+        setIsConnected(false);
+      });
 
-    newPusher.connection.bind('disconnected', () => {
-      setIsConnected(false);
-    });
+      instance.connection.bind('error', (error) => {
+        console.error('Pusher connection error:', error);
+        setIsConnected(false);
+      });
 
-    newPusher.connection.bind('error', (error) => {
-      console.error('Pusher connection error:', error);
-      setIsConnected(false);
-    });
+      boundHandlersRef.current = true;
+    }
 
-    setPusher(newPusher);
+    const handleBeforeUnload = () => {
+      try {
+        instance.disconnect();
+      } catch (error) {
+        console.error('Error disconnecting Pusher on unload:', error);
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
-      newPusher.disconnect();
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
 
   const joinRoom = (roomCode) => {
-    if (pusher && isConnected) {
+    if (pusher && (isConnected || (pusher.connection && pusher.connection.state === 'connected'))) {
       if (currentRoom) {
         pusher.unsubscribe(`room-${currentRoom}`);
       }
