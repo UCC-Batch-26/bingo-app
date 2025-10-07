@@ -3,11 +3,11 @@ import SessionContext from '@/modules/common/contexts/session-context';
 import { BoxCard } from '@/modules/home/components/box-card';
 import RoomContext from '@/modules/Room/Contexts/room-context';
 import SocketContext from '@/modules/common/contexts/socket-context';
-import { AudioControls } from '@/modules/common/components/audio-controls';
-import { useAudio } from '@/hooks/use-audio';
+import { useAudioContext } from '@/modules/common/contexts/use-audio-context';
 import React from 'react';
 import { useContext } from 'react';
 import { useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router';
 
@@ -28,9 +28,36 @@ export function LobbyPage() {
   } = useContext(SocketContext);
   const cardNumbers = card.gridNumbers;
   const navigate = useNavigate();
+  const [copiedPlayer, setCopiedPlayer] = useState(false);
+  const [copiedHost, setCopiedHost] = useState(false);
 
-  // Audio system
-  const { playBgm, resumeAudioContext } = useAudio();
+  const handleCopy = async (text, setCopiedFn) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedFn(true);
+      setTimeout(() => setCopiedFn(false), 1500);
+    } catch (error) {
+      error.preventDefault();
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+
+      try {
+        document.execCommand('copy');
+        setCopiedFn(true);
+        setTimeout(() => setCopiedFn(false), 1500);
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    }
+  };
+
+  // Audio system (global)
+  const { resumeAudioContext } = useAudioContext();
 
   useEffect(() => {
     getRoom(roomCode);
@@ -41,11 +68,10 @@ export function LobbyPage() {
     };
   }, [roomCode, joinRoom, socketLeaveRoom]);
 
-  // Start BGM when lobby loads
+  // Ensure audio context is resumed after navigation; BGM is started via global controls/user gesture
   useEffect(() => {
     resumeAudioContext();
-    playBgm();
-  }, [playBgm, resumeAudioContext]);
+  }, [resumeAudioContext]);
 
   useEffect(() => {
     const handlePlayerJoined = (data) => {
@@ -129,8 +155,6 @@ export function LobbyPage() {
 
   return (
     <div className="w-[auto] min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 flex flex-col items-center justify-center px-4">
-      {/* Audio Controls */}
-      <AudioControls />
       <div className="max-w-md w-full flex-center">
         <div className="w-[95%] h-[70px] flex-center text-white">
           <BoxCard letter="L" bgColor="#32BAEC" borderColor="#0C6795" fontSize={50} />
@@ -149,8 +173,48 @@ export function LobbyPage() {
 
               {/* Room Info */}
               <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
-                <p className="text-gray-700">
-                  <span className="font-semibold">Room Code:</span> {room.roomCode}
+                <p className="text-gray-700 flex items-center gap-2 flex-wrap">
+                  <span className="font-semibold">Room Code:</span>
+                  <span className="font-mono bg-white rounded px-2 py-0.5">{room.roomCode}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy(room.roomCode, setCopiedPlayer)}
+                    className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 text-white"
+                    title={copiedPlayer ? 'Copied!' : 'Copy to clipboard'}
+                    aria-label="Copy room code"
+                  >
+                    {copiedPlayer ? (
+                      // check icon
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="w-4 h-4"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-7.5 9.5a.75.75 0 01-1.127.055l-3.5-3.75a.75.75 0 011.082-1.038l2.88 3.085 6.977-8.846a.75.75 0 011.045-.058z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    ) : (
+                      // copy icon
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-4 h-4"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.25 7.5v-2.25A2.25 2.25 0 0110.5 3h6.75A2.25 2.25 0 0119.5 5.25V12a2.25 2.25 0 01-2.25 2.25H15M5.25 7.5H12A2.25 2.25 0 0114.25 9.75V18A2.25 2.25 0 0112 20.25H5.25A2.25 2.25 0 013 18V9.75A2.25 2.25 0 015.25 7.5z"
+                        />
+                      </svg>
+                    )}
+                  </button>
                 </p>
                 <p className="text-gray-700">
                   <span className="font-semibold">Mode:</span> {room.mode}
@@ -159,6 +223,15 @@ export function LobbyPage() {
                   <span className="font-semibold">Status:</span> Waiting for players
                 </p>
               </div>
+
+              {/* Waiting Indicator (Player) */}
+              {(!room?.players || room.players.length < 2 || room?.status !== 'live') && (
+                <div className="flex flex-col items-center justify-center mb-6">
+                  <div className="w-12 h-12 rounded-full border-4 border-white border-t-transparent animate-spin mb-3"></div>
+                  <p className="text-gray-700 font-semibold">Waiting for host/players...</p>
+                  <p className="text-gray-500 text-sm">Players joined: {room?.players?.length || 0}</p>
+                </div>
+              )}
 
               {/* Player Cards */}
               <div className="size flex-center mb-6">
@@ -202,16 +275,62 @@ export function LobbyPage() {
 
               {/* Room Info */}
               <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
-                <p className="text-gray-700">
-                  <span className="font-semibold">Room Code:</span> {room.code}
+                <p className="text-gray-700 flex items-center gap-2 flex-wrap">
+                  <span className="font-semibold">Room Code:</span>
+                  <span className="font-mono bg-white rounded px-2 py-0.5">{room.code}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy(room.code, setCopiedHost)}
+                    className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 text-white"
+                    title={copiedHost ? 'Copied!' : 'Copy to clipboard'}
+                    aria-label="Copy room code"
+                  >
+                    {copiedHost ? (
+                      // check icon
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="w-4 h-4"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.704 4.153a.75.75 0 01.143 1.052l-7.5 9.5a.75.75 0 01-1.127.055l-3.5-3.75a.75.75 0 011.082-1.038l2.88 3.085 6.977-8.846a.75.75 0 011.045-.058z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    ) : (
+                      // copy icon
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-4 h-4"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.25 7.5v-2.25A2.25 2.25 0 0110.5 3h6.75A2.25 2.25 0 0119.5 5.25V12a2.25 2.25 0 01-2.25 2.25H15M5.25 7.5H12A2.25 2.25 0 0114.25 9.75V18A2.25 2.25 0 0112 20.25H5.25A2.25 2.25 0 013 18V9.75A2.25 2.25 0 015.25 7.5z"
+                        />
+                      </svg>
+                    )}
+                  </button>
                 </p>
                 <p className="text-gray-700">
                   <span className="font-semibold">Mode:</span> {room.mode}
                 </p>
-                <p className="text-gray-700">
-                  <span className="font-semibold">Status:</span> Waiting for players
-                </p>
               </div>
+
+              {/* Waiting Indicator (Host) */}
+              {(!room?.players || room.players.length < 2 || room?.status !== 'live') && (
+                <div className="flex flex-col items-center justify-center mb-6">
+                  <div className="w-12 h-12 rounded-full border-4 border-purple-500 border-t-transparent animate-spin mb-3"></div>
+                  <p className="text-gray-700 font-semibold">Waiting for players to join...</p>
+                  <p className="text-gray-500 text-sm">Players joined: {room?.players?.length || 0}</p>
+                </div>
+              )}
 
               {/* Players List */}
               <div className="mb-6">

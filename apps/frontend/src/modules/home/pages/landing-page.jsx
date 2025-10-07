@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { HowToPlayCards } from '../components/how-to-play-cards';
 import { AboutCards } from '../components/about-cards';
 import { BoxCard } from '../components/box-card';
 import { AudioControls } from '@/modules/common/components/audio-controls';
-import { useAudio } from '@/hooks/use-audio';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import RoomContext from '@/modules/Room/Contexts/room-context';
@@ -14,7 +13,6 @@ export function LandingPage() {
   const navigate = useNavigate();
 
   // Audio system
-  const { playBgm, resumeAudioContext } = useAudio();
 
   const [create, setCreate] = useState({
     mode: 'quick',
@@ -25,14 +23,19 @@ export function LandingPage() {
     room: '',
   });
 
+  const [isJoining, setIsJoining] = useState(false);
+
   const handleJoin = async (e) => {
     e.preventDefault();
     clearError();
+    if (isJoining) return;
+    setIsJoining(true);
     const success = await joinRoom(join);
 
     if (success) {
       navigate(`/lobby/${join.room}`, { replace: true });
     }
+    setIsJoining(false);
   };
 
   const handleCreate = async (e) => {
@@ -46,17 +49,11 @@ export function LandingPage() {
 
   const [formType, setFormType] = useState('play');
 
-  // Start BGM when landing page loads
-  useEffect(() => {
-    resumeAudioContext();
-    playBgm();
-  }, [playBgm, resumeAudioContext]);
+  // Removed auto-play of BGM here to comply with user gesture policies.
 
   const isMobile = window.innerWidth < 768;
   return (
     <div className="w-full h-dvh flex-center flex-col bg-gradient text-[#fff] max-sm:w-[100%] max-sm:h-[auto] max-sm:pb-[20px]">
-      {/* Audio Controls */}
-      <AudioControls />
       <div className=" w-[68%] h-[95%] flex-center flex-col max-sm:w-[100%] max-h-[100%]">
         <header className="flex-[0.5] size flex justify-center items-start max-sm:mt-[10px]">
           <nav className="border-[2px] border-[#E25645] bg-[#f9f9f9] w-[95%] h-[70px] rounded-[10px] flex-center px-[20px] max-sm:h-[50px]">
@@ -155,9 +152,12 @@ export function LandingPage() {
                       <div className="w-full flex-[1] text-white flex-center flex-col gap-[10px]">
                         <button
                           type="submit"
-                          className="w-[90%] text-[35px] rounded-[10px] p-[10px] font-[700] bg-[#FF4D6D] hover:bg-[#E03D5D] transition-colors max-sm:text-[25px]"
+                          disabled={isJoining}
+                          className={`w-[90%] text-[35px] rounded-[10px] p-[10px] font-[700] bg-[#FF4D6D] transition-colors max-sm:text-[25px] ${
+                            isJoining ? 'opacity-60 cursor-not-allowed' : 'hover:bg-[#E03D5D]'
+                          }`}
                         >
-                          JOIN
+                          {isJoining ? 'JOINING…' : 'JOIN'}
                         </button>
                       </div>
                     </form>

@@ -6,7 +6,7 @@ import SessionContext from '@/modules/common/contexts/session-context';
 import SocketContext from '@/modules/common/contexts/socket-context';
 import { BoxCard } from '@/modules/home/components/box-card';
 import { AudioControls } from '@/modules/common/components/audio-controls';
-import { useAudio } from '@/hooks/use-audio';
+import { useAudioContext } from '@/modules/common/contexts/use-audio-context';
 
 export function RoomPage() {
   const { room, getRoom, updateRoomStatus, updateDrawnNumbers, verifyCard } = useContext(RoomContext);
@@ -30,15 +30,14 @@ export function RoomPage() {
   const navigate = useNavigate();
 
   // Audio system
-  const { playBgm, playBallDraw, playVictory, resumeAudioContext } = useAudio();
+  const { playBallDraw, playVictory, resumeAudioContext } = useAudioContext();
 
-  // Start BGM when room is active
+  // When room becomes active, only resume audio context; BGM start is driven by user gesture via AudioControls
   useEffect(() => {
     if (room?.status === 'active' || room?.status === 'started') {
       resumeAudioContext();
-      playBgm();
     }
-  }, [room?.status, playBgm, resumeAudioContext]);
+  }, [room?.status, resumeAudioContext]);
 
   useEffect(() => {
     if (roomCode) {

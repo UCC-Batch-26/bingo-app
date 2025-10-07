@@ -1,8 +1,37 @@
 import React from 'react';
-import { useAudio } from '@/hooks/use-audio';
+import { useAudioContext } from '@/modules/common/contexts/use-audio-context';
 
 export function AudioControls() {
-  const { isAudioEnabled, isBgmPlaying, playBgm, stopBgm, toggleAudio } = useAudio();
+  const { isAudioEnabled, isBgmPlaying, playBgm, stopBgm, toggleAudio, resumeAudioContext } = useAudioContext();
+
+  // Ensure BGM can start after a user gesture to satisfy autoplay policies
+  React.useEffect(() => {
+    const tryStartBgm = async () => {
+      await resumeAudioContext();
+      // Only attempt if audio is enabled and not already playing
+      if (isAudioEnabled && !isBgmPlaying) {
+        playBgm();
+      }
+    };
+
+    const handler = () => {
+      // Run once on first user interaction
+      tryStartBgm();
+      window.removeEventListener('pointerdown', handler);
+      window.removeEventListener('keydown', handler);
+      window.removeEventListener('touchstart', handler);
+    };
+
+    window.addEventListener('pointerdown', handler, { once: true });
+    window.addEventListener('keydown', handler, { once: true });
+    window.addEventListener('touchstart', handler, { once: true });
+
+    return () => {
+      window.removeEventListener('pointerdown', handler);
+      window.removeEventListener('keydown', handler);
+      window.removeEventListener('touchstart', handler);
+    };
+  }, [isAudioEnabled, isBgmPlaying, playBgm, resumeAudioContext]);
 
   return (
     <div className="fixed top-4 right-4 z-50 flex gap-2">
