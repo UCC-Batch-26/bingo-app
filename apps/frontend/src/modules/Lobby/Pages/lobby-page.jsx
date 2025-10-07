@@ -3,7 +3,7 @@ import SessionContext from '@/modules/common/contexts/session-context';
 import { BoxCard } from '@/modules/home/components/box-card';
 import RoomContext from '@/modules/Room/Contexts/room-context';
 import SocketContext from '@/modules/common/contexts/socket-context';
-import { useAudioContext } from '@/modules/common/contexts/audio-context';
+import { useAudioContext } from '@/modules/common/contexts/use-audio-context';
 import React from 'react';
 import { useContext } from 'react';
 import { useEffect } from 'react';

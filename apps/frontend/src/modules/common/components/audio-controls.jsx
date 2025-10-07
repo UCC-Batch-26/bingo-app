@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAudioContext } from '@/modules/common/contexts/audio-context';
+import { useAudioContext } from '@/modules/common/contexts/use-audio-context';
 
 export function AudioControls() {
   const { isAudioEnabled, isBgmPlaying, playBgm, stopBgm, toggleAudio, resumeAudioContext } = useAudioContext();

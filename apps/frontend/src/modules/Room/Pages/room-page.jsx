@@ -6,7 +6,7 @@ import SessionContext from '@/modules/common/contexts/session-context';
 import SocketContext from '@/modules/common/contexts/socket-context';
 import { BoxCard } from '@/modules/home/components/box-card';
 import { AudioControls } from '@/modules/common/components/audio-controls';
-import { useAudioContext } from '@/modules/common/contexts/audio-context';
+import { useAudioContext } from '@/modules/common/contexts/use-audio-context';
 
 export function RoomPage() {
   const { room, getRoom, updateRoomStatus, updateDrawnNumbers, verifyCard } = useContext(RoomContext);
