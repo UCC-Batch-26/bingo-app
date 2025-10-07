@@ -31,6 +31,7 @@ export function SocketProvider({ children }) {
   const [currentRoom, setCurrentRoom] = useState(null);
   const boundHandlersRef = useRef(false);
 
+  //Replace with your Pusher key and cluster from env string
   useEffect(() => {
     const instance = getPusherInstance();
     setPusher(instance);
