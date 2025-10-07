@@ -4,27 +4,7 @@ import Pusher from 'pusher';
 import app from '#src/app.js';
 import { log } from '#utils/log.js';
 
-function normalizePort(portValue) {
-  const port = parseInt(portValue, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return portValue;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
-
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-
-const server = http.createServer(app);
-
+// Initialize Pusher and attach to the express app so handlers can use it
 const pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID,
   key: process.env.PUSHER_KEY,
@@ -33,37 +13,63 @@ const pusher = new Pusher({
   useTLS: true,
 });
 
-// Make pusher available globally
 app.set('pusher', pusher);
+// Export the express app so serverless platforms (like Vercel) can use it.
+export default app;
 
-server.listen(port);
-server.on('error', (error) => {
-  if (error.syscall !== 'listen') {
-    throw error;
+// If not running on Vercel, start a local HTTP server for development
+if (!process.env.VERCEL) {
+  // Local development: start a HTTP server as before
+  function normalizePort(portValue) {
+    const port = parseInt(portValue, 10);
+
+    if (isNaN(port)) {
+      // named pipe
+      return portValue;
+    }
+
+    if (port >= 0) {
+      // port number
+      return port;
+    }
+
+    return false;
   }
 
-  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+  const port = normalizePort(process.env.PORT || '3000');
+  app.set('port', port);
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
+  const server = http.createServer(app);
 
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-
-    default:
+  server.listen(port);
+  server.on('error', (error) => {
+    if (error.syscall !== 'listen') {
       throw error;
-  }
-});
+    }
 
-server.on('listening', () => {
-  const addr = server.address();
-  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+    const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
-  log('server', `Listening on ${bind}`);
-});
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+      case 'EACCES':
+        console.error(bind + ' requires elevated privileges');
+        process.exit(1);
+        break;
+
+      case 'EADDRINUSE':
+        console.error(bind + ' is already in use');
+        process.exit(1);
+        break;
+
+      default:
+        throw error;
+    }
+  });
+
+  server.on('listening', () => {
+    const addr = server.address();
+    const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+
+    log('server', `Listening on ${bind}`);
+  });
+}
