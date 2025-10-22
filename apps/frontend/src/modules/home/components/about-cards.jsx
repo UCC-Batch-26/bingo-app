@@ -1,8 +1,11 @@
-export function AboutCards({ title, description }) {
+export function AboutCards({ title, description, className = '' }) {
   return (
-    <div className="bg-white rounded-[10px] border-[2px] border-[#f62d4a] flex-[1] size text-black flex justify-between items-start flex-col p-[15px] max-sm:p-[20px]">
-      <p className="text-[12px] font-[700]">{title}</p>
-      <p className="text-[12px]">{description}</p>
+    <div className={`flex-1 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer p-6 ${className}`}>
+      <div className="flex items-start gap-3 mb-3">
+        <div className="w-1.5 h-1.5 bg-pink-500 rounded-full mt-2 flex-shrink-0"></div>
+        <h4 className="text-sm font-semibold text-slate-900 leading-tight">{title}</h4>
+      </div>
+      <p className="text-xs text-slate-600 leading-relaxed">{description}</p>
     </div>
   );
 }

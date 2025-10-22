@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import RoomContext from '@/modules/Room/Contexts/room-context';
 import { Footer } from '@/modules/common/components/footer';
+import { Button } from '@/modules/common/components/button';
 
 export function LandingPage() {
   const { createRoom, joinRoom, error, clearError } = useContext(RoomContext);
@@ -52,197 +53,240 @@ export function LandingPage() {
   // Removed auto-play of BGM here to comply with user gesture policies.
 
   const isMobile = window.innerWidth < 768;
+  
   return (
-    <div className="w-full h-dvh flex-center flex-col bg-gradient text-[#fff] max-sm:w-[100%] max-sm:h-[auto] max-sm:pb-[20px]">
-      <div className=" w-[68%] h-[95%] flex-center flex-col max-sm:w-[100%] max-h-[100%]">
-        <header className="flex-[0.5] size flex justify-center items-start max-sm:mt-[10px]">
-          <nav className="border-[2px] border-[#E25645] bg-[#f9f9f9] w-[95%] h-[70px] rounded-[10px] flex-center px-[20px] max-sm:h-[50px]">
-            <div className="w-[40px] h-[40px] max-sm:w-[35px] max-sm:h-[35px]">
-              <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={isMobile ? 25 : 35} />
-            </div>
-            <div className="flex-[1]"></div>
-          </nav>
-        </header>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+      {/* Navigation */}
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <BoxCard 
+              letter="B" 
+              bgColor="#6366f1" 
+              borderColor="#4f46e5" 
+              fontSize={isMobile ? 28 : 32}
+              className="w-12 h-12"
+            />
+            <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 via-pink-500 to-amber-500 bg-clip-text text-transparent">Bit9o</span>
+          </div>
+          <AudioControls />
+        </div>
+      </nav>
 
-        <div className="flex-[2] size  flex-center max-sm:flex-col">
-          <div className="flex-[1] size  flex-center max-sm:mb-[20px] max-sm:p-[20px]">
-            <div className="bg-[] w-[80%] h-[80%] flex justify-start items-start flex-col gap-[20px] max-sm:w-[100%]">
-              <div className="w-[100%] h-[30%] ">
-                <p className="text-[40px] font-[1000]">Play Bit9o,</p>
-                <p className="text-[30px] font-[700]">Together Anywhere</p>
+      {/* Hero Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left Content */}
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <h1 className="text-5xl lg:text-7xl font-black leading-tight">
+                Play <span className="bg-gradient-to-r from-indigo-600 via-pink-500 to-amber-500 bg-clip-text text-transparent">Bit9o</span>
+              </h1>
+              <h2 className="text-3xl lg:text-5xl font-bold text-slate-300">
+                Together Anywhere
+              </h2>
+            </div>
+            
+            <p className="text-lg lg:text-xl text-slate-300 leading-relaxed max-w-lg">
+              Enjoy the classic fun of bingo with a modern twist! Create or join rooms, invite your friends, 
+              and play together online—whether you're near or far. Simple, social, and full of laughs.
+            </p>
+
+            <div className="flex flex-wrap gap-4">
+              <div className="flex items-center gap-2 text-sm text-slate-400">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                <span>Free to play</span>
               </div>
-              <div className="w-[100%] h-[40%] ">
-                <p className="text-justify text-[15px]">
-                  Enjoy the classic fun of bitgo with a modern twist! Create or join rooms, invite your friends, and
-                  play together online—whether you’re near or far. Simple, social, and full of laughs, bingo nights are
-                  now just a click away.
-                </p>
-                <div className="w-[100%] h-[100px] border max-sm:hidden"></div>
+              <div className="flex items-center gap-2 text-sm text-slate-400">
+                <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+                <span>No registration required</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-slate-400">
+                <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
+                <span>Cross-platform</span>
               </div>
             </div>
           </div>
 
-          <div className="flex-[1.5] size flex-center">
-            <div className=" w-[76%] h-[80%] flex-center flex-col max-sm:w-[90%]">
-              <div className="w-[100%] h-[80px] flex-center max-sm:h-[60px]">
-                <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={isMobile ? 45 : 60} />
-                <BoxCard letter="I" bgColor="#F37213" borderColor="#D82C23" fontSize={isMobile ? 45 : 60} />
-                <BoxCard letter="T" bgColor="#FFD93D" borderColor="#BC7E06" fontSize={isMobile ? 45 : 60} />
-                <BoxCard letter="9" bgColor="#C6B29B" borderColor="#7D6450" fontSize={isMobile ? 45 : 60} />
-                <BoxCard letter="O" bgColor="#6BCB77" borderColor="#2C7A25" fontSize={isMobile ? 45 : 60} />
+          {/* Right Content - Game Form */}
+          <div>
+            <div className="bg-white rounded-xl border border-slate-200 shadow-lg p-8 max-w-md mx-auto">
+              {/* Logo Display */}
+              <div className="flex justify-center items-center gap-2 mb-8">
+                <BoxCard letter="B" bgColor="#6366f1" borderColor="#4f46e5" fontSize={isMobile ? 40 : 50} />
+                <BoxCard letter="I" bgColor="#ec4899" borderColor="#db2777" fontSize={isMobile ? 40 : 50} />
+                <BoxCard letter="T" bgColor="#f59e0b" borderColor="#d97706" fontSize={isMobile ? 40 : 50} />
+                <BoxCard letter="9" bgColor="#8b5cf6" borderColor="#7c3aed" fontSize={isMobile ? 40 : 50} />
+                <BoxCard letter="O" bgColor="#10b981" borderColor="#059669" fontSize={isMobile ? 40 : 50} />
               </div>
-              <div className="bg-[#FF4D6D] size flex-[1] p-[10px] shadow">
-                <div className="bg-[#f9f9f9] border-[2px] border-[#9B17F8] size p-[20px] flex-center flex-col">
-                  <div className="flex w-full mb-[20px] bg-[#E0E0E0] rounded-[10px] p-[5px]">
-                    <button
-                      onClick={() => setFormType('play')}
-                      className={`flex-1 py-[10px] rounded-[8px] font-[600] transition-all ${
-                        formType === 'play' ? 'bg-[#FF4D6D] text-white' : 'text-[#666] hover:text-[#000]'
-                      }`}
-                    >
-                      PLAY
-                    </button>
 
-                    <button
-                      onClick={() => setFormType('create')}
-                      className={`flex-1 py-[10px] rounded-[8px] font-[600] transition-all ${
-                        formType === 'create' ? 'bg-[#9B17F8] text-white' : 'text-[#666] hover:text-[#000]'
-                      }`}
-                    >
-                      CREATE
-                    </button>
+              {/* Tab Navigation */}
+              <div className="flex bg-slate-100 rounded-lg p-1 mb-6">
+                <button
+                  onClick={() => setFormType('play')}
+                  className={`flex-1 py-3 px-4 rounded-md font-semibold transition-all ${
+                    formType === 'play' 
+                      ? 'bg-indigo-600 text-white shadow-sm' 
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  Join Game
+                </button>
+                <button
+                  onClick={() => setFormType('create')}
+                  className={`flex-1 py-3 px-4 rounded-md font-semibold transition-all ${
+                    formType === 'create' 
+                      ? 'bg-pink-500 text-white shadow-sm' 
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  Create Room
+                </button>
+              </div>
+
+              {/* Forms */}
+              {formType === 'play' ? (
+                <form onSubmit={handleJoin} className="space-y-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Your Name
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-colors"
+                        placeholder="Enter your name"
+                        value={join.name}
+                        onChange={(e) => setJoin((prev) => ({ ...prev, name: e.target.value }))}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Room Code
+                      </label>
+                      <input
+                        type="text"
+                        name="roomCode"
+                        className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-colors"
+                        placeholder="Enter room code"
+                        value={join.room}
+                        onChange={(e) => setJoin((prev) => ({ ...prev, room: e.target.value }))}
+                        required
+                      />
+                    </div>
                   </div>
 
-                  {/* Forms */}
-                  {formType === 'play' ? (
-                    <form onSubmit={(e) => handleJoin(e)} className="w-full flex-center flex-col">
-                      <div className="w-[100%] h-[140px] text-[#000] flex-center flex-col gap-[10px]">
-                        <div className="w-[90%] border-[1px] border-[#C6B29B] rounded-[5px] flex p-[5px] gap-[10px]">
-                          <p className="bg-[#C6B29B] p-[5px] rounded-[3px]">Name:</p>
-                          <input
-                            type="text"
-                            name="name"
-                            className="w-[100%] outline-none"
-                            placeholder="Enter your name"
-                            value={join.name}
-                            onChange={(e) => setJoin((prev) => ({ ...prev, name: e.target.value }))}
-                            required
-                          />
-                        </div>
-                        <div className="w-[90%] border-[1px] border-[#C6B29B] rounded-[5px] flex p-[5px] gap-[10px]">
-                          <p className="bg-[#C6B29B] p-[5px] rounded-[3px]">Code:</p>
-                          <input
-                            type="text"
-                            name="roomCode"
-                            className="w-[100%] outline-none"
-                            placeholder="Enter your code here"
-                            onChange={(e) => setJoin((prev) => ({ ...prev, room: e.target.value }))}
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      {/* Error Display */}
-                      {error && (
-                        <div className="w-[90%] bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-2">
-                          <p className="text-center font-medium">{error}</p>
-                        </div>
-                      )}
-
-                      <div className="w-full flex-[1] text-white flex-center flex-col gap-[10px]">
-                        <button
-                          type="submit"
-                          disabled={isJoining}
-                          className={`w-[90%] text-[35px] rounded-[10px] p-[10px] font-[700] bg-[#FF4D6D] transition-colors max-sm:text-[25px] ${
-                            isJoining ? 'opacity-60 cursor-not-allowed' : 'hover:bg-[#E03D5D]'
-                          }`}
-                        >
-                          {isJoining ? 'JOINING…' : 'JOIN'}
-                        </button>
-                      </div>
-                    </form>
-                  ) : (
-                    <form onSubmit={(e) => handleCreate(e)} className="w-full flex-center flex-col">
-                      <div className="w-[100%] h-[140px] text-[#000] flex-center flex-col gap-[10px]">
-                        <div className="w-[90%] border-[1px] border-[#C6B29B] rounded-[5px] flex p-[5px] gap-[10px]">
-                          <p className="bg-[#C6B29B] p-[5px] rounded-[3px]">Mode:</p>
-                          <select
-                            name="mode"
-                            className="w-[100%] outline-none bg-transparent text-[14px]"
-                            onChange={(e) => setCreate((prev) => ({ ...prev, mode: e.target.value }))}
-                            required
-                          >
-                            <option value="quick">Quick</option>
-                            <option value="standard">Standard</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="w-full flex-[1] text-white flex-center flex-col gap-[10px]">
-                        <button
-                          type="submit"
-                          className="w-[90%] text-[35px] rounded-[10px] p-[10px] font-[700] bg-[#9B17F8] hover:bg-[#7A0FC6] transition-colors max-sm:text-[25px]"
-                        >
-                          CREATE ROOM
-                        </button>
-                      </div>
-                    </form>
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                      <p className="text-sm font-medium text-center">{error}</p>
+                    </div>
                   )}
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="flex-[1] size flex-center flex-col gap-[20px] max-sm:mt-[50px]">
-            <div className="w-[80%] h-[auto]">
-              <p className="text-[18px] font-[700] text-[#564D43]">🎲 HOW TO PLAY</p>
-            </div>
-            <HowToPlayCards
-              type="Host"
-              description="Playing is simple and fun. As a Host, you can create a bingo room in seconds, set your own
-                game rules, and share a unique code with your friends—just like starting a Zoom call. Once everyone is
-                in, you control the game and call the numbers."
-            />
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="lg"
+                    disabled={isJoining}
+                    className="w-full"
+                  >
+                    {isJoining ? 'Joining...' : 'Join Game'}
+                  </Button>
+                </form>
+              ) : (
+                <form onSubmit={handleCreate} className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                      Game Mode
+                    </label>
+                    <select
+                      name="mode"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-colors"
+                      value={create.mode}
+                      onChange={(e) => setCreate((prev) => ({ ...prev, mode: e.target.value }))}
+                      required
+                    >
+                      <option value="quick">Quick Game</option>
+                      <option value="standard">Standard Game</option>
+                    </select>
+                  </div>
 
-            <HowToPlayCards
-              type="User"
-              description="As a User, all you need is the code from the host. Enter it in the app, grab your bingo card, and start marking the numbers as they are called. When you complete the winning pattern, shout “Bingo!” and celebrate with your friends online. "
-            />
+                  <Button
+                    type="submit"
+                    variant="secondary"
+                    size="lg"
+                    className="w-full"
+                  >
+                    Create Room
+                  </Button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* About */}
-        <div className="flex-[1] size flex justify-start items-center flex-col gap-[30px] max-sm:mt-[30px]">
-          <p className="text-[14px] max-sm:text-center">
-            Host and join bingo games with friends online—just like hanging out, no matter the distance.
+      {/* How to Play Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-4">
+            How to <span className="bg-gradient-to-r from-indigo-600 via-pink-500 to-amber-500 bg-clip-text text-transparent">Play</span>
+          </h2>
+          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
+            Get started in seconds and enjoy bingo with friends anywhere in the world
           </p>
-          <div className="bg-[#9B17F8] w-[75%] h-[70%] rounded-[10px] shadow flex-center max-sm:w-[90%] max-sm:p-[20px]">
-            <div className="flex-center w-[95%] h-[80%] gap-[15px] max-sm:flex-col">
-              <div className="flex-[1] size flex-center">
-                <div className="w-[100%] h-[25%] flex-center ">
-                  <BoxCard letter="A" bgColor="#32BAEC" borderColor="#0C6795" fontSize={25} />
-                  <BoxCard letter="B" bgColor="#F37213" borderColor="#D82C23" fontSize={25} />
-                  <BoxCard letter="O" bgColor="#FFD93D" borderColor="#BC7E06" fontSize={25} />
-                  <BoxCard letter="U" bgColor="#C6B29B" borderColor="#7D6450" fontSize={25} />
-                  <BoxCard letter="T" bgColor="#6BCB77" borderColor="#2C7A25" fontSize={25} />
-                </div>
-              </div>
-              <AboutCards
-                title="Bitgo Made Social."
-                description="Bring the classic bingo vibe online! Host a room, share the code, and play with your barkada anytime. Simple, exciting, and always fun."
-              />
-              <AboutCards
-                title="Connecting People Through Play."
-                description="Our app transforms bingo into a modern social experience. Create a room, share the unique code, and enjoy seamless online game with friends."
-              />
-              <AboutCards
-                title="Bitgo Nights, No Distance Needed."
-                description="Forget boring nights—this is bitgo with a twist! Host your own game, drop a code, and let your friends hop in."
-              />
-            </div>
-          </div>
         </div>
-        <Footer />
-      </div>
+
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <HowToPlayCards
+            type="Host"
+            description="Create a room in seconds, set your game rules, and share a unique code with your friends. Once everyone joins, you control the game and call the numbers. It's like hosting a party, but for bingo!"
+          />
+          <HowToPlayCards
+            type="Player"
+            description="Simply enter the room code from your host, grab your bingo card, and start marking numbers as they're called. When you complete the winning pattern, shout 'Bingo!' and celebrate with your friends online."
+          />
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-4">
+            Why Choose <span className="bg-gradient-to-r from-indigo-600 via-pink-500 to-amber-500 bg-clip-text text-transparent">Bit9o</span>
+          </h2>
+          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
+            Modern bingo that brings people together, no matter where they are
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <AboutCards
+            title="Social Gaming Made Simple"
+            description="Bring the classic bingo experience online with friends and family. Create rooms, share codes, and play together instantly—no complicated setup required."
+          />
+          <AboutCards
+            title="Connect Anywhere, Anytime"
+            description="Whether you're across the street or across the world, Bit9o keeps you connected through the joy of bingo. Perfect for virtual hangouts and family game nights."
+          />
+          <AboutCards
+            title="Modern & Intuitive"
+            description="Clean, beautiful interface that's easy to use for players of all ages. Enjoy smooth gameplay with modern features while keeping the classic bingo charm."
+          />
+        </div>
+
+        {/* Decorative Bingo Letters */}
+        <div className="flex justify-center items-center gap-4 mt-16 opacity-50">
+          <BoxCard letter="A" bgColor="#6366f1" borderColor="#4f46e5" fontSize={24} />
+          <BoxCard letter="B" bgColor="#ec4899" borderColor="#db2777" fontSize={24} />
+          <BoxCard letter="O" bgColor="#f59e0b" borderColor="#d97706" fontSize={24} />
+          <BoxCard letter="U" bgColor="#8b5cf6" borderColor="#7c3aed" fontSize={24} />
+          <BoxCard letter="T" bgColor="#10b981" borderColor="#059669" fontSize={24} />
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 }
