@@ -155,9 +155,9 @@ export function LobbyPage() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{backgroundColor: '#FEFBF3'}}>
+    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#FEFBF3' }}>
       {/* Geometric Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{opacity: 0.4}}>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ opacity: 0.4 }}>
         {/* Large geometric shapes - squares and rectangles */}
         <div className="absolute top-20 left-10 w-32 h-32 border border-black bg-purple-gaming rotate-45"></div>
         <div className="absolute top-40 right-20 w-24 h-24 border border-black bg-coral"></div>
@@ -165,13 +165,13 @@ export function LobbyPage() {
         <div className="absolute bottom-20 right-10 w-36 h-36 border border-black bg-purple-gaming"></div>
         <div className="absolute top-64 left-96 w-20 h-20 border border-black bg-coral-light"></div>
         <div className="absolute bottom-64 right-96 w-24 h-24 border border-black bg-blue-gaming-light rotate-45"></div>
-        
+
         {/* Circles and arcs */}
         <div className="absolute top-20 right-32 w-24 h-24 border border-black bg-coral rounded-full"></div>
         <div className="absolute bottom-32 left-64 w-32 h-32 border border-black bg-blue-gaming rounded-full opacity-80"></div>
         <div className="absolute top-48 left-1/4 w-28 h-28 border border-black border-r-0 border-b-0 bg-purple-gaming rounded-tl-full"></div>
         <div className="absolute bottom-48 right-1/4 w-24 h-24 border border-black border-l-0 border-t-0 bg-coral rounded-br-full"></div>
-        
+
         {/* Small dots in groups */}
         <div className="absolute top-32 left-24 flex gap-1">
           <div className="w-2 h-2 bg-coral border border-black rounded-full"></div>
@@ -192,7 +192,7 @@ export function LobbyPage() {
           <div className="w-3 h-3 bg-purple-gaming border border-black rounded-full"></div>
           <div className="w-3 h-3 bg-blue-gaming border border-black rounded-full"></div>
         </div>
-        
+
         {/* Grid patterns - outlined rectangles */}
         <div className="absolute top-24 right-16 border border-black p-2">
           <div className="grid grid-cols-2 gap-1">
@@ -210,10 +210,14 @@ export function LobbyPage() {
             <div className="w-4 h-4 border border-black"></div>
           </div>
         </div>
-        
+
         {/* Symbols - Plus, X, Speech bubble */}
-        <div className="absolute top-56 right-1/3 w-6 h-6 border border-black bg-blue-gaming flex items-center justify-center text-black font-bold text-sm">+</div>
-        <div className="absolute bottom-56 left-1/3 w-6 h-6 border border-black bg-coral flex items-center justify-center text-black font-bold text-sm">×</div>
+        <div className="absolute top-56 right-1/3 w-6 h-6 border border-black bg-blue-gaming flex items-center justify-center text-black font-bold text-sm">
+          +
+        </div>
+        <div className="absolute bottom-56 left-1/3 w-6 h-6 border border-black bg-coral flex items-center justify-center text-black font-bold text-sm">
+          ×
+        </div>
         <div className="absolute top-40 left-1/2 border border-black bg-white rounded-lg p-1">
           <div className="flex gap-0.5">
             <div className="w-1 h-1 bg-black rounded-full"></div>
@@ -221,26 +225,38 @@ export function LobbyPage() {
             <div className="w-1 h-1 bg-black rounded-full"></div>
           </div>
         </div>
-        
+
         {/* Half-filled shapes */}
         <div className="absolute top-64 left-40 w-16 h-16 border border-black relative overflow-hidden">
-          <div className="absolute inset-0 bg-coral" style={{width: '50%'}}></div>
-          <div className="absolute inset-0 bg-blue-gaming right-0" style={{width: '50%', left: '50%'}}></div>
+          <div className="absolute inset-0 bg-coral" style={{ width: '50%' }}></div>
+          <div className="absolute inset-0 bg-blue-gaming right-0" style={{ width: '50%', left: '50%' }}></div>
         </div>
         <div className="absolute bottom-64 right-40 w-16 h-16 border border-black relative overflow-hidden">
-          <div className="absolute inset-0 bg-purple-gaming" style={{width: '50%'}}></div>
-          <div className="absolute inset-0 bg-coral right-0" style={{width: '50%', left: '50%'}}></div>
+          <div className="absolute inset-0 bg-purple-gaming" style={{ width: '50%' }}></div>
+          <div className="absolute inset-0 bg-coral right-0" style={{ width: '50%', left: '50%' }}></div>
         </div>
-        
+
         {/* Wavy lines */}
-        <div className="absolute top-80 left-20 w-32 h-1 border-t border-b border-black bg-purple-gaming opacity-50" style={{clipPath: 'polygon(0% 50%, 25% 0%, 50% 50%, 75% 100%, 100% 50%)'}}></div>
-        <div className="absolute bottom-80 right-20 w-32 h-1 border-t border-b border-black bg-blue-gaming opacity-50" style={{clipPath: 'polygon(0% 50%, 25% 100%, 50% 50%, 75% 0%, 100% 50%)'}}></div>
-        
+        <div
+          className="absolute top-80 left-20 w-32 h-1 border-t border-b border-black bg-purple-gaming opacity-50"
+          style={{ clipPath: 'polygon(0% 50%, 25% 0%, 50% 50%, 75% 100%, 100% 50%)' }}
+        ></div>
+        <div
+          className="absolute bottom-80 right-20 w-32 h-1 border-t border-b border-black bg-blue-gaming opacity-50"
+          style={{ clipPath: 'polygon(0% 50%, 25% 100%, 50% 50%, 75% 0%, 100% 50%)' }}
+        ></div>
+
         {/* Diamond shape with 3D effect */}
-        <div className="absolute top-72 right-20 w-8 h-20 border border-black bg-purple-gaming transform rotate-12 relative" style={{clipPath: 'polygon(50% 0%, 100% 25%, 50% 100%, 0% 25%)'}}>
-          <div className="absolute inset-0 bg-blue-gaming opacity-50" style={{clipPath: 'polygon(50% 10%, 90% 30%, 50% 90%, 10% 30%)'}}></div>
+        <div
+          className="absolute top-72 right-20 w-8 h-20 border border-black bg-purple-gaming transform rotate-12 relative"
+          style={{ clipPath: 'polygon(50% 0%, 100% 25%, 50% 100%, 0% 25%)' }}
+        >
+          <div
+            className="absolute inset-0 bg-blue-gaming opacity-50"
+            style={{ clipPath: 'polygon(50% 10%, 90% 30%, 50% 90%, 10% 30%)' }}
+          ></div>
         </div>
-        
+
         {/* Outlined circles and squares */}
         <div className="absolute top-64 left-1/2 w-16 h-16 border border-black rounded-full"></div>
         <div className="absolute bottom-64 right-1/2 w-14 h-14 border border-black rounded-full"></div>
@@ -251,13 +267,7 @@ export function LobbyPage() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <BoxCard 
-              letter="B" 
-              bgColor="#7C3AED" 
-              borderColor="#000" 
-              fontSize={32}
-              className="w-12 h-12"
-            />
+            <BoxCard letter="B" bgColor="#7C3AED" borderColor="#000" fontSize={32} className="w-12 h-12" />
             <span className="text-2xl font-black text-black">Bit9o</span>
           </div>
           <div className="text-sm text-black bg-white border border-black rounded-lg px-4 py-2.5">
@@ -303,12 +313,14 @@ export function LobbyPage() {
                     <span className="text-sm text-black font-bold">Connected</span>
                   </div>
                 </div>
-                
+
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-black font-bold">Room Code:</span>
                     <div className="flex items-center gap-2">
-                      <span className="font-mono bg-purple-gaming text-white border border-black rounded-lg px-4 py-2 text-lg font-bold">{room.roomCode}</span>
+                      <span className="font-mono bg-purple-gaming text-white border border-black rounded-lg px-4 py-2 text-lg font-bold">
+                        {room.roomCode}
+                      </span>
                       <button
                         type="button"
                         onClick={() => handleCopy(room.roomCode, setCopiedPlayer)}
@@ -317,24 +329,48 @@ export function LobbyPage() {
                         aria-label="Copy room code"
                       >
                         {copiedPlayer ? (
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                            <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-7.5 9.5a.75.75 0 01-1.127.055l-3.5-3.75a.75.75 0 011.082-1.038l2.88 3.085 6.977-8.846a.75.75 0 011.045-.058z" clipRule="evenodd" />
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="w-4 h-4"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M16.704 4.153a.75.75 0 01.143 1.052l-7.5 9.5a.75.75 0 01-1.127.055l-3.5-3.75a.75.75 0 011.082-1.038l2.88 3.085 6.977-8.846a.75.75 0 011.045-.058z"
+                              clipRule="evenodd"
+                            />
                           </svg>
                         ) : (
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 7.5v-2.25A2.25 2.25 0 0110.5 3h6.75A2.25 2.25 0 0119.5 5.25V12a2.25 2.25 0 01-2.25 2.25H15M5.25 7.5H12A2.25 2.25 0 0114.25 9.75V18A2.25 2.25 0 0112 20.25H5.25A2.25 2.25 0 013 18V9.75A2.25 2.25 0 015.25 7.5z" />
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-4 h-4"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M8.25 7.5v-2.25A2.25 2.25 0 0110.5 3h6.75A2.25 2.25 0 0119.5 5.25V12a2.25 2.25 0 01-2.25 2.25H15M5.25 7.5H12A2.25 2.25 0 0114.25 9.75V18A2.25 2.25 0 0112 20.25H5.25A2.25 2.25 0 013 18V9.75A2.25 2.25 0 015.25 7.5z"
+                            />
                           </svg>
                         )}
                       </button>
                     </div>
                   </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-black font-bold">Game Mode:</span>
-                      <span className="bg-coral text-black border border-black px-4 py-1.5 rounded-lg text-sm font-bold capitalize">{room.mode}</span>
-                    </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-black font-bold">Game Mode:</span>
+                    <span className="bg-coral text-black border border-black px-4 py-1.5 rounded-lg text-sm font-bold capitalize">
+                      {room.mode}
+                    </span>
+                  </div>
                   <div className="flex items-center justify-between">
                     <span className="text-black font-bold">Status:</span>
-                    <span className="bg-blue-gaming text-black border border-black px-4 py-1.5 rounded-lg text-sm font-bold">Waiting for players</span>
+                    <span className="bg-blue-gaming text-black border border-black px-4 py-1.5 rounded-lg text-sm font-bold">
+                      Waiting for players
+                    </span>
                   </div>
                 </div>
               </div>
@@ -345,7 +381,10 @@ export function LobbyPage() {
                 <div className="bg-white border border-black rounded-lg p-6">
                   <div className="grid grid-cols-3 gap-3 max-w-xs mx-auto">
                     {cardNumbers.map((cardNumber) => (
-                      <div key={cardNumber} className="bg-white border border-black rounded-lg p-4 text-center hover:shadow-md transition-all btn-playful">
+                      <div
+                        key={cardNumber}
+                        className="bg-white border border-black rounded-lg p-4 text-center hover:shadow-md transition-all btn-playful"
+                      >
                         <span className="text-xl font-bold text-black">{cardNumber}</span>
                       </div>
                     ))}
@@ -403,12 +442,14 @@ export function LobbyPage() {
                         <span className="text-sm text-black font-bold">Active</span>
                       </div>
                     </div>
-                    
+
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-black font-bold">Room Code:</span>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono bg-purple-gaming text-white border border-black rounded-lg px-4 py-2 text-lg font-bold">{room.code}</span>
+                          <span className="font-mono bg-purple-gaming text-white border border-black rounded-lg px-4 py-2 text-lg font-bold">
+                            {room.code}
+                          </span>
                           <button
                             type="button"
                             onClick={() => handleCopy(room.code, setCopiedHost)}
@@ -417,12 +458,32 @@ export function LobbyPage() {
                             aria-label="Copy room code"
                           >
                             {copiedHost ? (
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                                <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-7.5 9.5a.75.75 0 01-1.127.055l-3.5-3.75a.75.75 0 011.082-1.038l2.88 3.085 6.977-8.846a.75.75 0 011.045-.058z" clipRule="evenodd" />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                className="w-4 h-4"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M16.704 4.153a.75.75 0 01.143 1.052l-7.5 9.5a.75.75 0 01-1.127.055l-3.5-3.75a.75.75 0 011.082-1.038l2.88 3.085 6.977-8.846a.75.75 0 011.045-.058z"
+                                  clipRule="evenodd"
+                                />
                               </svg>
                             ) : (
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 7.5v-2.25A2.25 2.25 0 0110.5 3h6.75A2.25 2.25 0 0119.5 5.25V12a2.25 2.25 0 01-2.25 2.25H15M5.25 7.5H12A2.25 2.25 0 0114.25 9.75V18A2.25 2.25 0 0112 20.25H5.25A2.25 2.25 0 013 18V9.75A2.25 2.25 0 015.25 7.5z" />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="w-4 h-4"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M8.25 7.5v-2.25A2.25 2.25 0 0110.5 3h6.75A2.25 2.25 0 0119.5 5.25V12a2.25 2.25 0 01-2.25 2.25H15M5.25 7.5H12A2.25 2.25 0 0114.25 9.75V18A2.25 2.25 0 0112 20.25H5.25A2.25 2.25 0 013 18V9.75A2.25 2.25 0 015.25 7.5z"
+                                />
                               </svg>
                             )}
                           </button>
@@ -430,7 +491,9 @@ export function LobbyPage() {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-black font-bold">Game Mode:</span>
-                        <span className="bg-coral text-black border border-black px-4 py-1.5 rounded-lg text-sm font-bold capitalize">{room.mode}</span>
+                        <span className="bg-coral text-black border border-black px-4 py-1.5 rounded-lg text-sm font-bold capitalize">
+                          {room.mode}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -441,7 +504,10 @@ export function LobbyPage() {
                     <div className="space-y-2 max-h-48 overflow-y-auto">
                       {room?.players?.length > 0 ? (
                         room.players.map((player, index) => (
-                          <div key={index} className="flex items-center justify-between p-4 bg-white border border-black rounded-lg">
+                          <div
+                            key={index}
+                            className="flex items-center justify-between p-4 bg-white border border-black rounded-lg"
+                          >
                             <div className="flex items-center gap-3">
                               <div className="w-10 h-10 bg-purple-gaming border border-black rounded-full flex items-center justify-center text-white font-bold text-sm transform hover:scale-110 transition-transform">
                                 {player.name.charAt(0).toUpperCase()}
@@ -449,7 +515,9 @@ export function LobbyPage() {
                               <span className="font-bold text-black">{player.name}</span>
                             </div>
                             {player.isHost && (
-                              <span className="bg-coral text-black border border-black px-3 py-1 rounded-lg text-xs font-bold">👑 Host</span>
+                              <span className="bg-coral text-black border border-black px-3 py-1 rounded-lg text-xs font-bold">
+                                👑 Host
+                              </span>
                             )}
                           </div>
                         ))
@@ -480,7 +548,7 @@ export function LobbyPage() {
                 {/* Game Actions */}
                 <div className="bg-white border border-black rounded-lg p-8 relative">
                   <h3 className="text-xl font-bold text-black mb-6 text-center">Game Controls</h3>
-                  
+
                   <div className="space-y-4">
                     <button
                       onClick={handleStartGame}
@@ -488,7 +556,7 @@ export function LobbyPage() {
                     >
                       🚀 Start Game!
                     </button>
-                    
+
                     <button
                       onClick={(e) => {
                         if (confirm('Are you sure you want to end the lobby and kick all players?')) {
