@@ -1,8 +1,25 @@
-export function Button({ children, type = 'button', ...props }) {
+export function Button({ children, type = 'button', variant = 'primary', size = 'md', className = '', ...props }) {
+  const baseClasses =
+    'inline-flex items-center justify-center rounded-lg font-bold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none btn-playful border border-black';
+
+  const variantClasses = {
+    primary: 'bg-purple-gaming text-white hover:bg-purple-gaming-dark focus:ring-purple-gaming/50',
+    secondary: 'bg-coral text-white hover:bg-coral-light focus:ring-coral/50',
+    outline: 'bg-white border border-black text-black hover:bg-blue-gaming-light focus:ring-purple-gaming/50',
+    ghost: 'text-black hover:bg-blue-gaming-light focus:ring-purple-gaming/50',
+  };
+
+  const sizeClasses = {
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2.5 text-sm',
+    lg: 'px-6 py-3.5 text-base',
+    xl: 'px-8 py-4 text-lg',
+  };
+
   return (
     <button
       type={type}
-      className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:bg-blue-300 disabled:text-blue-100"
+      className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
       {...props}
     >
       {children}

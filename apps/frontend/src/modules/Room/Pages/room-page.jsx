@@ -95,7 +95,6 @@ export function RoomPage() {
           winType: data.winType || 'BIT9O',
           isWinner: data.playerId === card?._id, // Check if this is the current player
         });
-        setIsBit9o(true);
         // Play victory sound effect
         playVictory();
       } else {
@@ -138,8 +137,6 @@ export function RoomPage() {
   const calledNumbers = room?.drawnNumber || [];
   const currentNumber = calledNumbers[calledNumbers.length - 1] || null;
   const [markedNumbers, setMarkedNumbers] = useState([]);
-  const [isBit9o, setIsBit9o] = useState(false);
-  const [showNumberBoard, setShowNumberBoard] = useState(false);
   const [winNotification, setWinNotification] = useState(null);
   const [newDrawnNumber, setNewDrawnNumber] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -230,7 +227,6 @@ export function RoomPage() {
           winType: 'BIT9O',
           isWinner: true,
         });
-        setIsBit9o(true);
       } else {
         setVerificationError({
           message: 'Not Win Yet',
@@ -249,357 +245,772 @@ export function RoomPage() {
   const isMobile = window.innerWidth < 768;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 p-4 sm:p-10">
-      {/* Audio Controls */}
-      <AudioControls />
-      {/* Winner Banner - Shows at top for all players */}
-      {winNotification && (
-        <div className="fixed top-0 left-0 right-0 z-40 bg-yellow-400 border-b-4 border-yellow-600 shadow-lg">
-          <div className="text-center py-4 px-4 relative">
-            <button
-              onClick={() => setWinNotification(null)}
-              className="absolute top-2 right-4 text-gray-600 hover:text-gray-800 text-2xl font-bold"
-              title="Close notification"
-            >
-              ×
-            </button>
-            <div className="text-2xl sm:text-4xl font-black text-red-600 mb-2">🎉 WINNER ANNOUNCEMENT! 🎉</div>
-            <div className="text-lg sm:text-2xl font-bold text-gray-800">
-              {winNotification.isWinner ? (
-                <span className="text-green-600">Congratulations! You won {winNotification.winType}!</span>
-              ) : (
-                <span className="text-blue-600">
-                  {winNotification.playerName} won {winNotification.winType}!
-                </span>
-              )}
+    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#FEFBF3' }}>
+      {/* Geometric Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ opacity: 0.4 }}>
+        {/* Large geometric shapes - squares and rectangles */}
+        <div className="absolute top-20 left-10 w-32 h-32 border border-black bg-purple-gaming rotate-45"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 border border-black bg-coral"></div>
+        <div className="absolute bottom-32 left-32 w-40 h-40 border border-black bg-blue-gaming rotate-12"></div>
+        <div className="absolute bottom-20 right-10 w-36 h-36 border border-black bg-purple-gaming"></div>
+        <div className="absolute top-64 left-96 w-20 h-20 border border-black bg-coral-light"></div>
+        <div className="absolute bottom-64 right-96 w-24 h-24 border border-black bg-blue-gaming-light rotate-45"></div>
+        <div className="absolute top-96 left-64 w-28 h-28 border border-black bg-purple-gaming rotate-12"></div>
+        <div className="absolute bottom-96 right-64 w-32 h-32 border border-black bg-coral rotate-45"></div>
+
+        {/* Circles and arcs */}
+        <div className="absolute top-20 right-32 w-24 h-24 border border-black bg-coral rounded-full"></div>
+        <div className="absolute bottom-32 left-64 w-32 h-32 border border-black bg-blue-gaming rounded-full opacity-80"></div>
+        <div className="absolute top-48 left-1/4 w-28 h-28 border border-black border-r-0 border-b-0 bg-purple-gaming rounded-tl-full"></div>
+        <div className="absolute bottom-48 right-1/4 w-24 h-24 border border-black border-l-0 border-t-0 bg-coral rounded-br-full"></div>
+        <div className="absolute top-80 left-1/3 w-20 h-20 border border-black bg-blue-gaming rounded-full"></div>
+        <div className="absolute bottom-80 right-1/3 w-28 h-28 border border-black bg-purple-gaming rounded-full opacity-70"></div>
+
+        {/* Small geometric dots in groups */}
+        <div className="absolute top-32 left-24 flex gap-1">
+          <div className="w-2 h-2 bg-coral border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-blue-gaming border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-purple-gaming border border-black rounded-full"></div>
+        </div>
+        <div className="absolute bottom-40 left-24 flex gap-1">
+          <div className="w-3 h-3 bg-purple-gaming border border-black rounded-full"></div>
+          <div className="w-3 h-3 bg-coral border border-black rounded-full"></div>
+        </div>
+        <div className="absolute top-1/2 left-1/4 flex gap-1">
+          <div className="w-2 h-2 bg-blue-gaming border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-coral border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-purple-gaming border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-coral border border-black rounded-full"></div>
+        </div>
+        <div className="absolute top-1/3 right-1/3 flex gap-1">
+          <div className="w-3 h-3 bg-purple-gaming border border-black rounded-full"></div>
+          <div className="w-3 h-3 bg-blue-gaming border border-black rounded-full"></div>
+        </div>
+        <div className="absolute top-96 right-24 flex gap-1">
+          <div className="w-2 h-2 bg-coral border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-purple-gaming border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-blue-gaming border border-black rounded-full"></div>
+        </div>
+
+        {/* Grid patterns - outlined rectangles */}
+        <div className="absolute top-24 right-16 border border-black p-2">
+          <div className="grid grid-cols-2 gap-1">
+            <div className="w-4 h-4 border border-black bg-coral"></div>
+            <div className="w-4 h-4 border border-black"></div>
+            <div className="w-4 h-4 border border-black"></div>
+            <div className="w-4 h-4 border border-black bg-blue-gaming"></div>
+          </div>
+        </div>
+        <div className="absolute bottom-24 left-16 border border-black p-2">
+          <div className="grid grid-cols-2 gap-1">
+            <div className="w-4 h-4 border border-black bg-purple-gaming"></div>
+            <div className="w-4 h-4 border border-black"></div>
+            <div className="w-4 h-4 border border-black bg-coral"></div>
+            <div className="w-4 h-4 border border-black"></div>
+          </div>
+        </div>
+        <div className="absolute top-64 right-96 border border-black p-2">
+          <div className="grid grid-cols-3 gap-1">
+            <div className="w-3 h-3 border border-black bg-purple-gaming"></div>
+            <div className="w-3 h-3 border border-black"></div>
+            <div className="w-3 h-3 border border-black bg-blue-gaming"></div>
+            <div className="w-3 h-3 border border-black"></div>
+            <div className="w-3 h-3 border border-black bg-coral"></div>
+            <div className="w-3 h-3 border border-black"></div>
+          </div>
+        </div>
+
+        {/* Symbols - Plus, X, Speech bubble */}
+        <div className="absolute top-56 right-1/3 w-6 h-6 border border-black bg-blue-gaming flex items-center justify-center text-black font-bold text-sm">
+          +
+        </div>
+        <div className="absolute bottom-56 left-1/3 w-6 h-6 border border-black bg-coral flex items-center justify-center text-white font-bold text-sm">
+          ×
+        </div>
+        <div className="absolute top-40 left-1/2 border border-black bg-white rounded-lg p-1">
+          <div className="flex gap-0.5">
+            <div className="w-1 h-1 bg-black rounded-full"></div>
+            <div className="w-1 h-1 bg-black rounded-full"></div>
+            <div className="w-1 h-1 bg-black rounded-full"></div>
+          </div>
+        </div>
+        <div className="absolute bottom-80 right-1/2 w-6 h-6 border border-black bg-purple-gaming flex items-center justify-center text-white font-bold text-sm">
+          +
+        </div>
+        <div className="absolute top-1/3 left-96 w-5 h-5 border border-black bg-coral flex items-center justify-center text-white font-bold text-xs">
+          ×
+        </div>
+
+        {/* Half-filled shapes */}
+        <div className="absolute top-64 left-40 w-16 h-16 border border-black relative overflow-hidden">
+          <div className="absolute inset-0 bg-coral" style={{ width: '50%' }}></div>
+          <div className="absolute inset-0 bg-blue-gaming right-0" style={{ width: '50%', left: '50%' }}></div>
+        </div>
+        <div className="absolute bottom-64 right-40 w-16 h-16 border border-black relative overflow-hidden">
+          <div className="absolute inset-0 bg-purple-gaming" style={{ width: '50%' }}></div>
+          <div className="absolute inset-0 bg-coral right-0" style={{ width: '50%', left: '50%' }}></div>
+        </div>
+        <div className="absolute top-96 left-96 w-14 h-14 border border-black relative overflow-hidden">
+          <div className="absolute inset-0 bg-blue-gaming" style={{ width: '50%' }}></div>
+          <div className="absolute inset-0 bg-purple-gaming right-0" style={{ width: '50%', left: '50%' }}></div>
+        </div>
+
+        {/* Quarter circles with filled sections */}
+        <div className="absolute top-32 right-96 w-20 h-20 border border-black border-r-0 border-b-0 bg-purple-gaming rounded-tl-full"></div>
+        <div className="absolute bottom-32 left-96 w-18 h-18 border border-black border-l-0 border-t-0 bg-coral rounded-br-full"></div>
+
+        {/* Small outlined squares and rectangles */}
+        <div className="absolute top-48 right-64 w-12 h-12 border border-black"></div>
+        <div className="absolute bottom-48 left-64 w-14 h-14 border border-black rotate-45"></div>
+        <div className="absolute top-96 right-48 w-10 h-16 border border-black"></div>
+        <div className="absolute bottom-96 left-48 w-16 h-10 border border-black"></div>
+
+        {/* Outlined circles */}
+        <div className="absolute top-64 left-1/2 w-16 h-16 border border-black rounded-full"></div>
+        <div className="absolute bottom-64 right-1/2 w-14 h-14 border border-black rounded-full"></div>
+        <div className="absolute top-1/2 left-96 w-12 h-12 border border-black rounded-full"></div>
+
+        {/* Wavy lines */}
+        <div
+          className="absolute top-80 left-20 w-32 h-1 border-t border-b border-black bg-purple-gaming opacity-50"
+          style={{ clipPath: 'polygon(0% 50%, 25% 0%, 50% 50%, 75% 100%, 100% 50%)' }}
+        ></div>
+        <div
+          className="absolute bottom-80 right-20 w-32 h-1 border-t border-b border-black bg-blue-gaming opacity-50"
+          style={{ clipPath: 'polygon(0% 50%, 25% 100%, 50% 50%, 75% 0%, 100% 50%)' }}
+        ></div>
+
+        {/* Diamond shape with 3D effect */}
+        <div
+          className="absolute top-72 right-20 w-8 h-20 border border-black bg-purple-gaming transform rotate-12 relative"
+          style={{ clipPath: 'polygon(50% 0%, 100% 25%, 50% 100%, 0% 25%)' }}
+        >
+          <div
+            className="absolute inset-0 bg-blue-gaming opacity-50"
+            style={{ clipPath: 'polygon(50% 10%, 90% 30%, 50% 90%, 10% 30%)' }}
+          ></div>
+        </div>
+        <div
+          className="absolute bottom-72 left-20 w-6 h-16 border border-black bg-coral transform -rotate-12 relative"
+          style={{ clipPath: 'polygon(50% 0%, 100% 25%, 50% 100%, 0% 25%)' }}
+        >
+          <div
+            className="absolute inset-0 bg-purple-gaming opacity-50"
+            style={{ clipPath: 'polygon(50% 10%, 90% 30%, 50% 90%, 10% 30%)' }}
+          ></div>
+        </div>
+      </div>
+
+      {/* Game Header */}
+      <div className="relative z-10 bg-white border-b border-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <BoxCard letter="B" bgColor="#7C3AED" borderColor="#000" fontSize={28} className="w-10 h-10" />
+                <BoxCard letter="I" bgColor="#FF6B5E" borderColor="#000" fontSize={28} className="w-10 h-10" />
+                <BoxCard letter="T" bgColor="#60B5E8" borderColor="#000" fontSize={28} className="w-10 h-10" />
+                <BoxCard letter="9" bgColor="#7C3AED" borderColor="#000" fontSize={28} className="w-10 h-10" />
+                <BoxCard letter="O" bgColor="#FF6B5E" borderColor="#000" fontSize={28} className="w-10 h-10" />
+              </div>
+              <div className="h-8 w-px bg-black"></div>
+              <span className="text-2xl font-black text-black flex items-center gap-2">Bit9o</span>
+            </div>
+            <div className="flex items-center gap-6">
+              <div className="bg-white border border-black rounded-lg px-5 py-3">
+                <div className="text-xs text-black uppercase tracking-wider font-bold">Room Code</div>
+                <div className="text-xl font-mono font-black text-black">{roomCode}</div>
+              </div>
+              <AudioControls />
             </div>
           </div>
         </div>
-      )}
-      {/* Player View: Numbers on top, Card in middle, Players at bottom */}
-      {!session?.isHost && card && (
-        <div className="mb-6 sm:mb-8 w-full max-w-2xl">
-          <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-6">
-            {/* Top: Called Numbers (compact) - only show drawn numbers */}
-            <div className="bg-white border-2 border-gray-300 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg sm:text-xl font-bold text-gray-800">Called Numbers ({calledNumbers.length})</h3>
-                <button
-                  onClick={() => setShowNumberBoard(true)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-1.5 rounded-lg font-semibold text-xs sm:text-sm"
-                >
-                  Show Board
-                </button>
+      </div>
+
+      {/* Main Game Area */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+        {/* Winner Banner - Shows at top for all players */}
+        {winNotification && (
+          <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 border-b-4 border-yellow-600 shadow-2xl animate-bounce">
+            <div className="text-center py-6 px-4 relative">
+              <button
+                onClick={() => setWinNotification(null)}
+                className="absolute top-3 right-6 text-gray-700 hover:text-gray-900 text-3xl font-bold transition-colors"
+                title="Close notification"
+              >
+                ×
+              </button>
+              <div className="text-3xl sm:text-5xl font-black text-red-600 mb-3 animate-pulse">
+                🎉 WINNER ANNOUNCEMENT! 🎉
               </div>
-              <div className="flex flex-wrap gap-2 sm:gap-3 text-base sm:text-lg font-bold">
-                {calledNumbers.length > 0 ? (
-                  calledNumbers.map((num, i) => (
-                    <div
-                      key={i}
-                      className={`w-8 h-8 sm:w-10 sm:h-10 bg-red-500 text-white rounded-full flex items-center justify-center shadow transition-all duration-500 ${
-                        i === calledNumbers.length - 1
-                          ? 'animate-pulse scale-110 ring-4 ring-yellow-400'
-                          : 'hover:scale-105'
-                      }`}
-                    >
-                      {num}
-                    </div>
-                  ))
+              <div className="text-xl sm:text-3xl font-bold text-gray-800">
+                {winNotification.isWinner ? (
+                  <span className="text-green-600 animate-pulse">
+                    Congratulations! You won {winNotification.winType}!
+                  </span>
                 ) : (
-                  <div className="text-gray-500 text-sm sm:text-base">No numbers drawn yet</div>
+                  <span className="text-blue-600">
+                    {winNotification.playerName} won {winNotification.winType}!
+                  </span>
                 )}
               </div>
             </div>
-
-            {/* Player Card - Separate Box */}
-            <div className="bg-white border-2 border-gray-300 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6">
-              {/* BIT9O Letters inside the box */}
-              <div className="mb-4 sm:mb-6">
-                <div className="flex gap-2 sm:gap-3 text-white w-full h-16 sm:h-20">
-                  <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={isMobile ? 30 : 40} />
-                  <BoxCard letter="I" bgColor="#F37213" borderColor="#D82C23" fontSize={isMobile ? 30 : 40} />
-                  <BoxCard letter="T" bgColor="#FFD93D" borderColor="#BC7E06" fontSize={isMobile ? 30 : 40} />
-                  <BoxCard letter="9" bgColor="#C6B29B" borderColor="#7D6450" fontSize={isMobile ? 30 : 40} />
-                  <BoxCard letter="O" bgColor="#6BCB77" borderColor="#2C7A25" fontSize={isMobile ? 30 : 40} />
+          </div>
+        )}
+        {/* Player Game Interface */}
+        {!session?.isHost && card && (
+          <div className="relative z-10">
+            {/* Status Bar */}
+            <div className="bg-white border border-black rounded-lg p-5 mb-6 relative">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-4">
+                  <div className="bg-purple-gaming w-4 h-4 rounded-full animate-pulse border border-black"></div>
+                  <span className="text-black font-bold text-lg flex items-center gap-2">✨ Connected to Game</span>
                 </div>
-              </div>
-
-              <div className="text-center mb-4">
-                {isBit9o && (
-                  <div className="bg-green-500 text-white text-lg sm:text-xl font-bold py-2 px-4 rounded-lg mb-4">
-                    🎉 BIT9O! 🎉
+                <div className="flex items-center gap-6">
+                  <div className="text-center bg-blue-gaming border border-black rounded-lg p-4">
+                    <div className="text-2xl font-black text-black">{calledNumbers.length}</div>
+                    <div className="text-xs text-black uppercase font-bold">Numbers Called</div>
                   </div>
-                )}
-              </div>
-
-              {/* Bit9o Card Grid - 3x3 */}
-              <div className="max-w-xs mx-auto">
-                <div className="grid grid-cols-3 gap-3 border-4 border-gradient-to-r from-purple-500 to-blue-500 bg-gradient-to-br from-white via-blue-50 to-purple-50 rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 p-4">
-                  {card?.gridNumbers?.length > 0 ? (
-                    card.gridNumbers.map((number, index) => {
-                      const isMarked = markedNumbers.includes(number);
-
-                      return (
-                        <button
-                          key={index}
-                          onClick={() => handleMarkNumber(number)}
-                          className={`w-16 h-16 sm:w-20 sm:h-20 text-lg sm:text-xl font-black border-2 rounded-2xl transition-colors duration-200 cursor-pointer ${
-                            isMarked
-                              ? 'bg-green-100 border-green-300 hover:bg-green-200'
-                              : 'bg-white text-gray-700 hover:bg-gray-100 border-gray-300'
-                          }`}
-                        >
-                          <div className="flex items-center justify-center h-full relative">
-                            <span className="text-lg sm:text-xl font-bold text-gray-700">{number}</span>
-                            {isMarked && (
-                              <div className="absolute top-1 right-1 w-6 h-6 sm:w-7 sm:h-7 bg-green-600 rounded-full flex items-center justify-center shadow-lg">
-                                <span className="text-white text-sm sm:text-base font-bold">✓</span>
-                              </div>
-                            )}
-                          </div>
-                        </button>
-                      );
-                    })
-                  ) : (
-                    <div className="col-span-3 text-center text-gray-500 py-8 text-sm sm:text-base bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl">
-                      <div className="animate-pulse">Loading your bit9o card...</div>
-                    </div>
-                  )}
+                  <div className="text-center bg-coral border border-black rounded-lg p-4">
+                    <div className="text-2xl font-black text-black">{markedNumbers.length}</div>
+                    <div className="text-xs text-black uppercase font-bold">Marked</div>
+                  </div>
                 </div>
               </div>
-
-              <div className="mt-4 sm:mt-6 text-center">
-                <button
-                  onClick={handleVerifyCard}
-                  disabled={markedNumbers.length !== 9}
-                  className={`
-                    px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 transform
-                    ${
-                      markedNumbers.length === 9
-                        ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white cursor-pointer hover:scale-105 shadow-lg hover:shadow-xl'
-                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    }
-                  `}
-                >
-                  {markedNumbers.length === 9 ? '🎯 Verify Card!' : `Mark All Numbers (${markedNumbers.length}/9)`}
-                </button>
-              </div>
             </div>
 
-            {/* Bottom: Players List */}
-            <div className="bg-white border-2 border-gray-300 rounded-xl p-4 sm:p-6 mt-6 sm:mt-8">
-              <h3 className="text-lg sm:text-xl font-bold text-center mb-3 sm:mb-4">Players ({players.length})</h3>
-              <ul className="space-y-2 sm:space-y-3 text-center text-base sm:text-lg max-h-40 overflow-y-auto">
-                {players.length > 0 ? (
-                  players.map((player, i) => (
-                    <li key={i} className="font-bold p-2 bg-gray-100 rounded text-sm sm:text-base">
-                      {player.name}
-                      {player.isHost && <span className="text-xs sm:text-sm text-blue-500 ml-2">(Host)</span>}
-                    </li>
-                  ))
-                ) : (
-                  <li className="text-gray-500 text-sm sm:text-base">No players yet</li>
-                )}
-              </ul>
-              <div className="mt-4 sm:mt-6 text-center">
-                <button
-                  onClick={handleExitRoom}
-                  className="bg-sky-400 hover:bg-sky-500 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-2xl text-sm sm:text-base"
-                >
-                  Exit Room
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {(session?.isHost || showNumberBoard) && (
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 items-start w-full max-w-7xl max-sm:w-[100%]">
-          {/* Left Column (Board + BIT9O letters) */}
-          <div className="flex flex-col items-start max-sm:w-[100%]">
-            {/* Called Numbers Board */}
-            <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-10 w-[910px] h-[455px] flex-center flex-col gap-[30px] max-sm:w-[100%] max-sm:order-[1] max-sm:mt-[10px]">
-              <h3 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">
-                Called Numbers ({calledNumbers.length})
-              </h3>
-
-              <div className="flex flex-wrap gap-2 sm:gap-4 text-2xl sm:text-4xl font-bold justify-center">
-                {calledNumbers.length > 0 ? (
-                  calledNumbers.map((num, i) => (
+            <div className="grid lg:grid-cols-4 gap-6">
+              {/* Main Game Area - Card */}
+              <div className="lg:col-span-3">
+                {/* Card Container */}
+                <div className="bg-white border border-black rounded-lg p-8 relative">
+                  {/* Card Header - 3D Purple Banner */}
+                  <div className="text-center mb-8">
                     <div
-                      key={i}
-                      className={`w-12 h-12 sm:w-16 sm:h-16 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg text-sm sm:text-base transition-all duration-500 ${
-                        i === calledNumbers.length - 1
-                          ? 'animate-bounce scale-125 ring-4 ring-yellow-400'
-                          : 'hover:scale-110'
+                      className="inline-flex items-center gap-4 bg-purple-gaming border border-black rounded-lg px-8 py-4 mb-4 transform hover:scale-110 transition-transform relative"
+                      style={{
+                        boxShadow: '2px 2px 0 rgba(124, 58, 237, 0.8), 4px 4px 0 rgba(124, 58, 237, 0.6)',
+                      }}
+                    >
+                      <div
+                        className="absolute bottom-0 right-0 w-full h-full bg-purple-gaming-dark opacity-30 rounded-lg"
+                        style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 85%)' }}
+                      ></div>
+                      <span className="text-4xl animate-bounce relative z-10">🎮</span>
+                      <h3 className="text-3xl font-black text-white relative z-10">YOUR GAME CARD</h3>
+                      <span className="text-4xl animate-bounce relative z-10" style={{ animationDelay: '0.5s' }}>
+                        🎯
+                      </span>
+                    </div>
+                    <p className="text-black text-lg font-bold">Tap numbers as they're called!</p>
+                  </div>
+
+                  {/* Game Card with 3D Effect */}
+                  <div className="max-w-lg mx-auto perspective-1000">
+                    <div
+                      className="bg-white border border-black rounded-lg p-6 relative overflow-hidden transform-gpu transition-all duration-300 hover:scale-105 card-3d"
+                      style={{ transformStyle: 'preserve-3d' }}
+                    >
+                      {/* Geometric Background Elements */}
+                      <div className="absolute inset-0" style={{ opacity: 0.15 }}>
+                        <div className="absolute top-2 left-2 w-6 h-6 border border-black bg-purple-gaming rotate-45"></div>
+                        <div className="absolute top-2 right-2 w-5 h-5 border border-black bg-coral rounded-full"></div>
+                        <div className="absolute bottom-2 left-2 w-8 h-8 border border-black bg-blue-gaming"></div>
+                        <div className="absolute bottom-2 right-2 w-5 h-5 border border-black bg-purple-gaming rotate-12"></div>
+                        <div className="absolute top-1/2 left-1/2 w-3 h-3 border border-black bg-coral rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+                      </div>
+
+                      {/* Card Grid */}
+                      <div className="grid grid-cols-3 gap-4 relative z-10">
+                        {card?.gridNumbers?.length > 0 ? (
+                          card.gridNumbers.map((number, index) => {
+                            const isMarked = markedNumbers.includes(number);
+
+                            return (
+                              <button
+                                key={index}
+                                onClick={() => handleMarkNumber(number)}
+                                className={`group relative w-24 h-24 text-2xl font-black border border-black rounded-lg transition-all duration-300 cursor-pointer transform-gpu hover:scale-110 hover:-translate-y-2 hover:rotate-3 btn-playful ${
+                                  isMarked
+                                    ? 'bg-purple-gaming text-white animate-pulse scale-105'
+                                    : 'bg-white text-black hover:bg-blue-gaming-light border border-black'
+                                }`}
+                                style={{ transformStyle: 'preserve-3d' }}
+                              >
+                                <div className="flex items-center justify-center h-full relative">
+                                  <span className="text-2xl font-black">{number}</span>
+                                  {isMarked && (
+                                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-coral border border-black rounded-full flex items-center justify-center animate-bounce">
+                                      <span className="text-white text-lg font-black">✓</span>
+                                    </div>
+                                  )}
+                                </div>
+
+                                {/* Hover Effect */}
+                                {!isMarked && (
+                                  <div className="absolute inset-0 bg-purple-gaming/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                )}
+                              </button>
+                            );
+                          })
+                        ) : (
+                          <div className="col-span-3 text-center text-black py-16">
+                            <div className="animate-bounce">
+                              <div className="text-6xl mb-4 transform hover:scale-150 transition-transform">🎮</div>
+                              <p className="text-lg font-bold">Loading your card...</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Verify Button */}
+                  <div className="text-center">
+                    <button
+                      onClick={handleVerifyCard}
+                      disabled={markedNumbers.length !== 9}
+                      className={`px-10 py-5 rounded-lg font-bold text-xl transition-all duration-300 transform btn-playful border border-black ${
+                        markedNumbers.length === 9
+                          ? 'bg-coral hover:bg-coral-light text-white cursor-pointer hover:scale-110 animate-pulse-glow'
+                          : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                       }`}
                     >
-                      {num}
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-gray-500 text-lg sm:text-xl">No numbers drawn yet</div>
-                )}
-              </div>
-
-              {/* ✅ Player Number Board View (when toggled ON by Player) */}
-              {!session?.isHost && showNumberBoard && (
-                <div className="flex flex-col items-start w-full max-w-7xl max-sm:w-[100%]">
-                  {/* 👇 Hide Button (Player Only) */}
-                  <div className="w-full text-center mb-4">
-                    <button
-                      onClick={() => setShowNumberBoard(false)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold transition-colors text-sm sm:text-base"
-                    >
-                      Hide All Numbers
+                      {markedNumbers.length === 9 ? '🎉 BINGO! 🎉' : `Mark All Numbers (${markedNumbers.length}/9)`}
                     </button>
                   </div>
                 </div>
-              )}
-            </div>
-
-            {/* BIT9O Letters Row - Only show for hosts */}
-            {session?.isHost && (
-              <div className="flex gap-4 mt-8 max-sm:w-[100%] max-sm:gap-2 text-white w-[100%] h-[100px] max-sm:h-[60px]">
-                <BoxCard letter="B" bgColor="#32BAEC" borderColor="#0C6795" fontSize={isMobile ? 45 : 70} />
-                <BoxCard letter="I" bgColor="#F37213" borderColor="#D82C23" fontSize={isMobile ? 45 : 70} />
-                <BoxCard letter="T" bgColor="#FFD93D" borderColor="#BC7E06" fontSize={isMobile ? 45 : 70} />
-                <BoxCard letter="9" bgColor="#C6B29B" borderColor="#7D6450" fontSize={isMobile ? 45 : 70} />
-                <BoxCard letter="O" bgColor="#6BCB77" borderColor="#2C7A25" fontSize={isMobile ? 45 : 70} />
               </div>
-            )}
-          </div>
 
-          {/* Right Column (Players + Current Number + Exit) */}
-          <div className="flex flex-col items-center justify-between w-full lg:w-auto">
-            {/* Player List */}
-            <div className="bg-white border-4 sm:border-8 border-red-400 rounded-2xl p-4 sm:p-8 w-full max-w-sm lg:w-60 mb-6 lg:mb-10">
-              <h3 className="text-lg sm:text-xl font-bold text-center mb-3 sm:mb-4">Players ({players.length})</h3>
-              <ul className="space-y-2 sm:space-y-3 text-center text-base sm:text-lg">
-                {players.length > 0 ? (
-                  players.map((player, i) => (
-                    <li key={i} className="font-bold p-2 bg-gray-100 rounded text-sm sm:text-base">
-                      {player.name}
-                      {player.isHost && <span className="text-xs sm:text-sm text-blue-500 ml-2">(Host)</span>}
-                    </li>
-                  ))
-                ) : (
-                  <li className="text-gray-500 text-sm sm:text-base">No players yet</li>
-                )}
-              </ul>
-            </div>
+              {/* Sidebar */}
+              <div className="space-y-5">
+                {/* Called Numbers Panel */}
+                <div className="bg-white border border-black rounded-lg p-5 relative">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 bg-blue-gaming border border-black rounded-lg flex items-center justify-center text-black font-bold">
+                      🎯
+                    </div>
+                    <h3 className="text-lg font-bold text-black">Called Numbers</h3>
+                    <div className="ml-auto bg-purple-gaming text-white border border-black px-3 py-1.5 rounded-lg text-sm font-bold">
+                      {calledNumbers.length}
+                    </div>
+                  </div>
 
-            {/* Draw Number Button / Current Number */}
-            <div className="w-32 h-32 sm:w-44 sm:h-44 flex items-center justify-center mb-6 lg:mb-10">
-              {session?.isHost ? (
-                <button
-                  onClick={handleDrawNumber}
-                  disabled={isDrawing || calledNumbers.length >= 30}
-                  className={`w-full h-full flex items-center justify-center text-lg sm:text-2xl font-bold border-[8px] sm:border-[14px] rounded-full transition-all duration-300 ${
-                    isDrawing
-                      ? 'border-yellow-500 bg-yellow-400 animate-pulse'
-                      : calledNumbers.length >= 30
-                        ? 'border-gray-400 bg-gray-300 cursor-not-allowed'
-                        : 'border-green-500 bg-green-400 hover:bg-green-500 hover:scale-105'
-                  }`}
-                >
-                  {isDrawing ? (
-                    <div className="text-center">
-                      <div className="text-6xl sm:text-8xl font-black animate-spin">
-                        {newDrawnNumber ? newDrawnNumber : '🎲'}
-                      </div>
-                      <div className="text-xs sm:text-sm mt-1">Drawing...</div>
+                  <div className="bg-white border border-black rounded-lg p-4 min-h-[150px]">
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      {calledNumbers.length > 0 ? (
+                        calledNumbers.map((num, i) => (
+                          <div
+                            key={i}
+                            className={`w-10 h-10 bg-coral border border-black text-white rounded-full flex items-center justify-center transition-all duration-500 font-bold text-base btn-playful ${
+                              i === calledNumbers.length - 1
+                                ? 'animate-bounce scale-125 bg-purple-gaming text-white'
+                                : 'hover:scale-110'
+                            }`}
+                          >
+                            {num}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center py-8 text-black">
+                          <div className="text-4xl mb-2 animate-pulse">🎲</div>
+                          <p className="text-sm font-bold">Waiting for numbers</p>
+                        </div>
+                      )}
                     </div>
-                  ) : calledNumbers.length >= 30 ? (
-                    <div className="text-center">
-                      <div className="text-2xl sm:text-3xl font-black">Game Over</div>
-                      <div className="text-xs sm:text-sm mt-1">All 30 numbers drawn</div>
-                    </div>
-                  ) : currentNumber ? (
-                    `Drew: ${currentNumber}`
-                  ) : (
-                    'Draw Number'
-                  )}
-                </button>
-              ) : (
-                <div
-                  className={`w-full h-full flex items-center justify-center text-3xl sm:text-5xl font-bold border-[8px] sm:border-[14px] rounded-full transition-all duration-500 ${
-                    newDrawnNumber ? 'border-yellow-500 bg-yellow-300 scale-110' : 'border-black bg-white'
-                  }`}
-                >
-                  {newDrawnNumber ? (
-                    <div className="animate-spin text-4xl sm:text-6xl">{newDrawnNumber}</div>
-                  ) : (
-                    currentNumber || '--'
-                  )}
+                  </div>
                 </div>
-              )}
+
+                {/* Stats Panel */}
+                <div className="bg-white border border-black rounded-lg p-5 relative">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 bg-purple-gaming border border-black rounded-lg flex items-center justify-center text-white font-bold">
+                      📊
+                    </div>
+                    <h3 className="text-lg font-bold text-black">Game Stats</h3>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center p-4 bg-white border border-black rounded-lg">
+                      <span className="text-black font-bold flex items-center gap-2">
+                        <span className="text-xl">🎯</span>
+                        Marked
+                      </span>
+                      <span className="text-2xl font-black text-purple-gaming">{markedNumbers.length}/9</span>
+                    </div>
+                    <div className="flex justify-between items-center p-4 bg-white border border-black rounded-lg">
+                      <span className="text-black font-bold flex items-center gap-2">
+                        <span className="text-xl">⭐</span>
+                        Status
+                      </span>
+                      <span
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold border border-black ${
+                          markedNumbers.length === 0
+                            ? 'bg-blue-gaming text-black'
+                            : markedNumbers.length === 9
+                              ? 'bg-coral text-white'
+                              : 'bg-purple-gaming text-white'
+                        }`}
+                      >
+                        {markedNumbers.length === 0 ? 'Waiting' : markedNumbers.length === 9 ? 'Ready!' : 'Playing'}
+                      </span>
+                    </div>
+                    <div className="w-full bg-white border border-black rounded-full h-3">
+                      <div
+                        className="bg-purple-gaming h-3 rounded-full transition-all duration-500"
+                        style={{ width: `${(markedNumbers.length / 9) * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Players Panel */}
+                <div className="bg-white border border-black rounded-lg p-5 relative">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 bg-coral border border-black rounded-lg flex items-center justify-center text-white font-bold">
+                      👥
+                    </div>
+                    <h3 className="text-lg font-bold text-black">Players</h3>
+                    <div className="ml-auto bg-blue-gaming text-black border border-black px-3 py-1.5 rounded-lg text-sm font-bold">
+                      {players.length}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 max-h-40 overflow-y-auto">
+                    {players.length > 0 ? (
+                      players.map((player, i) => (
+                        <div
+                          key={i}
+                          className="flex items-center justify-between p-3 bg-white border border-black rounded-lg hover:shadow-md transition-all btn-playful"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-purple-gaming border border-black rounded-full flex items-center justify-center text-white font-bold text-xs transform hover:scale-110 transition-transform">
+                              {player.name.charAt(0).toUpperCase()}
+                            </div>
+                            <span className="text-sm font-bold text-black">{player.name}</span>
+                          </div>
+                          {player.isHost && (
+                            <span className="bg-coral text-white border border-black px-3 py-1 rounded-lg text-xs font-bold">
+                              👑 HOST
+                            </span>
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-6 text-black">
+                        <div className="text-2xl mb-2 animate-bounce">👥</div>
+                        <p className="text-xs font-bold">No players yet</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Exit Button */}
+                <button
+                  onClick={handleExitRoom}
+                  className="w-full bg-coral hover:bg-coral-light text-white font-bold py-4 px-6 rounded-lg transition-all duration-300 transform btn-playful border border-black relative z-10 cursor-pointer"
+                  type="button"
+                >
+                  🚪 Exit Room
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Host Control Room - Redesigned */}
+        {session?.isHost && (
+          <div className="max-w-7xl mx-auto relative z-10">
+            {/* Header Section */}
+            <div className="text-center mb-8">
+              <div className="flex justify-center items-center gap-4 mb-4">
+                <BoxCard letter="H" bgColor="#7C3AED" borderColor="#000" fontSize={isMobile ? 40 : 50} />
+                <BoxCard letter="O" bgColor="#FF6B5E" borderColor="#000" fontSize={isMobile ? 40 : 50} />
+                <BoxCard letter="S" bgColor="#60B5E8" borderColor="#000" fontSize={isMobile ? 40 : 50} />
+                <BoxCard letter="T" bgColor="#7C3AED" borderColor="#000" fontSize={isMobile ? 40 : 50} />
+              </div>
+              <h1 className="text-5xl font-black text-black mb-2">
+                <span className="text-black">Control</span> Center
+              </h1>
+              <p className="text-black text-lg font-bold">Control the Game! 🎮</p>
             </div>
 
-            {/* Exit Button */}
-            <button
-              onClick={handleExitRoom}
-              className="bg-sky-400 hover:bg-sky-500 text-white font-bold px-6 sm:px-8 py-3 sm:py-5 rounded-2xl w-full max-w-xs lg:w-56 text-lg sm:text-2xl"
-            >
-              Exit Room
-            </button>
-          </div>
-        </div>
-      )}
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Left Column - Game Board */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Main Game Board */}
+                <div className="bg-white border border-black rounded-lg p-8 relative">
+                  {/* Board Header - 3D Purple Banner */}
+                  <div className="text-center mb-8">
+                    <div
+                      className="inline-flex items-center gap-4 bg-purple-gaming border border-black px-8 py-4 rounded-lg mb-4 transform hover:scale-110 transition-transform relative"
+                      style={{
+                        boxShadow: '2px 2px 0 rgba(124, 58, 237, 0.8), 4px 4px 0 rgba(124, 58, 237, 0.6)',
+                      }}
+                    >
+                      <div
+                        className="absolute bottom-0 right-0 w-full h-full bg-purple-gaming-dark opacity-30 rounded-lg"
+                        style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 85%)' }}
+                      ></div>
+                      <span className="text-3xl animate-bounce relative z-10">🎲</span>
+                      <h3 className="text-2xl font-bold text-white relative z-10">Game Board</h3>
+                      <span className="text-3xl animate-bounce relative z-10" style={{ animationDelay: '0.3s' }}>
+                        🎯
+                      </span>
+                    </div>
+                    <p className="text-black font-bold">Draw numbers and watch the magic happen!</p>
+                  </div>
 
-      {/* Win Notification Modal */}
-      {winNotification && (
-        <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-          <div className="bg-yellow-100 border-8 border-yellow-500 rounded-3xl p-8 max-w-lg text-center shadow-2xl">
-            <div className="text-8xl mb-6">🎉</div>
-            <h2 className="text-4xl font-black text-yellow-700 mb-6">
-              {winNotification.isWinner ? '🎊 YOU WON! 🎊' : '🏆 WINNER! 🏆'}
-            </h2>
-            <div className="bg-white rounded-2xl p-6 mb-6 border-4 border-yellow-400">
-              <p className="text-2xl font-bold text-gray-800 mb-2">
-                {winNotification.isWinner ? 'Congratulations!' : 'Winner:'}
-              </p>
-              <p className="text-3xl font-black text-blue-600 mb-2">{winNotification.playerName}</p>
-              <p className="text-xl text-gray-700">
-                Won <span className="font-bold text-green-600">{winNotification.winType}</span>!
-              </p>
-            </div>
-            <div className="flex gap-4 justify-center">
-              <button
-                onClick={() => {
-                  setWinNotification(null);
-                  handleExitRoom();
-                }}
-                className="bg-red-500 hover:bg-red-600 text-white font-bold px-8 py-4 rounded-2xl text-xl shadow-lg"
-              >
-                Leave Room
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+                  {/* Draw Button - Prominent with 3D Effect */}
+                  <div className="flex justify-center mb-8 perspective-1000">
+                    <button
+                      onClick={handleDrawNumber}
+                      disabled={isDrawing || calledNumbers.length >= 30}
+                      className={`w-36 h-36 flex items-center justify-center text-4xl font-bold rounded-full transition-all duration-300 transform-gpu border border-black btn-playful ${
+                        isDrawing
+                          ? 'bg-coral animate-pulse scale-110 text-white'
+                          : calledNumbers.length >= 30
+                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                            : 'bg-purple-gaming hover:bg-purple-gaming-dark text-white hover:scale-110 hover:-translate-y-2 animate-pulse-glow'
+                      }`}
+                      style={
+                        isDrawing
+                          ? { transform: 'rotateY(12deg)', transformStyle: 'preserve-3d' }
+                          : { transformStyle: 'preserve-3d' }
+                      }
+                    >
+                      {isDrawing ? (
+                        <div className="text-center">
+                          <div className="text-4xl font-black animate-spin">
+                            {newDrawnNumber ? newDrawnNumber : '🎲'}
+                          </div>
+                          <div className="text-sm mt-1 font-bold">Drawing...</div>
+                        </div>
+                      ) : calledNumbers.length >= 30 ? (
+                        <div className="text-center">
+                          <div className="text-2xl font-black">🏁</div>
+                          <div className="text-sm mt-1 font-bold">Game Over!</div>
+                        </div>
+                      ) : currentNumber ? (
+                        <div className="text-center">
+                          <div className="text-2xl font-black">🎯</div>
+                          <div className="text-sm mt-1 font-bold">Draw Next</div>
+                        </div>
+                      ) : (
+                        <div className="text-center">
+                          <div className="text-3xl font-black">🎲</div>
+                          <div className="text-sm mt-1 font-bold">Start Game</div>
+                        </div>
+                      )}
+                    </button>
+                  </div>
 
-      {/* Verification Error Modal */}
-      {verificationError && (
-        <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-          <div className="bg-red-100 border-8 border-red-500 rounded-3xl p-8 max-w-lg text-center shadow-2xl">
-            <div className="text-8xl mb-6">❌</div>
-            <h2 className="text-4xl font-black text-red-700 mb-6">{verificationError.message}</h2>
-            <div className="bg-white rounded-2xl p-6 mb-6 border-4 border-red-400">
-              <p className="text-xl text-gray-700">{verificationError.details}</p>
-            </div>
-            <div className="flex gap-4 justify-center">
-              <button
-                onClick={() => setVerificationError(null)}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-2xl text-xl shadow-lg"
-              >
-                Return to Game
-              </button>
+                  {/* Progress Section */}
+                  <div className="mb-8">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-lg font-bold text-black">Game Progress</span>
+                      <span className="text-2xl font-black text-black border border-black bg-white px-3 py-1 rounded-lg">
+                        {calledNumbers.length}/30
+                      </span>
+                    </div>
+                    <div className="w-full bg-white border border-black rounded-full h-4 overflow-hidden">
+                      <div
+                        className="bg-coral h-4 rounded-full transition-all duration-700 ease-out"
+                        style={{ width: `${(calledNumbers.length / 30) * 100}%` }}
+                      ></div>
+                    </div>
+                    <div className="flex justify-between text-sm text-black font-bold mt-2">
+                      <span>0</span>
+                      <span>15</span>
+                      <span>30</span>
+                    </div>
+                  </div>
+
+                  {/* Called Numbers Display */}
+                  <div className="bg-white border border-black rounded-lg p-6 min-h-[300px] relative">
+                    <h4 className="text-xl font-bold text-black text-center mb-5">
+                      Called Numbers ({calledNumbers.length})
+                    </h4>
+                    <div className="flex flex-wrap gap-3 justify-center">
+                      {calledNumbers.length > 0 ? (
+                        calledNumbers.map((num, i) => (
+                          <div
+                            key={i}
+                            className={`w-12 h-12 bg-blue-gaming border border-black text-black rounded-full flex items-center justify-center font-bold text-base transition-all duration-500 btn-playful ${
+                              i === calledNumbers.length - 1
+                                ? 'animate-bounce scale-125 bg-purple-gaming text-white'
+                                : 'hover:scale-110'
+                            }`}
+                          >
+                            {num}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center py-12 text-black">
+                          <div className="text-6xl mb-4 transform hover:scale-125 hover:rotate-12 transition-transform inline-block">
+                            🎮
+                          </div>
+                          <p className="text-xl font-bold">Ready to begin!</p>
+                          <p className="text-sm font-bold">Click the draw button to start the game</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column - Controls & Players */}
+              <div className="space-y-6">
+                {/* Players Section */}
+                <div className="bg-white border border-black rounded-lg p-6 relative">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-10 h-10 bg-coral border border-black rounded-full flex items-center justify-center text-white font-bold">
+                      👥
+                    </div>
+                    <h3 className="text-xl font-bold text-black">Players ({players.length})</h3>
+                  </div>
+
+                  <div className="space-y-3 max-h-64 overflow-y-auto">
+                    {players.length > 0 ? (
+                      players.map((player, i) => (
+                        <div
+                          key={i}
+                          className="flex items-center justify-between p-4 bg-white border border-black rounded-lg hover:shadow-md transition-all duration-200"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-purple-gaming border border-black rounded-full flex items-center justify-center text-white font-bold text-sm transform hover:scale-110 hover:rotate-6 transition-transform">
+                              {player.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                              <span className="font-bold text-black">{player.name}</span>
+                              <div className="text-xs text-black font-semibold">Player #{i + 1}</div>
+                            </div>
+                          </div>
+                          {player.isHost && (
+                            <span className="bg-coral text-white border border-black px-3 py-1 rounded-lg text-xs font-bold transform hover:scale-110 transition-transform">
+                              👑 Host
+                            </span>
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-8 text-black">
+                        <div className="text-5xl mb-3 transform hover:scale-125 hover:rotate-12 transition-transform inline-block">
+                          👥
+                        </div>
+                        <p className="font-bold">No players yet</p>
+                        <p className="text-sm font-bold">Share the room code to invite friends!</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Game Stats */}
+                <div className="bg-white border border-black rounded-lg p-6 relative">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-10 h-10 bg-blue-gaming border border-black rounded-full flex items-center justify-center text-black font-bold">
+                      📊
+                    </div>
+                    <h3 className="text-xl font-bold text-black">Game Stats</h3>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center p-4 bg-white border border-black rounded-lg">
+                      <span className="text-black font-bold">Numbers Drawn</span>
+                      <span className="text-2xl font-black text-black border border-black bg-white px-2 py-1 rounded-lg">
+                        {calledNumbers.length}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center p-4 bg-white border border-black rounded-lg">
+                      <span className="text-black font-bold">Remaining</span>
+                      <span className="text-2xl font-black text-black border border-black bg-white px-2 py-1 rounded-lg">
+                        {30 - calledNumbers.length}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center p-4 bg-white border border-black rounded-lg">
+                      <span className="text-black font-bold">Game Status</span>
+                      <span
+                        className={`px-4 py-1.5 rounded-lg text-sm font-bold border border-black ${
+                          calledNumbers.length === 0
+                            ? 'bg-blue-gaming text-black'
+                            : calledNumbers.length >= 30
+                              ? 'bg-coral text-white'
+                              : 'bg-purple-gaming text-white'
+                        }`}
+                      >
+                        {calledNumbers.length === 0 ? 'Waiting' : calledNumbers.length >= 30 ? 'Complete' : 'Active'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Exit Button */}
+                <button
+                  onClick={handleExitRoom}
+                  className="w-full bg-coral hover:bg-coral-light text-black font-bold py-5 px-6 rounded-lg transition-all duration-300 transform btn-playful border border-black relative z-10 cursor-pointer"
+                  type="button"
+                >
+                  🚪 Exit Control Room
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {/* Win Notification Modal */}
+        {winNotification && (
+          <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+            <div className="bg-yellow-100 border-8 border-yellow-500 rounded-3xl p-8 max-w-lg text-center shadow-2xl">
+              <div className="text-8xl mb-6">🎉</div>
+              <h2 className="text-4xl font-black text-yellow-700 mb-6">
+                {winNotification.isWinner ? '🎊 YOU WON! 🎊' : '🏆 WINNER! 🏆'}
+              </h2>
+              <div className="bg-white rounded-2xl p-6 mb-6 border-4 border-yellow-400">
+                <p className="text-2xl font-bold text-gray-800 mb-2">
+                  {winNotification.isWinner ? 'Congratulations!' : 'Winner:'}
+                </p>
+                <p className="text-3xl font-black text-blue-600 mb-2">{winNotification.playerName}</p>
+                <p className="text-xl text-gray-700">
+                  Won <span className="font-bold text-green-600">{winNotification.winType}</span>!
+                </p>
+              </div>
+              <div className="flex gap-4 justify-center">
+                <button
+                  onClick={() => {
+                    setWinNotification(null);
+                    handleExitRoom();
+                  }}
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold px-8 py-4 rounded-2xl text-xl shadow-lg"
+                >
+                  Leave Room
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Verification Error Modal */}
+        {verificationError && (
+          <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+            <div className="bg-red-100 border-8 border-red-500 rounded-3xl p-8 max-w-lg text-center shadow-2xl">
+              <div className="text-8xl mb-6">❌</div>
+              <h2 className="text-4xl font-black text-red-700 mb-6">{verificationError.message}</h2>
+              <div className="bg-white rounded-2xl p-6 mb-6 border-4 border-red-400">
+                <p className="text-xl text-gray-700">{verificationError.details}</p>
+              </div>
+              <div className="flex gap-4 justify-center">
+                <button
+                  onClick={() => setVerificationError(null)}
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-2xl text-xl shadow-lg"
+                >
+                  Return to Game
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
