@@ -12,10 +12,7 @@ export function Footer() {
           </div>
           <p className="text-center text-sm text-black font-bold">
             &copy; {currentYear} Team Secret — Jeff, Ian and Dillan
-          </p>
-          <p className="text-center text-xs text-black">
-            Made with ❤️ for bingo lovers everywhere
-          </p>
+          </p>         
         </div>
       </div>
     </footer>
