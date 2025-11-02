@@ -248,86 +248,187 @@ export function RoomPage() {
   const isMobile = window.innerWidth < 768;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-800 to-indigo-900 text-white relative overflow-hidden">
-      {/* Anime Background Effects */}
-      <div className="absolute inset-0 opacity-40">
-        <div className="absolute top-10 left-10 w-32 h-32 bg-pink-500 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-20 right-20 w-40 h-40 bg-purple-500 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-        <div className="absolute bottom-20 left-20 w-36 h-36 bg-indigo-500 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute bottom-10 right-10 w-28 h-28 bg-cyan-500 rounded-full blur-3xl animate-pulse" style={{animationDelay: '3s'}}></div>
-        <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-rose-500 rounded-full blur-2xl animate-ping"></div>
+    <div className="min-h-screen relative overflow-hidden" style={{backgroundColor: '#FEFBF3'}}>
+      {/* Geometric Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{opacity: 0.4}}>
+        {/* Large geometric shapes - squares and rectangles */}
+        <div className="absolute top-20 left-10 w-32 h-32 border border-black bg-purple-gaming rotate-45"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 border border-black bg-coral"></div>
+        <div className="absolute bottom-32 left-32 w-40 h-40 border border-black bg-blue-gaming rotate-12"></div>
+        <div className="absolute bottom-20 right-10 w-36 h-36 border border-black bg-purple-gaming"></div>
+        <div className="absolute top-64 left-96 w-20 h-20 border border-black bg-coral-light"></div>
+        <div className="absolute bottom-64 right-96 w-24 h-24 border border-black bg-blue-gaming-light rotate-45"></div>
+        <div className="absolute top-96 left-64 w-28 h-28 border border-black bg-purple-gaming rotate-12"></div>
+        <div className="absolute bottom-96 right-64 w-32 h-32 border border-black bg-coral rotate-45"></div>
+        
+        {/* Circles and arcs */}
+        <div className="absolute top-20 right-32 w-24 h-24 border border-black bg-coral rounded-full"></div>
+        <div className="absolute bottom-32 left-64 w-32 h-32 border border-black bg-blue-gaming rounded-full opacity-80"></div>
+        <div className="absolute top-48 left-1/4 w-28 h-28 border border-black border-r-0 border-b-0 bg-purple-gaming rounded-tl-full"></div>
+        <div className="absolute bottom-48 right-1/4 w-24 h-24 border border-black border-l-0 border-t-0 bg-coral rounded-br-full"></div>
+        <div className="absolute top-80 left-1/3 w-20 h-20 border border-black bg-blue-gaming rounded-full"></div>
+        <div className="absolute bottom-80 right-1/3 w-28 h-28 border border-black bg-purple-gaming rounded-full opacity-70"></div>
+        
+        {/* Small geometric dots in groups */}
+        <div className="absolute top-32 left-24 flex gap-1">
+          <div className="w-2 h-2 bg-coral border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-blue-gaming border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-purple-gaming border border-black rounded-full"></div>
+        </div>
+        <div className="absolute bottom-40 left-24 flex gap-1">
+          <div className="w-3 h-3 bg-purple-gaming border border-black rounded-full"></div>
+          <div className="w-3 h-3 bg-coral border border-black rounded-full"></div>
+        </div>
+        <div className="absolute top-1/2 left-1/4 flex gap-1">
+          <div className="w-2 h-2 bg-blue-gaming border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-coral border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-purple-gaming border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-coral border border-black rounded-full"></div>
+        </div>
+        <div className="absolute top-1/3 right-1/3 flex gap-1">
+          <div className="w-3 h-3 bg-purple-gaming border border-black rounded-full"></div>
+          <div className="w-3 h-3 bg-blue-gaming border border-black rounded-full"></div>
+        </div>
+        <div className="absolute top-96 right-24 flex gap-1">
+          <div className="w-2 h-2 bg-coral border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-purple-gaming border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-blue-gaming border border-black rounded-full"></div>
+        </div>
+        
+        {/* Grid patterns - outlined rectangles */}
+        <div className="absolute top-24 right-16 border border-black p-2">
+          <div className="grid grid-cols-2 gap-1">
+            <div className="w-4 h-4 border border-black bg-coral"></div>
+            <div className="w-4 h-4 border border-black"></div>
+            <div className="w-4 h-4 border border-black"></div>
+            <div className="w-4 h-4 border border-black bg-blue-gaming"></div>
+          </div>
+        </div>
+        <div className="absolute bottom-24 left-16 border border-black p-2">
+          <div className="grid grid-cols-2 gap-1">
+            <div className="w-4 h-4 border border-black bg-purple-gaming"></div>
+            <div className="w-4 h-4 border border-black"></div>
+            <div className="w-4 h-4 border border-black bg-coral"></div>
+            <div className="w-4 h-4 border border-black"></div>
+          </div>
+        </div>
+        <div className="absolute top-64 right-96 border border-black p-2">
+          <div className="grid grid-cols-3 gap-1">
+            <div className="w-3 h-3 border border-black bg-purple-gaming"></div>
+            <div className="w-3 h-3 border border-black"></div>
+            <div className="w-3 h-3 border border-black bg-blue-gaming"></div>
+            <div className="w-3 h-3 border border-black"></div>
+            <div className="w-3 h-3 border border-black bg-coral"></div>
+            <div className="w-3 h-3 border border-black"></div>
+          </div>
+        </div>
+        
+        {/* Symbols - Plus, X, Speech bubble */}
+        <div className="absolute top-56 right-1/3 w-6 h-6 border border-black bg-blue-gaming flex items-center justify-center text-black font-bold text-sm">+</div>
+        <div className="absolute bottom-56 left-1/3 w-6 h-6 border border-black bg-coral flex items-center justify-center text-white font-bold text-sm">×</div>
+        <div className="absolute top-40 left-1/2 border border-black bg-white rounded-lg p-1">
+          <div className="flex gap-0.5">
+            <div className="w-1 h-1 bg-black rounded-full"></div>
+            <div className="w-1 h-1 bg-black rounded-full"></div>
+            <div className="w-1 h-1 bg-black rounded-full"></div>
+          </div>
+        </div>
+        <div className="absolute bottom-80 right-1/2 w-6 h-6 border border-black bg-purple-gaming flex items-center justify-center text-white font-bold text-sm">+</div>
+        <div className="absolute top-1/3 left-96 w-5 h-5 border border-black bg-coral flex items-center justify-center text-white font-bold text-xs">×</div>
+        
+        {/* Half-filled shapes */}
+        <div className="absolute top-64 left-40 w-16 h-16 border border-black relative overflow-hidden">
+          <div className="absolute inset-0 bg-coral" style={{width: '50%'}}></div>
+          <div className="absolute inset-0 bg-blue-gaming right-0" style={{width: '50%', left: '50%'}}></div>
+        </div>
+        <div className="absolute bottom-64 right-40 w-16 h-16 border border-black relative overflow-hidden">
+          <div className="absolute inset-0 bg-purple-gaming" style={{width: '50%'}}></div>
+          <div className="absolute inset-0 bg-coral right-0" style={{width: '50%', left: '50%'}}></div>
+        </div>
+        <div className="absolute top-96 left-96 w-14 h-14 border border-black relative overflow-hidden">
+          <div className="absolute inset-0 bg-blue-gaming" style={{width: '50%'}}></div>
+          <div className="absolute inset-0 bg-purple-gaming right-0" style={{width: '50%', left: '50%'}}></div>
+        </div>
+        
+        {/* Quarter circles with filled sections */}
+        <div className="absolute top-32 right-96 w-20 h-20 border border-black border-r-0 border-b-0 bg-purple-gaming rounded-tl-full"></div>
+        <div className="absolute bottom-32 left-96 w-18 h-18 border border-black border-l-0 border-t-0 bg-coral rounded-br-full"></div>
+        
+        {/* Small outlined squares and rectangles */}
+        <div className="absolute top-48 right-64 w-12 h-12 border border-black"></div>
+        <div className="absolute bottom-48 left-64 w-14 h-14 border border-black rotate-45"></div>
+        <div className="absolute top-96 right-48 w-10 h-16 border border-black"></div>
+        <div className="absolute bottom-96 left-48 w-16 h-10 border border-black"></div>
+        
+        {/* Outlined circles */}
+        <div className="absolute top-64 left-1/2 w-16 h-16 border border-black rounded-full"></div>
+        <div className="absolute bottom-64 right-1/2 w-14 h-14 border border-black rounded-full"></div>
+        <div className="absolute top-1/2 left-96 w-12 h-12 border border-black rounded-full"></div>
+        
+        {/* Wavy lines */}
+        <div className="absolute top-80 left-20 w-32 h-1 border-t border-b border-black bg-purple-gaming opacity-50" style={{clipPath: 'polygon(0% 50%, 25% 0%, 50% 50%, 75% 100%, 100% 50%)'}}></div>
+        <div className="absolute bottom-80 right-20 w-32 h-1 border-t border-b border-black bg-blue-gaming opacity-50" style={{clipPath: 'polygon(0% 50%, 25% 100%, 50% 50%, 75% 0%, 100% 50%)'}}></div>
+        
+        {/* Diamond shape with 3D effect */}
+        <div className="absolute top-72 right-20 w-8 h-20 border border-black bg-purple-gaming transform rotate-12 relative" style={{clipPath: 'polygon(50% 0%, 100% 25%, 50% 100%, 0% 25%)'}}>
+          <div className="absolute inset-0 bg-blue-gaming opacity-50" style={{clipPath: 'polygon(50% 10%, 90% 30%, 50% 90%, 10% 30%)'}}></div>
+        </div>
+        <div className="absolute bottom-72 left-20 w-6 h-16 border border-black bg-coral transform -rotate-12 relative" style={{clipPath: 'polygon(50% 0%, 100% 25%, 50% 100%, 0% 25%)'}}>
+          <div className="absolute inset-0 bg-purple-gaming opacity-50" style={{clipPath: 'polygon(50% 10%, 90% 30%, 50% 90%, 10% 30%)'}}></div>
+        </div>
       </div>
 
-      {/* Anime Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Sparkles */}
-        <div className="absolute top-16 left-12 text-4xl opacity-60 animate-bounce" style={{animationDelay: '2s'}}>✨</div>
-        <div className="absolute top-24 right-16 text-3xl opacity-70 animate-bounce" style={{animationDelay: '3s'}}>⭐</div>
-        <div className="absolute bottom-32 left-20 text-5xl opacity-50 animate-bounce" style={{animationDelay: '1s'}}>💫</div>
-        <div className="absolute bottom-20 right-12 text-4xl opacity-60 animate-bounce" style={{animationDelay: '4s'}}>🌟</div>
-        
-        {/* Anime Characters */}
-        <div className="absolute top-32 left-1/4 text-3xl opacity-70 animate-bounce" style={{animationDelay: '5s'}}>🌸</div>
-        <div className="absolute bottom-40 right-1/4 text-2xl opacity-60 animate-bounce" style={{animationDelay: '6s'}}>🎀</div>
-        <div className="absolute top-1/2 right-8 text-2xl opacity-50 animate-bounce" style={{animationDelay: '7s'}}>💖</div>
-        <div className="absolute top-1/3 left-1/3 text-2xl opacity-60 animate-bounce" style={{animationDelay: '8s'}}>🎭</div>
-        
-        {/* Floating Hearts */}
-        <div className="absolute top-20 left-1/2 text-2xl opacity-40 animate-ping" style={{animationDelay: '9s'}}>💕</div>
-        <div className="absolute bottom-1/3 right-1/3 text-2xl opacity-50 animate-ping" style={{animationDelay: '10s'}}>💗</div>
-      </div>
-
-      {/* Anime Game Header */}
-      <div className="relative z-10 bg-gradient-to-r from-pink-600/40 via-purple-600/40 to-indigo-600/40 backdrop-blur-md border-b-2 border-pink-400/50 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      {/* Game Header */}
+      <div className="relative z-10 bg-white border-b border-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <BoxCard 
                   letter="B" 
-                  bgColor="#ec4899" 
-                  borderColor="#db2777" 
+                  bgColor="#7C3AED" 
+                  borderColor="#000" 
                   fontSize={28}
                   className="w-10 h-10"
                 />
                 <BoxCard 
                   letter="I" 
-                  bgColor="#8b5cf6" 
-                  borderColor="#7c3aed" 
+                  bgColor="#FF6B5E" 
+                  borderColor="#000" 
                   fontSize={28}
                   className="w-10 h-10"
                 />
                 <BoxCard 
                   letter="T" 
-                  bgColor="#06b6d4" 
-                  borderColor="#0891b2" 
+                  bgColor="#60B5E8" 
+                  borderColor="#000" 
                   fontSize={28}
                   className="w-10 h-10"
                 />
                 <BoxCard 
                   letter="9" 
-                  bgColor="#f59e0b" 
-                  borderColor="#d97706" 
+                  bgColor="#7C3AED" 
+                  borderColor="#000" 
                   fontSize={28}
                   className="w-10 h-10"
                 />
                 <BoxCard 
                   letter="O" 
-                  bgColor="#ef4444" 
-                  borderColor="#dc2626" 
+                  bgColor="#FF6B5E" 
+                  borderColor="#000" 
                   fontSize={28}
                   className="w-10 h-10"
                 />
               </div>
-              <div className="h-8 w-px bg-pink-400/50"></div>
-              <span className="text-xl font-black bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent flex items-center gap-2">
-                ✨ ANIME BINGO ✨
+              <div className="h-8 w-px bg-black"></div>
+              <span className="text-2xl font-black text-black flex items-center gap-2">
+                Bit9o
               </span>
             </div>
             <div className="flex items-center gap-6">
-              <div className="bg-pink-800/30 backdrop-blur-sm rounded-lg px-4 py-2 border border-pink-400/30">
-                <div className="text-xs text-pink-300 uppercase tracking-wider">Room Code</div>
-                <div className="text-lg font-mono font-bold text-pink-100">{roomCode}</div>
+              <div className="bg-white border border-black rounded-lg px-5 py-3">
+                <div className="text-xs text-black uppercase tracking-wider font-bold">Room Code</div>
+                <div className="text-xl font-mono font-black text-black">{roomCode}</div>
               </div>
               <AudioControls />
             </div>
@@ -336,7 +437,7 @@ export function RoomPage() {
       </div>
 
       {/* Main Game Area */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         {/* Winner Banner - Shows at top for all players */}
         {winNotification && (
           <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 border-b-4 border-yellow-600 shadow-2xl animate-bounce">
@@ -364,23 +465,23 @@ export function RoomPage() {
         {/* Player Game Interface */}
         {!session?.isHost && card && (
           <div className="relative z-10">
-            {/* Anime Status Bar */}
-            <div className="bg-gradient-to-r from-pink-600/40 via-purple-600/40 to-indigo-600/40 backdrop-blur-md rounded-2xl p-4 mb-6 border-2 border-pink-400/50 shadow-lg">
+            {/* Status Bar */}
+            <div className="bg-white border border-black rounded-lg p-5 mb-6 relative">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-4">
-                  <div className="bg-pink-500 w-4 h-4 rounded-full animate-pulse shadow-lg shadow-pink-500/50"></div>
-                  <span className="text-white font-bold text-lg flex items-center gap-2">
-                    ✨ Connected to Anime Game
+                  <div className="bg-purple-gaming w-4 h-4 rounded-full animate-pulse border border-black"></div>
+                  <span className="text-black font-bold text-lg flex items-center gap-2">
+                    ✨ Connected to Game
                   </span>
                 </div>
                 <div className="flex items-center gap-6">
-                  <div className="text-center bg-purple-500/20 rounded-xl p-3 border border-purple-400/30">
-                    <div className="text-2xl font-black text-purple-400">{calledNumbers.length}</div>
-                    <div className="text-xs text-purple-300 uppercase font-bold">Numbers Called</div>
+                  <div className="text-center bg-blue-gaming border border-black rounded-lg p-4">
+                    <div className="text-2xl font-black text-black">{calledNumbers.length}</div>
+                    <div className="text-xs text-black uppercase font-bold">Numbers Called</div>
                   </div>
-                  <div className="text-center bg-cyan-500/20 rounded-xl p-3 border border-cyan-400/30">
-                    <div className="text-2xl font-black text-cyan-400">{markedNumbers.length}</div>
-                    <div className="text-xs text-cyan-300 uppercase font-bold">Marked</div>
+                  <div className="text-center bg-coral border border-black rounded-lg p-4">
+                    <div className="text-2xl font-black text-black">{markedNumbers.length}</div>
+                    <div className="text-xs text-black uppercase font-bold">Marked</div>
                   </div>
                 </div>
               </div>
@@ -389,33 +490,34 @@ export function RoomPage() {
             <div className="grid lg:grid-cols-4 gap-6">
               {/* Main Game Area - Card */}
               <div className="lg:col-span-3">
-                {/* Anime Card Container */}
-                <div className="bg-gradient-to-br from-pink-900/30 via-purple-900/30 to-indigo-900/30 backdrop-blur-md rounded-3xl p-8 border-2 border-pink-400/50 shadow-2xl">
-                  {/* Card Header */}
+                {/* Card Container */}
+                <div className="bg-white border border-black rounded-lg p-8 relative">
+                  {/* Card Header - 3D Purple Banner */}
                   <div className="text-center mb-8">
-                    <div className="inline-flex items-center gap-3 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm rounded-2xl px-6 py-3 border border-pink-400/50 mb-4">
-                      <span className="text-3xl">🌸</span>
-                      <h3 className="text-3xl font-black text-white">YOUR ANIME CARD</h3>
-                      <span className="text-3xl">✨</span>
+                    <div className="inline-flex items-center gap-4 bg-purple-gaming border border-black rounded-lg px-8 py-4 mb-4 transform hover:scale-110 transition-transform relative" style={{
+                      boxShadow: '2px 2px 0 rgba(124, 58, 237, 0.8), 4px 4px 0 rgba(124, 58, 237, 0.6)'
+                    }}>
+                      <div className="absolute bottom-0 right-0 w-full h-full bg-purple-gaming-dark opacity-30 rounded-lg" style={{clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 85%)'}}></div>
+                      <span className="text-4xl animate-bounce relative z-10">🎮</span>
+                      <h3 className="text-3xl font-black text-white relative z-10">YOUR GAME CARD</h3>
+                      <span className="text-4xl animate-bounce relative z-10" style={{animationDelay: '0.5s'}}>🎯</span>
                     </div>
-                    <p className="text-pink-200">Tap numbers as they're called in the anime world!</p>
+                    <p className="text-black text-lg font-bold">Tap numbers as they're called!</p>
                   </div>
 
-                  {/* Anime Game Card */}
-                  <div className="max-w-lg mx-auto">
-                    <div className="bg-gradient-to-br from-pink-800 via-purple-700 to-indigo-800 rounded-3xl p-6 shadow-2xl border-2 border-pink-500 relative overflow-hidden">
-                      {/* Anime Card Glow Effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-cyan-500/20 rounded-3xl blur-xl"></div>
-                      
-                      {/* Anime Background Elements */}
-                      <div className="absolute inset-0 opacity-20">
-                        <div className="absolute top-2 left-2 text-2xl animate-bounce">✨</div>
-                        <div className="absolute top-2 right-2 text-2xl animate-bounce" style={{animationDelay: '0.5s'}}>⭐</div>
-                        <div className="absolute bottom-2 left-2 text-2xl animate-bounce" style={{animationDelay: '1s'}}>💫</div>
-                        <div className="absolute bottom-2 right-2 text-2xl animate-bounce" style={{animationDelay: '1.5s'}}>🌟</div>
+                  {/* Game Card with 3D Effect */}
+                  <div className="max-w-lg mx-auto perspective-1000">
+                    <div className="bg-white border border-black rounded-lg p-6 relative overflow-hidden transform-gpu transition-all duration-300 hover:scale-105 card-3d" style={{transformStyle: 'preserve-3d'}}>
+                      {/* Geometric Background Elements */}
+                      <div className="absolute inset-0" style={{opacity: 0.15}}>
+                        <div className="absolute top-2 left-2 w-6 h-6 border border-black bg-purple-gaming rotate-45"></div>
+                        <div className="absolute top-2 right-2 w-5 h-5 border border-black bg-coral rounded-full"></div>
+                        <div className="absolute bottom-2 left-2 w-8 h-8 border border-black bg-blue-gaming"></div>
+                        <div className="absolute bottom-2 right-2 w-5 h-5 border border-black bg-purple-gaming rotate-12"></div>
+                        <div className="absolute top-1/2 left-1/2 w-3 h-3 border border-black bg-coral rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
                       </div>
                       
-                      {/* Anime Card Grid */}
+                      {/* Card Grid */}
                       <div className="grid grid-cols-3 gap-4 relative z-10">
                         {card?.gridNumbers?.length > 0 ? (
                           card.gridNumbers.map((number, index) => {
@@ -425,33 +527,34 @@ export function RoomPage() {
                               <button
                                 key={index}
                                 onClick={() => handleMarkNumber(number)}
-                                className={`group relative w-24 h-24 text-2xl font-bold rounded-xl transition-all duration-300 cursor-pointer transform hover:scale-105 ${
+                                className={`group relative w-24 h-24 text-2xl font-black border border-black rounded-lg transition-all duration-300 cursor-pointer transform-gpu hover:scale-110 hover:-translate-y-2 hover:rotate-3 btn-playful ${
                                   isMarked
-                                    ? 'bg-gradient-to-br from-pink-500 to-purple-600 text-white shadow-2xl ring-4 ring-pink-400 animate-pulse'
-                                    : 'bg-purple-700 text-white hover:bg-purple-600 border-2 border-purple-600 hover:border-pink-400 hover:shadow-xl'
+                                    ? 'bg-purple-gaming text-white animate-pulse scale-105'
+                                    : 'bg-white text-black hover:bg-blue-gaming-light border border-black'
                                 }`}
+                                style={{transformStyle: 'preserve-3d'}}
                               >
                                 <div className="flex items-center justify-center h-full relative">
                                   <span className="text-2xl font-black">{number}</span>
                                   {isMarked && (
-                                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg ring-2 ring-pink-500 animate-bounce">
-                                      <span className="text-pink-600 text-lg font-black">✓</span>
+                                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-coral border border-black rounded-full flex items-center justify-center animate-bounce">
+                                      <span className="text-white text-lg font-black">✓</span>
                                     </div>
                                   )}
                                 </div>
                                 
-                                {/* Anime Hover Effect */}
+                                {/* Hover Effect */}
                                 {!isMarked && (
-                                  <div className="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-purple-500/30 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                  <div className="absolute inset-0 bg-purple-gaming/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 )}
                               </button>
                             );
                           })
                         ) : (
-                          <div className="col-span-3 text-center text-pink-300 py-16">
+                          <div className="col-span-3 text-center text-black py-16">
                             <div className="animate-bounce">
-                              <div className="text-6xl mb-4">🌸</div>
-                              <p className="text-lg font-semibold">Loading your anime card...</p>
+                              <div className="text-6xl mb-4 transform hover:scale-150 transition-transform">🎮</div>
+                              <p className="text-lg font-bold">Loading your card...</p>
                             </div>
                           </div>
                         )}
@@ -459,46 +562,46 @@ export function RoomPage() {
                     </div>
                   </div>
 
-                  {/* Anime Verify Button */}
+                  {/* Verify Button */}
                   <div className="text-center">
                     <button
                       onClick={handleVerifyCard}
                       disabled={markedNumbers.length !== 9}
-                      className={`px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform ${
+                      className={`px-10 py-5 rounded-lg font-bold text-xl transition-all duration-300 transform btn-playful border border-black ${
                         markedNumbers.length === 9
-                          ? 'bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white cursor-pointer hover:scale-105 shadow-xl hover:shadow-2xl border-2 border-pink-400'
-                          : 'bg-purple-700 text-purple-300 cursor-not-allowed'
+                          ? 'bg-coral hover:bg-coral-light text-white cursor-pointer hover:scale-110 animate-pulse-glow'
+                          : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                       }`}
                     >
-                      {markedNumbers.length === 9 ? '✨ ANIME BINGO! 🌸' : `Mark All Numbers (${markedNumbers.length}/9)`}
+                      {markedNumbers.length === 9 ? '🎉 BINGO! 🎉' : `Mark All Numbers (${markedNumbers.length}/9)`}
                     </button>
                   </div>
                 </div>
               </div>
 
-              {/* Anime Sidebar */}
-              <div className="space-y-4">
+              {/* Sidebar */}
+              <div className="space-y-5">
                 {/* Called Numbers Panel */}
-                <div className="bg-gradient-to-br from-pink-800/40 via-purple-800/40 to-indigo-800/40 backdrop-blur-md rounded-2xl p-4 border-2 border-pink-400/50 shadow-lg">
+                <div className="bg-white border border-black rounded-lg p-5 relative">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center text-white font-bold">
-                      ✨
+                    <div className="w-8 h-8 bg-blue-gaming border border-black rounded-lg flex items-center justify-center text-black font-bold">
+                      🎯
                     </div>
-                    <h3 className="text-lg font-bold text-white">Anime Numbers</h3>
-                    <div className="ml-auto bg-purple-500/20 text-purple-400 px-2 py-1 rounded-lg text-sm font-bold">
+                    <h3 className="text-lg font-bold text-black">Called Numbers</h3>
+                    <div className="ml-auto bg-purple-gaming text-white border border-black px-3 py-1.5 rounded-lg text-sm font-bold">
                       {calledNumbers.length}
                     </div>
                   </div>
                   
-                  <div className="bg-purple-700/50 rounded-xl p-3 min-h-[150px] border border-purple-600">
+                  <div className="bg-white border border-black rounded-lg p-4 min-h-[150px]">
                     <div className="flex flex-wrap gap-2 justify-center">
                       {calledNumbers.length > 0 ? (
                         calledNumbers.map((num, i) => (
                           <div
                             key={i}
-                            className={`w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg flex items-center justify-center shadow-lg transition-all duration-500 font-bold text-sm ${
+                            className={`w-10 h-10 bg-coral border border-black text-white rounded-full flex items-center justify-center transition-all duration-500 font-bold text-base btn-playful ${
                               i === calledNumbers.length - 1
-                                ? 'animate-bounce scale-125 ring-2 ring-pink-400'
+                                ? 'animate-bounce scale-125 bg-purple-gaming text-white'
                                 : 'hover:scale-110'
                             }`}
                           >
@@ -506,64 +609,64 @@ export function RoomPage() {
                           </div>
                         ))
                       ) : (
-                        <div className="text-center py-8 text-pink-300">
-                          <div className="text-3xl mb-2">🌸</div>
-                          <p className="text-sm font-semibold">Waiting for anime numbers</p>
+                        <div className="text-center py-8 text-black">
+                          <div className="text-4xl mb-2 animate-pulse">🎲</div>
+                          <p className="text-sm font-bold">Waiting for numbers</p>
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
 
-                {/* Anime Stats Panel */}
-                <div className="bg-gradient-to-br from-pink-800/40 via-purple-800/40 to-indigo-800/40 backdrop-blur-md rounded-2xl p-4 border-2 border-pink-400/50 shadow-lg">
+                {/* Stats Panel */}
+                <div className="bg-white border border-black rounded-lg p-5 relative">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 bg-cyan-500 rounded-lg flex items-center justify-center text-white font-bold">
-                      💖
+                    <div className="w-8 h-8 bg-purple-gaming border border-black rounded-lg flex items-center justify-center text-white font-bold">
+                      📊
                     </div>
-                    <h3 className="text-lg font-bold text-white">Anime Stats</h3>
+                    <h3 className="text-lg font-bold text-black">Game Stats</h3>
                   </div>
                   
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center p-3 bg-purple-700/50 rounded-lg border border-purple-600">
-                      <span className="text-pink-200 font-medium flex items-center gap-2">
-                        <span className="text-lg">✨</span>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center p-4 bg-white border border-black rounded-lg">
+                      <span className="text-black font-bold flex items-center gap-2">
+                        <span className="text-xl">🎯</span>
                         Marked
                       </span>
-                      <span className="text-xl font-bold text-cyan-400">{markedNumbers.length}/9</span>
+                      <span className="text-2xl font-black text-purple-gaming">{markedNumbers.length}/9</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-purple-700/50 rounded-lg border border-purple-600">
-                      <span className="text-pink-200 font-medium flex items-center gap-2">
-                        <span className="text-lg">🌸</span>
+                    <div className="flex justify-between items-center p-4 bg-white border border-black rounded-lg">
+                      <span className="text-black font-bold flex items-center gap-2">
+                        <span className="text-xl">⭐</span>
                         Status
                       </span>
-                      <span className={`px-2 py-1 rounded-lg text-xs font-bold ${
+                      <span className={`px-3 py-1.5 rounded-lg text-xs font-bold border border-black ${
                         markedNumbers.length === 0 
-                          ? 'bg-yellow-500/20 text-yellow-400' 
+                          ? 'bg-blue-gaming text-black' 
                           : markedNumbers.length === 9
-                            ? 'bg-pink-500/20 text-pink-400'
-                            : 'bg-purple-500/20 text-purple-400'
+                            ? 'bg-coral text-white'
+                            : 'bg-purple-gaming text-white'
                       }`}>
                         {markedNumbers.length === 0 ? 'Waiting' : markedNumbers.length === 9 ? 'Ready!' : 'Playing'}
                       </span>
                     </div>
-                    <div className="w-full bg-purple-700 rounded-full h-2">
+                    <div className="w-full bg-white border border-black rounded-full h-3">
                       <div 
-                        className="bg-gradient-to-r from-pink-500 to-purple-500 h-2 rounded-full transition-all duration-500"
+                        className="bg-purple-gaming h-3 rounded-full transition-all duration-500"
                         style={{ width: `${(markedNumbers.length / 9) * 100}%` }}
                       ></div>
                     </div>
                   </div>
                 </div>
 
-                {/* Anime Players Panel */}
-                <div className="bg-gradient-to-br from-pink-800/40 via-purple-800/40 to-indigo-800/40 backdrop-blur-md rounded-2xl p-4 border-2 border-pink-400/50 shadow-lg">
+                {/* Players Panel */}
+                <div className="bg-white border border-black rounded-lg p-5 relative">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center text-white font-bold">
-                      🎀
+                    <div className="w-8 h-8 bg-coral border border-black rounded-lg flex items-center justify-center text-white font-bold">
+                      👥
                     </div>
-                    <h3 className="text-lg font-bold text-white">Anime Players</h3>
-                    <div className="ml-auto bg-purple-500/20 text-purple-400 px-2 py-1 rounded-lg text-sm font-bold">
+                    <h3 className="text-lg font-bold text-black">Players</h3>
+                    <div className="ml-auto bg-blue-gaming text-black border border-black px-3 py-1.5 rounded-lg text-sm font-bold">
                       {players.length}
                     </div>
                   </div>
@@ -571,33 +674,34 @@ export function RoomPage() {
                   <div className="space-y-2 max-h-40 overflow-y-auto">
                     {players.length > 0 ? (
                       players.map((player, i) => (
-                        <div key={i} className="flex items-center justify-between p-2 bg-purple-700/50 rounded-lg border border-purple-600 hover:bg-purple-600/50 transition-colors">
+                        <div key={i} className="flex items-center justify-between p-3 bg-white border border-black rounded-lg hover:shadow-md transition-all btn-playful">
                           <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xs">
+                            <div className="w-8 h-8 bg-purple-gaming border border-black rounded-full flex items-center justify-center text-white font-bold text-xs transform hover:scale-110 transition-transform">
                               {player.name.charAt(0).toUpperCase()}
                             </div>
-                            <span className="text-sm font-semibold text-white">{player.name}</span>
+                            <span className="text-sm font-bold text-black">{player.name}</span>
                           </div>
                           {player.isHost && (
-                            <span className="bg-pink-500/20 text-pink-400 px-2 py-1 rounded text-xs font-bold">HOST</span>
+                            <span className="bg-coral text-white border border-black px-3 py-1 rounded-lg text-xs font-bold">👑 HOST</span>
                           )}
                         </div>
                       ))
                     ) : (
-                      <div className="text-center py-6 text-pink-300">
-                        <div className="text-2xl mb-2">🌸</div>
-                        <p className="text-xs font-semibold">No anime players</p>
+                      <div className="text-center py-6 text-black">
+                        <div className="text-2xl mb-2 animate-bounce">👥</div>
+                        <p className="text-xs font-bold">No players yet</p>
                       </div>
                     )}
                   </div>
                 </div>
 
-                {/* Anime Exit Button */}
+                {/* Exit Button */}
                 <button
                   onClick={handleExitRoom}
-                  className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-xl border border-red-500/50"
+                  className="w-full bg-coral hover:bg-coral-light text-white font-bold py-4 px-6 rounded-lg transition-all duration-300 transform btn-playful border border-black relative z-10 cursor-pointer"
+                  type="button"
                 >
-                  ✨ Exit Anime World
+                  🚪 Exit Room
                 </button>
               </div>
             </div>
@@ -606,48 +710,52 @@ export function RoomPage() {
 
         {/* Host Control Room - Redesigned */}
         {session?.isHost && (
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto relative z-10">
             {/* Header Section */}
             <div className="text-center mb-8">
               <div className="flex justify-center items-center gap-4 mb-4">
-                <BoxCard letter="H" bgColor="#6366f1" borderColor="#4f46e5" fontSize={isMobile ? 40 : 50} />
-                <BoxCard letter="O" bgColor="#ec4899" borderColor="#db2777" fontSize={isMobile ? 40 : 50} />
-                <BoxCard letter="S" bgColor="#f59e0b" borderColor="#d97706" fontSize={isMobile ? 40 : 50} />
-                <BoxCard letter="T" bgColor="#8b5cf6" borderColor="#7c3aed" fontSize={isMobile ? 40 : 50} />
+                <BoxCard letter="H" bgColor="#7C3AED" borderColor="#000" fontSize={isMobile ? 40 : 50} />
+                <BoxCard letter="O" bgColor="#FF6B5E" borderColor="#000" fontSize={isMobile ? 40 : 50} />
+                <BoxCard letter="S" bgColor="#60B5E8" borderColor="#000" fontSize={isMobile ? 40 : 50} />
+                <BoxCard letter="T" bgColor="#7C3AED" borderColor="#000" fontSize={isMobile ? 40 : 50} />
               </div>
-              <h1 className="text-5xl font-black text-white mb-2">
-                <span className="bg-gradient-to-r from-indigo-400 via-pink-400 to-amber-400 bg-clip-text text-transparent">Control</span> Center
+              <h1 className="text-5xl font-black text-black mb-2">
+                <span className="text-black">Control</span> Center
               </h1>
-              <p className="text-slate-300 text-lg">Master the Bit9o universe! 🌟</p>
+              <p className="text-black text-lg font-bold">Control the Game! 🎮</p>
             </div>
 
             <div className="grid lg:grid-cols-3 gap-8">
               {/* Left Column - Game Board */}
               <div className="lg:col-span-2 space-y-6">
                 {/* Main Game Board */}
-                <div className="bg-gradient-to-br from-white to-slate-50 rounded-3xl shadow-2xl p-8 border-4 border-indigo-200">
-                  {/* Board Header */}
+                <div className="bg-white border border-black rounded-lg p-8 relative">
+                  {/* Board Header - 3D Purple Banner */}
                   <div className="text-center mb-8">
-                    <div className="inline-flex items-center gap-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-full mb-4">
-                      <span className="text-2xl">🎲</span>
-                      <h3 className="text-2xl font-bold">Game Board</h3>
-                      <span className="text-2xl">🎯</span>
+                    <div className="inline-flex items-center gap-4 bg-purple-gaming border border-black px-8 py-4 rounded-lg mb-4 transform hover:scale-110 transition-transform relative" style={{
+                      boxShadow: '2px 2px 0 rgba(124, 58, 237, 0.8), 4px 4px 0 rgba(124, 58, 237, 0.6)'
+                    }}>
+                      <div className="absolute bottom-0 right-0 w-full h-full bg-purple-gaming-dark opacity-30 rounded-lg" style={{clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 85%)'}}></div>
+                      <span className="text-3xl animate-bounce relative z-10">🎲</span>
+                      <h3 className="text-2xl font-bold text-white relative z-10">Game Board</h3>
+                      <span className="text-3xl animate-bounce relative z-10" style={{animationDelay: '0.3s'}}>🎯</span>
                     </div>
-                    <p className="text-slate-600">Draw numbers and watch the magic happen!</p>
+                    <p className="text-black font-bold">Draw numbers and watch the magic happen!</p>
                   </div>
 
-                  {/* Draw Button - Prominent */}
-                  <div className="flex justify-center mb-8">
+                  {/* Draw Button - Prominent with 3D Effect */}
+                  <div className="flex justify-center mb-8 perspective-1000">
                     <button
                       onClick={handleDrawNumber}
                       disabled={isDrawing || calledNumbers.length >= 30}
-                      className={`w-32 h-32 flex items-center justify-center text-3xl font-bold rounded-full transition-all duration-300 transform shadow-2xl ${
+                      className={`w-36 h-36 flex items-center justify-center text-4xl font-bold rounded-full transition-all duration-300 transform-gpu border border-black btn-playful ${
                         isDrawing
-                          ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 animate-pulse scale-110 ring-8 ring-yellow-300'
+                          ? 'bg-coral animate-pulse scale-110 text-white'
                           : calledNumbers.length >= 30
                             ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                            : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white hover:scale-110 hover:shadow-3xl'
+                            : 'bg-purple-gaming hover:bg-purple-gaming-dark text-white hover:scale-110 hover:-translate-y-2 animate-pulse-glow'
                       }`}
+                      style={isDrawing ? {transform: 'rotateY(12deg)', transformStyle: 'preserve-3d'} : {transformStyle: 'preserve-3d'}}
                     >
                       {isDrawing ? (
                         <div className="text-center">
@@ -678,16 +786,16 @@ export function RoomPage() {
                   {/* Progress Section */}
                   <div className="mb-8">
                     <div className="flex justify-between items-center mb-3">
-                      <span className="text-lg font-semibold text-slate-700">Game Progress</span>
-                      <span className="text-2xl font-bold text-indigo-600">{calledNumbers.length}/30</span>
+                      <span className="text-lg font-bold text-black">Game Progress</span>
+                      <span className="text-2xl font-black text-black border border-black bg-white px-3 py-1 rounded-lg">{calledNumbers.length}/30</span>
                     </div>
-                    <div className="w-full bg-slate-200 rounded-full h-4 overflow-hidden">
+                    <div className="w-full bg-white border border-black rounded-full h-4 overflow-hidden">
                       <div 
-                        className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 h-4 rounded-full transition-all duration-700 ease-out"
+                        className="bg-coral h-4 rounded-full transition-all duration-700 ease-out"
                         style={{ width: `${(calledNumbers.length / 30) * 100}%` }}
                       ></div>
                     </div>
-                    <div className="flex justify-between text-sm text-slate-500 mt-2">
+                    <div className="flex justify-between text-sm text-black font-bold mt-2">
                       <span>0</span>
                       <span>15</span>
                       <span>30</span>
@@ -695,18 +803,18 @@ export function RoomPage() {
                   </div>
 
                   {/* Called Numbers Display */}
-                  <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-6 min-h-[300px]">
-                    <h4 className="text-xl font-bold text-slate-800 text-center mb-4">
+                  <div className="bg-white border border-black rounded-lg p-6 min-h-[300px] relative">
+                    <h4 className="text-xl font-bold text-black text-center mb-5">
                       Called Numbers ({calledNumbers.length})
                     </h4>
-                    <div className="flex flex-wrap gap-2 justify-center">
+                    <div className="flex flex-wrap gap-3 justify-center">
                       {calledNumbers.length > 0 ? (
                         calledNumbers.map((num, i) => (
                           <div
                             key={i}
-                            className={`w-10 h-10 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-full flex items-center justify-center shadow-lg font-bold text-sm transition-all duration-500 ${
+                            className={`w-12 h-12 bg-blue-gaming border border-black text-black rounded-full flex items-center justify-center font-bold text-base transition-all duration-500 btn-playful ${
                               i === calledNumbers.length - 1
-                                ? 'animate-bounce scale-125 ring-4 ring-yellow-400'
+                                ? 'animate-bounce scale-125 bg-purple-gaming text-white'
                                 : 'hover:scale-110'
                             }`}
                           >
@@ -714,10 +822,10 @@ export function RoomPage() {
                           </div>
                         ))
                       ) : (
-                        <div className="text-center py-12 text-slate-500">
-                          <div className="text-6xl mb-4">🎮</div>
-                          <p className="text-xl font-semibold">Ready to begin!</p>
-                          <p className="text-sm">Click the draw button to start the game</p>
+                        <div className="text-center py-12 text-black">
+                          <div className="text-6xl mb-4 transform hover:scale-125 hover:rotate-12 transition-transform inline-block">🎮</div>
+                          <p className="text-xl font-bold">Ready to begin!</p>
+                          <p className="text-sm font-bold">Click the draw button to start the game</p>
                         </div>
                       )}
                     </div>
@@ -729,12 +837,12 @@ export function RoomPage() {
               {/* Right Column - Controls & Players */}
               <div className="space-y-6">
                 {/* Players Section */}
-                <div className="bg-white rounded-2xl shadow-2xl p-6 border-2 border-slate-200">
+                <div className="bg-white border border-black rounded-lg p-6 relative">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                    <div className="w-10 h-10 bg-coral border border-black rounded-full flex items-center justify-center text-white font-bold">
                       👥
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900">
+                    <h3 className="text-xl font-bold text-black">
                       Players ({players.length})
                     </h3>
                   </div>
@@ -742,57 +850,57 @@ export function RoomPage() {
                   <div className="space-y-3 max-h-64 overflow-y-auto">
                     {players.length > 0 ? (
                       players.map((player, i) => (
-                        <div key={i} className="flex items-center justify-between p-4 bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl border border-slate-200 hover:shadow-md transition-all duration-200">
+                        <div key={i} className="flex items-center justify-between p-4 bg-white border border-black rounded-lg hover:shadow-md transition-all duration-200">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                            <div className="w-10 h-10 bg-purple-gaming border border-black rounded-full flex items-center justify-center text-white font-bold text-sm transform hover:scale-110 hover:rotate-6 transition-transform">
                               {player.name.charAt(0).toUpperCase()}
                             </div>
                             <div>
-                              <span className="font-semibold text-slate-700">{player.name}</span>
-                              <div className="text-xs text-slate-500">Player #{i + 1}</div>
+                              <span className="font-bold text-black">{player.name}</span>
+                              <div className="text-xs text-black font-semibold">Player #{i + 1}</div>
                             </div>
                           </div>
                           {player.isHost && (
-                            <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-bold">👑 Host</span>
+                            <span className="bg-coral text-white border border-black px-3 py-1 rounded-lg text-xs font-bold transform hover:scale-110 transition-transform">👑 Host</span>
                           )}
                         </div>
                       ))
                     ) : (
-                      <div className="text-center py-8 text-slate-500">
-                        <div className="text-5xl mb-3">👥</div>
-                        <p className="font-semibold">No players yet</p>
-                        <p className="text-sm">Share the room code to invite friends!</p>
+                      <div className="text-center py-8 text-black">
+                        <div className="text-5xl mb-3 transform hover:scale-125 hover:rotate-12 transition-transform inline-block">👥</div>
+                        <p className="font-bold">No players yet</p>
+                        <p className="text-sm font-bold">Share the room code to invite friends!</p>
                       </div>
                     )}
                   </div>
                 </div>
 
                 {/* Game Stats */}
-                <div className="bg-white rounded-2xl shadow-2xl p-6 border-2 border-slate-200">
+                <div className="bg-white border border-black rounded-lg p-6 relative">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold">
+                    <div className="w-10 h-10 bg-blue-gaming border border-black rounded-full flex items-center justify-center text-black font-bold">
                       📊
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900">Game Stats</h3>
+                    <h3 className="text-xl font-bold text-black">Game Stats</h3>
                   </div>
                   
                   <div className="space-y-4">
-                    <div className="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
-                      <span className="text-slate-700 font-medium">Numbers Drawn</span>
-                      <span className="text-2xl font-bold text-indigo-600">{calledNumbers.length}</span>
+                    <div className="flex justify-between items-center p-4 bg-white border border-black rounded-lg">
+                      <span className="text-black font-bold">Numbers Drawn</span>
+                      <span className="text-2xl font-black text-black border border-black bg-white px-2 py-1 rounded-lg">{calledNumbers.length}</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
-                      <span className="text-slate-700 font-medium">Remaining</span>
-                      <span className="text-2xl font-bold text-green-600">{30 - calledNumbers.length}</span>
+                    <div className="flex justify-between items-center p-4 bg-white border border-black rounded-lg">
+                      <span className="text-black font-bold">Remaining</span>
+                      <span className="text-2xl font-black text-black border border-black bg-white px-2 py-1 rounded-lg">{30 - calledNumbers.length}</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
-                      <span className="text-slate-700 font-medium">Game Status</span>
-                      <span className={`px-3 py-1 rounded-full text-sm font-bold ${
+                    <div className="flex justify-between items-center p-4 bg-white border border-black rounded-lg">
+                      <span className="text-black font-bold">Game Status</span>
+                      <span className={`px-4 py-1.5 rounded-lg text-sm font-bold border border-black ${
                         calledNumbers.length === 0 
-                          ? 'bg-yellow-100 text-yellow-800' 
+                          ? 'bg-blue-gaming text-black' 
                           : calledNumbers.length >= 30 
-                            ? 'bg-red-100 text-red-800'
-                            : 'bg-green-100 text-green-800'
+                            ? 'bg-coral text-white'
+                            : 'bg-purple-gaming text-white'
                       }`}>
                         {calledNumbers.length === 0 ? 'Waiting' : calledNumbers.length >= 30 ? 'Complete' : 'Active'}
                       </span>
@@ -803,7 +911,8 @@ export function RoomPage() {
                 {/* Exit Button */}
                 <button
                   onClick={handleExitRoom}
-                  className="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 shadow-xl"
+                  className="w-full bg-coral hover:bg-coral-light text-black font-bold py-5 px-6 rounded-lg transition-all duration-300 transform btn-playful border border-black relative z-10 cursor-pointer"
+                  type="button"
                 >
                   🚪 Exit Control Room
                 </button>

@@ -155,22 +155,113 @@ export function LobbyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+    <div className="min-h-screen relative overflow-hidden" style={{backgroundColor: '#FEFBF3'}}>
+      {/* Geometric Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{opacity: 0.4}}>
+        {/* Large geometric shapes - squares and rectangles */}
+        <div className="absolute top-20 left-10 w-32 h-32 border border-black bg-purple-gaming rotate-45"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 border border-black bg-coral"></div>
+        <div className="absolute bottom-32 left-32 w-40 h-40 border border-black bg-blue-gaming rotate-12"></div>
+        <div className="absolute bottom-20 right-10 w-36 h-36 border border-black bg-purple-gaming"></div>
+        <div className="absolute top-64 left-96 w-20 h-20 border border-black bg-coral-light"></div>
+        <div className="absolute bottom-64 right-96 w-24 h-24 border border-black bg-blue-gaming-light rotate-45"></div>
+        
+        {/* Circles and arcs */}
+        <div className="absolute top-20 right-32 w-24 h-24 border border-black bg-coral rounded-full"></div>
+        <div className="absolute bottom-32 left-64 w-32 h-32 border border-black bg-blue-gaming rounded-full opacity-80"></div>
+        <div className="absolute top-48 left-1/4 w-28 h-28 border border-black border-r-0 border-b-0 bg-purple-gaming rounded-tl-full"></div>
+        <div className="absolute bottom-48 right-1/4 w-24 h-24 border border-black border-l-0 border-t-0 bg-coral rounded-br-full"></div>
+        
+        {/* Small dots in groups */}
+        <div className="absolute top-32 left-24 flex gap-1">
+          <div className="w-2 h-2 bg-coral border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-blue-gaming border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-purple-gaming border border-black rounded-full"></div>
+        </div>
+        <div className="absolute bottom-40 left-24 flex gap-1">
+          <div className="w-3 h-3 bg-purple-gaming border border-black rounded-full"></div>
+          <div className="w-3 h-3 bg-coral border border-black rounded-full"></div>
+        </div>
+        <div className="absolute top-1/2 left-1/4 flex gap-1">
+          <div className="w-2 h-2 bg-blue-gaming border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-coral border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-purple-gaming border border-black rounded-full"></div>
+          <div className="w-2 h-2 bg-coral border border-black rounded-full"></div>
+        </div>
+        <div className="absolute top-1/3 right-1/3 flex gap-1">
+          <div className="w-3 h-3 bg-purple-gaming border border-black rounded-full"></div>
+          <div className="w-3 h-3 bg-blue-gaming border border-black rounded-full"></div>
+        </div>
+        
+        {/* Grid patterns - outlined rectangles */}
+        <div className="absolute top-24 right-16 border border-black p-2">
+          <div className="grid grid-cols-2 gap-1">
+            <div className="w-4 h-4 border border-black bg-coral"></div>
+            <div className="w-4 h-4 border border-black"></div>
+            <div className="w-4 h-4 border border-black"></div>
+            <div className="w-4 h-4 border border-black bg-blue-gaming"></div>
+          </div>
+        </div>
+        <div className="absolute bottom-24 left-16 border border-black p-2">
+          <div className="grid grid-cols-2 gap-1">
+            <div className="w-4 h-4 border border-black bg-purple-gaming"></div>
+            <div className="w-4 h-4 border border-black"></div>
+            <div className="w-4 h-4 border border-black bg-coral"></div>
+            <div className="w-4 h-4 border border-black"></div>
+          </div>
+        </div>
+        
+        {/* Symbols - Plus, X, Speech bubble */}
+        <div className="absolute top-56 right-1/3 w-6 h-6 border border-black bg-blue-gaming flex items-center justify-center text-black font-bold text-sm">+</div>
+        <div className="absolute bottom-56 left-1/3 w-6 h-6 border border-black bg-coral flex items-center justify-center text-black font-bold text-sm">×</div>
+        <div className="absolute top-40 left-1/2 border border-black bg-white rounded-lg p-1">
+          <div className="flex gap-0.5">
+            <div className="w-1 h-1 bg-black rounded-full"></div>
+            <div className="w-1 h-1 bg-black rounded-full"></div>
+            <div className="w-1 h-1 bg-black rounded-full"></div>
+          </div>
+        </div>
+        
+        {/* Half-filled shapes */}
+        <div className="absolute top-64 left-40 w-16 h-16 border border-black relative overflow-hidden">
+          <div className="absolute inset-0 bg-coral" style={{width: '50%'}}></div>
+          <div className="absolute inset-0 bg-blue-gaming right-0" style={{width: '50%', left: '50%'}}></div>
+        </div>
+        <div className="absolute bottom-64 right-40 w-16 h-16 border border-black relative overflow-hidden">
+          <div className="absolute inset-0 bg-purple-gaming" style={{width: '50%'}}></div>
+          <div className="absolute inset-0 bg-coral right-0" style={{width: '50%', left: '50%'}}></div>
+        </div>
+        
+        {/* Wavy lines */}
+        <div className="absolute top-80 left-20 w-32 h-1 border-t border-b border-black bg-purple-gaming opacity-50" style={{clipPath: 'polygon(0% 50%, 25% 0%, 50% 50%, 75% 100%, 100% 50%)'}}></div>
+        <div className="absolute bottom-80 right-20 w-32 h-1 border-t border-b border-black bg-blue-gaming opacity-50" style={{clipPath: 'polygon(0% 50%, 25% 100%, 50% 50%, 75% 0%, 100% 50%)'}}></div>
+        
+        {/* Diamond shape with 3D effect */}
+        <div className="absolute top-72 right-20 w-8 h-20 border border-black bg-purple-gaming transform rotate-12 relative" style={{clipPath: 'polygon(50% 0%, 100% 25%, 50% 100%, 0% 25%)'}}>
+          <div className="absolute inset-0 bg-blue-gaming opacity-50" style={{clipPath: 'polygon(50% 10%, 90% 30%, 50% 90%, 10% 30%)'}}></div>
+        </div>
+        
+        {/* Outlined circles and squares */}
+        <div className="absolute top-64 left-1/2 w-16 h-16 border border-black rounded-full"></div>
+        <div className="absolute bottom-64 right-1/2 w-14 h-14 border border-black rounded-full"></div>
+        <div className="absolute top-48 right-64 w-12 h-12 border border-black"></div>
+        <div className="absolute bottom-48 left-64 w-14 h-14 border border-black rotate-45"></div>
+      </div>
       {/* Navigation */}
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <BoxCard 
               letter="B" 
-              bgColor="#6366f1" 
-              borderColor="#4f46e5" 
+              bgColor="#7C3AED" 
+              borderColor="#000" 
               fontSize={32}
               className="w-12 h-12"
             />
-            <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 via-pink-500 to-amber-500 bg-clip-text text-transparent">Bit9o</span>
+            <span className="text-2xl font-black text-black">Bit9o</span>
           </div>
-          <div className="text-sm text-slate-400">
-            Room: <span className="font-mono text-white">{roomCode}</span>
+          <div className="text-sm text-black bg-white border border-black rounded-lg px-4 py-2.5">
+            Room: <span className="font-mono font-bold text-black">{roomCode}</span>
           </div>
         </div>
       </nav>
@@ -180,48 +271,48 @@ export function LobbyPage() {
         {/* Lobby Title */}
         <div className="text-center mb-12">
           <div className="flex justify-center items-center gap-2 mb-6">
-            <BoxCard letter="L" bgColor="#6366f1" borderColor="#4f46e5" fontSize={isMobile ? 40 : 50} />
-            <BoxCard letter="O" bgColor="#ec4899" borderColor="#db2777" fontSize={isMobile ? 40 : 50} />
-            <BoxCard letter="B" bgColor="#f59e0b" borderColor="#d97706" fontSize={isMobile ? 40 : 50} />
-            <BoxCard letter="B" bgColor="#8b5cf6" borderColor="#7c3aed" fontSize={isMobile ? 40 : 50} />
-            <BoxCard letter="Y" bgColor="#10b981" borderColor="#059669" fontSize={isMobile ? 40 : 50} />
+            <BoxCard letter="L" bgColor="#7C3AED" borderColor="#000" fontSize={isMobile ? 40 : 50} />
+            <BoxCard letter="O" bgColor="#FF6B5E" borderColor="#000" fontSize={isMobile ? 40 : 50} />
+            <BoxCard letter="B" bgColor="#60B5E8" borderColor="#000" fontSize={isMobile ? 40 : 50} />
+            <BoxCard letter="B" bgColor="#7C3AED" borderColor="#000" fontSize={isMobile ? 40 : 50} />
+            <BoxCard letter="Y" bgColor="#FF6B5E" borderColor="#000" fontSize={isMobile ? 40 : 50} />
           </div>
-          <h1 className="text-4xl lg:text-6xl font-black mb-4">
-            Game <span className="bg-gradient-to-r from-indigo-600 via-pink-500 to-amber-500 bg-clip-text text-transparent">Lobby</span>
+          <h1 className="text-4xl lg:text-6xl font-black mb-4 text-black">
+            Game <span className="text-black">Lobby</span>
           </h1>
-          <p className="text-xl text-slate-300">Get ready to play Bit9o with your friends!</p>
+          <p className="text-xl text-black">Get ready to play Bit9o with your friends! 🎮</p>
         </div>
         {/* Player View */}
         {session?.isHost === false ? (
           <div className="max-w-2xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-2xl p-8">
+            <div className="bg-white border border-black rounded-lg p-8 relative">
               {/* Welcome Message */}
               <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold text-slate-900 mb-2">
-                  Welcome, <span className="bg-gradient-to-r from-indigo-600 via-pink-500 to-amber-500 bg-clip-text text-transparent">{session.name}</span>! 🎮
+                <h2 className="text-3xl font-bold text-black mb-2">
+                  Welcome, <span className="text-black">{session.name}</span>! 🎮
                 </h2>
-                <p className="text-slate-600">Get ready for an exciting game of Bit9o!</p>
+                <p className="text-black text-lg">Get ready for an exciting game of Bit9o!</p>
               </div>
 
               {/* Room Info Card */}
-              <div className="bg-gradient-to-r from-indigo-50 to-pink-50 border border-indigo-200 rounded-xl p-6 mb-8">
+              <div className="bg-white border border-black rounded-lg p-6 mb-8">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-slate-900">Room Information</h3>
+                  <h3 className="text-lg font-bold text-black">Room Information</h3>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm text-green-600 font-medium">Connected</span>
+                    <div className="w-3 h-3 bg-purple-gaming border border-black rounded-full animate-pulse"></div>
+                    <span className="text-sm text-black font-bold">Connected</span>
                   </div>
                 </div>
                 
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-700 font-medium">Room Code:</span>
+                    <span className="text-black font-bold">Room Code:</span>
                     <div className="flex items-center gap-2">
-                      <span className="font-mono bg-slate-800 text-white border border-slate-600 rounded px-3 py-1 text-lg font-bold">{room.roomCode}</span>
+                      <span className="font-mono bg-purple-gaming text-white border border-black rounded-lg px-4 py-2 text-lg font-bold">{room.roomCode}</span>
                       <button
                         type="button"
                         onClick={() => handleCopy(room.roomCode, setCopiedPlayer)}
-                        className="w-8 h-8 flex items-center justify-center rounded-full bg-indigo-500 hover:bg-indigo-600 text-white transition-colors"
+                        className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-gaming hover:bg-blue-gaming-light border border-black text-black transition-all btn-playful"
                         title={copiedPlayer ? 'Copied!' : 'Copy to clipboard'}
                         aria-label="Copy room code"
                       >
@@ -237,25 +328,25 @@ export function LobbyPage() {
                       </button>
                     </div>
                   </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-black font-bold">Game Mode:</span>
+                      <span className="bg-coral text-black border border-black px-4 py-1.5 rounded-lg text-sm font-bold capitalize">{room.mode}</span>
+                    </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-700 font-medium">Game Mode:</span>
-                    <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium capitalize">{room.mode}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-700 font-medium">Status:</span>
-                    <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">Waiting for players</span>
+                    <span className="text-black font-bold">Status:</span>
+                    <span className="bg-blue-gaming text-black border border-black px-4 py-1.5 rounded-lg text-sm font-bold">Waiting for players</span>
                   </div>
                 </div>
               </div>
 
               {/* Your Bingo Card Preview */}
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-4 text-center">Your Bit9o Card</h3>
-                <div className="bg-gradient-to-br from-slate-50 to-slate-100 border-2 border-slate-200 rounded-xl p-6">
+                <h3 className="text-xl font-bold text-black mb-4 text-center">Your Bit9o Card</h3>
+                <div className="bg-white border border-black rounded-lg p-6">
                   <div className="grid grid-cols-3 gap-3 max-w-xs mx-auto">
                     {cardNumbers.map((cardNumber) => (
-                      <div key={cardNumber} className="bg-white border-2 border-slate-300 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
-                        <span className="text-xl font-bold text-slate-700">{cardNumber}</span>
+                      <div key={cardNumber} className="bg-white border border-black rounded-lg p-4 text-center hover:shadow-md transition-all btn-playful">
+                        <span className="text-xl font-bold text-black">{cardNumber}</span>
                       </div>
                     ))}
                   </div>
@@ -265,11 +356,11 @@ export function LobbyPage() {
               {/* Waiting Status */}
               {(!room?.players || room.players.length < 2 || room?.status !== 'live') && (
                 <div className="text-center mb-8">
-                  <div className="inline-flex items-center gap-3 bg-blue-50 border border-blue-200 rounded-xl px-6 py-4">
-                    <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                  <div className="inline-flex items-center gap-3 bg-white border border-black rounded-lg px-6 py-4">
+                    <div className="w-6 h-6 border-2 border-purple-gaming border-t-transparent rounded-full animate-spin"></div>
                     <div>
-                      <p className="text-blue-800 font-semibold">Waiting for the game to start...</p>
-                      <p className="text-blue-600 text-sm">Players joined: {room?.players?.length || 0}</p>
+                      <p className="text-black font-bold">Waiting for the game to start...</p>
+                      <p className="text-black text-sm">Players joined: {room?.players?.length || 0}</p>
                     </div>
                   </div>
                 </div>
@@ -283,7 +374,7 @@ export function LobbyPage() {
                       handleLeavePlayer(e);
                     }
                   }}
-                  className="bg-slate-200 hover:bg-slate-300 text-slate-700 py-3 px-8 rounded-xl font-semibold transition-all duration-200"
+                  className="bg-coral hover:bg-coral-light text-black py-4 px-8 rounded-lg font-bold transition-all duration-300 btn-playful border border-black"
                 >
                   🚪 Leave Lobby
                 </button>
@@ -297,31 +388,31 @@ export function LobbyPage() {
               {/* Left Column - Room Info & Players */}
               <div className="space-y-6">
                 {/* Room Info Card */}
-                <div className="bg-white rounded-2xl shadow-2xl p-8">
+                <div className="bg-white border border-black rounded-lg p-8 relative">
                   <div className="text-center mb-6">
-                    <h2 className="text-2xl font-bold text-slate-900 mb-2">🎮 Host Control Panel</h2>
-                    <p className="text-slate-600">Manage your Bit9o game room</p>
+                    <h2 className="text-2xl font-bold text-black mb-2">🎮 Host Control Panel</h2>
+                    <p className="text-black text-lg">Manage your Bit9o game room</p>
                   </div>
 
                   {/* Room Details */}
-                  <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-6 mb-6">
+                  <div className="bg-white border border-black rounded-lg p-6 mb-6">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-semibold text-slate-900">Room Details</h3>
+                      <h3 className="text-lg font-bold text-black">Room Details</h3>
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-sm text-green-600 font-medium">Active</span>
+                        <div className="w-3 h-3 bg-purple-gaming border border-black rounded-full animate-pulse"></div>
+                        <span className="text-sm text-black font-bold">Active</span>
                       </div>
                     </div>
                     
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-700 font-medium">Room Code:</span>
+                        <span className="text-black font-bold">Room Code:</span>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono bg-slate-800 text-white border border-slate-600 rounded px-3 py-1 text-lg font-bold">{room.code}</span>
+                          <span className="font-mono bg-purple-gaming text-white border border-black rounded-lg px-4 py-2 text-lg font-bold">{room.code}</span>
                           <button
                             type="button"
                             onClick={() => handleCopy(room.code, setCopiedHost)}
-                            className="w-8 h-8 flex items-center justify-center rounded-full bg-purple-500 hover:bg-purple-600 text-white transition-colors"
+                            className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-gaming hover:bg-blue-gaming-light border border-black text-black transition-all btn-playful"
                             title={copiedHost ? 'Copied!' : 'Copy to clipboard'}
                             aria-label="Copy room code"
                           >
@@ -338,34 +429,34 @@ export function LobbyPage() {
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-700 font-medium">Game Mode:</span>
-                        <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium capitalize">{room.mode}</span>
+                        <span className="text-black font-bold">Game Mode:</span>
+                        <span className="bg-coral text-black border border-black px-4 py-1.5 rounded-lg text-sm font-bold capitalize">{room.mode}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Players List */}
                   <div>
-                    <h3 className="text-lg font-semibold text-slate-900 mb-4">Players ({room?.players?.length || 0})</h3>
+                    <h3 className="text-lg font-bold text-black mb-4">Players ({room?.players?.length || 0})</h3>
                     <div className="space-y-2 max-h-48 overflow-y-auto">
                       {room?.players?.length > 0 ? (
                         room.players.map((player, index) => (
-                          <div key={index} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200">
+                          <div key={index} className="flex items-center justify-between p-4 bg-white border border-black rounded-lg">
                             <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                              <div className="w-10 h-10 bg-purple-gaming border border-black rounded-full flex items-center justify-center text-white font-bold text-sm transform hover:scale-110 transition-transform">
                                 {player.name.charAt(0).toUpperCase()}
                               </div>
-                              <span className="font-medium text-slate-700">{player.name}</span>
+                              <span className="font-bold text-black">{player.name}</span>
                             </div>
                             {player.isHost && (
-                              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">Host</span>
+                              <span className="bg-coral text-black border border-black px-3 py-1 rounded-lg text-xs font-bold">👑 Host</span>
                             )}
                           </div>
                         ))
                       ) : (
-                        <div className="text-center py-8 text-slate-500">
+                        <div className="text-center py-8 text-black">
                           <div className="text-4xl mb-2">👥</div>
-                          <p>No players joined yet</p>
+                          <p className="font-bold">No players joined yet</p>
                         </div>
                       )}
                     </div>
@@ -376,24 +467,24 @@ export function LobbyPage() {
               {/* Right Column - Game Controls */}
               <div className="space-y-6">
                 {/* Room Status */}
-                <div className="bg-white rounded-2xl shadow-2xl p-8 text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full border-4 border-purple-500 border-t-transparent animate-spin"></div>
-                  <h3 className="text-xl font-semibold text-slate-900 mb-2">Ready to Start</h3>
-                  <p className="text-slate-600 mb-4">Share the room code with your friends!</p>
-                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-                    <p className="text-blue-800 font-medium">Players joined: {room?.players?.length || 0}</p>
-                    <p className="text-blue-600 text-sm">You can start the game anytime!</p>
+                <div className="bg-white border border-black rounded-lg p-8 text-center relative">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full border-4 border-purple-gaming border-t-transparent animate-spin"></div>
+                  <h3 className="text-xl font-bold text-black mb-2">Ready to Start</h3>
+                  <p className="text-black mb-4 text-lg">Share the room code with your friends!</p>
+                  <div className="bg-white border border-black rounded-lg p-4">
+                    <p className="text-black font-bold">Players joined: {room?.players?.length || 0}</p>
+                    <p className="text-black text-sm">You can start the game anytime!</p>
                   </div>
                 </div>
 
                 {/* Game Actions */}
-                <div className="bg-white rounded-2xl shadow-2xl p-8">
-                  <h3 className="text-xl font-semibold text-slate-900 mb-6 text-center">Game Controls</h3>
+                <div className="bg-white border border-black rounded-lg p-8 relative">
+                  <h3 className="text-xl font-bold text-black mb-6 text-center">Game Controls</h3>
                   
                   <div className="space-y-4">
                     <button
                       onClick={handleStartGame}
-                      className="w-full py-4 px-6 rounded-xl font-bold text-lg transition-all duration-200 transform bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white hover:scale-105 shadow-lg"
+                      className="w-full py-5 px-6 rounded-lg font-bold text-lg transition-all duration-300 transform bg-purple-gaming hover:bg-purple-gaming-dark text-white hover:scale-105 btn-playful border border-black animate-pulse-glow"
                     >
                       🚀 Start Game!
                     </button>
@@ -404,7 +495,7 @@ export function LobbyPage() {
                           handleLeaveHost(e);
                         }
                       }}
-                      className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 py-4 px-6 rounded-xl font-semibold transition-all duration-200"
+                      className="w-full bg-coral hover:bg-coral-light text-black py-4 px-6 rounded-lg font-bold transition-all duration-300 btn-playful border border-black"
                     >
                       🚪 End Lobby
                     </button>

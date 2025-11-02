@@ -1,20 +1,31 @@
 export function BoxCard({ bgColor, letter, borderColor, fontSize, className = '' }) {
+  // Determine text color based on background brightness
+  // Light colors: light variants and very light backgrounds
+  const lightColors = ['#FFB3A7', '#FF9F95', '#A5D9F5', '#BAE6FD', '#FEFBF3'];
+  const isLightColor = lightColors.includes(bgColor) || 
+                       bgColor === '#FFB3A7' || 
+                       bgColor === '#A5D9F5' || 
+                       bgColor === '#BAE6FD';
+  // Medium-dark colors (purple, coral, blue) need white text
+  const darkColors = ['#7C3AED', '#6D28D9', '#FF6B5E', '#FF9F95', '#60B5E8'];
+  const isDarkColor = darkColors.includes(bgColor);
+  
+  const textColor = isLightColor ? '#000' : '#FFF';
+  
   return (
     <div
-      className={`flex-1 w-full h-full rounded-xl flex justify-center items-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${className}`}
+      className={`flex-1 w-full h-full rounded-lg flex justify-center items-center transition-all duration-300 transform-gpu hover:-translate-y-2 hover:scale-105 hover:rotate-3 card-3d ${className}`}
       style={{ 
         backgroundColor: bgColor, 
-        border: `3px solid ${borderColor}`,
-        boxShadow: `0 4px 15px ${borderColor}20, inset 0 1px 0 rgba(255,255,255,0.2)`
+        border: `1px solid ${borderColor}`,
+        transformStyle: 'preserve-3d'
       }}
     >
       <p 
         className="font-black select-none" 
         style={{ 
-          WebkitTextStroke: `3px ${borderColor}`, 
           fontSize: `${fontSize}px`,
-          textShadow: `2px 2px 4px rgba(0,0,0,0.3)`,
-          filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))'
+          color: textColor
         }}
       >
         {letter}
